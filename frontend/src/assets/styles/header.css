@@ -1,0 +1,30 @@
+.header-container {
+	display: grid;
+	grid-template-columns: 60fr 30fr;
+	padding: 3rem 4.8rem;
+	background-color: #fdf2e9;
+}
+.navigation {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.navigation-link {
+	font-size: 1.6rem;
+	color: black;
+}
+.logo {
+	font-size: 3.2rem;
+	text-transform: capitalize;
+}
+.join {
+	font-size: 1.6rem;
+	padding: 0.8rem 2.2rem;
+	background-color: #c95b6f;
+	color: rgb(241, 238, 238);
+	border-radius: 1.2rem;
+	transition: all 0.6s;
+}
+.join:hover {
+	outline: 5px rgb(226, 209, 58) solid;
+}

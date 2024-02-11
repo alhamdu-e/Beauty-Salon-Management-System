@@ -1,0 +1,29 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+html {
+	font-size: 62.5%;
+}
+body {
+	font-family: "Inter", sans-serif;
+	/* font-family: "Rubik", sans-serif; */
+	font-weight: 500;
+	background-color: #f8f8f8;
+}
+a {
+	text-decoration: none;
+}
+
+select,
+input,
+textarea:focus {
+	outline: none;
+}
+.container {
+	display: grid;
+}
+li {
+	list-style: none;
+}

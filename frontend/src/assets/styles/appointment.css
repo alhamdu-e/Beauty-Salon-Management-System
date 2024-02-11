@@ -1,0 +1,21 @@
+.appointmentform {
+	grid-template-columns: 1fr 1fr;
+	width: 40%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 40px;
+	border-radius: 12px;
+	border: solid #ccc 1px;
+	row-gap: 8px;
+}
+.appointmentform-select {
+	width: 74%;
+}
+.appointmentform-a {
+	display: block;
+	padding: 4px 8px;
+	width: 74%;
+	border: solid 1px #ccc;
+}

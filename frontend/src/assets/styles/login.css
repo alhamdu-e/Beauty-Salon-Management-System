@@ -1,0 +1,24 @@
+.loginform {
+	grid-template-columns: 1fr;
+	width: 20%;
+	border: solid 1px #ccc;
+	padding: 4rem;
+	border-radius: 12px;
+	row-gap: 8px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.loginform input {
+	width: 100%;
+}
+.loginform a {
+	border: solid 1px black;
+	padding: 10px;
+	width: 100%;
+	display: block;
+	text-align: center;
+	font-size: 1.6rem;
+	color: black;
+}

@@ -1,0 +1,28 @@
+.signupform {
+	grid-template-columns: 1fr 1fr;
+	width: 40%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 40px;
+	border-radius: 12px;
+	border: solid #ccc 1px;
+	row-gap: 8px;
+}
+label {
+	display: block;
+	margin-bottom: 0.6rem;
+	font-size: 1.6rem;
+}
+.signupform-a {
+	font-size: 1.6rem;
+	border: solid black 1px;
+	width: 50%;
+	text-align: center;
+	padding: 0.8rem;
+	border-radius: 12px;
+	color: black;
+	margin-top: 2rem;
+	display: block;
+}
