@@ -7,7 +7,7 @@ function Gallery() {
 					<hr />
 					<div>
 						<p className="testmonial-section">testmonial</p>
-						<h3>Once you try it, you can't go back</h3>
+						<h3 className="gallery-h3">Once you try it, you can't go back</h3>
 					</div>
 					<div className="testemonial">
 						<div>

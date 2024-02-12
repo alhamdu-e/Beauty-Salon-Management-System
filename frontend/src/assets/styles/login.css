@@ -1,24 +1,72 @@
 .loginform {
 	grid-template-columns: 1fr;
-	width: 20%;
 	border: solid 1px #ccc;
 	padding: 4rem;
 	border-radius: 12px;
-	row-gap: 8px;
+	row-gap: 2rem;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	width: 40rem;
+	background-color: white;
 }
 .loginform input {
 	width: 100%;
+	padding: 1.2rem;
+	font-size: 1.8rem;
+	border: none;
+	background-color: #f3eeee;
+	border-radius: 9px;
 }
-.loginform a {
+.login-button {
 	border: solid 1px black;
 	padding: 10px;
 	width: 100%;
 	display: block;
 	text-align: center;
+	font-size: 2rem;
+	color: rgb(214, 201, 201);
+	background: rgb(185, 49, 15);
+	border: none;
+	border-radius: 4rem;
+	transition: all 0.5s;
+}
+.forget-button {
 	font-size: 1.6rem;
-	color: black;
+	background-color: rgb(202, 183, 148);
+	padding: 1.2rem;
+	border-radius: 40px;
+	width: 100%;
+	display: block;
+	text-align: center;
+	color: #242222;
+	transition: all 0.3s;
+}
+.login-container {
+	background: rgb(14, 1, 24);
+	height: 100vh;
+}
+.login-h3 {
+	font-size: 2.4rem;
+	color: #413c3c;
+}
+.loginform input:focus {
+	outline: solid 5px rgba(238, 128, 49, 0.582);
+}
+.loginform span {
+	font-size: 1.6rem;
+	color: #242222;
+}
+span a {
+	/* background: rgb(185, 49, 15); */
+	color: rgb(185, 49, 15);
+
+	border-radius: 4rem;
+}
+.login-button:hover {
+	background: rgb(212, 66, 29);
+}
+.forget-button:hover {
+	outline: 3px solid rgb(236, 114, 83);
 }
