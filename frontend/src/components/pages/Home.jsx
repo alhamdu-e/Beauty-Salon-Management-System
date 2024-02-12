@@ -13,7 +13,7 @@ function Home() {
 			<Gallery />
 			 */}
 			{/* <Calltoaction /> */}
-			<Footer />
+			{/* <Footer /> */}
 		</div>
 	);
 }

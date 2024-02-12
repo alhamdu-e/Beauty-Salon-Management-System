@@ -1,25 +1,36 @@
 import "../assets/styles/footer.css";
+import { FaInstagram, FaFacebook } from "react-icons/fa";
+import { FaTiktok } from "react-icons/fa6";
+// import Flaticon from "flaticon-react";
 
 function Footer() {
 	return (
-		<div>
+		<div className="footer-container">
 			<div className="footer">
-				<div>
+				<div className="mm">
 					<h3 className="footer-h3">Follow us</h3>
+					<h5></h5>
 					<ul>
 						<li>
-							<a href="">instagram</a>
+							<a href="">
+								<FaInstagram /> instagram
+							</a>
 						</li>
 						<li>
-							<a href="">FaceBook</a>
+							<a href="">
+								<FaFacebook /> FaceBook
+							</a>
 						</li>
 						<li>
-							<a href="">TikTok</a>
+							<a href="">
+								<FaTiktok /> TikTok
+							</a>
 						</li>
 					</ul>
 				</div>
-				<div>
+				<div className="mm">
 					<h3 className="footer-h3">Company</h3>
+					<h5></h5>
 					<ul>
 						<li>
 							<a href="">Services</a>
@@ -33,8 +44,9 @@ function Footer() {
 					</ul>
 				</div>
 
-				<div>
+				<div className="mm">
 					<h3 className="footer-h3">Services</h3>
+					<h5></h5>
 					<ul>
 						<li>
 							<a href="">Nail Design </a>
@@ -49,11 +61,18 @@ function Footer() {
 				</div>
 				<div>
 					<h3 className="footer-h3">Who We are?</h3>
+					<h5></h5>
 					<p>
 						We use only high-quality hair products and employ the latest
 						techniques to ensure that your hair stays healthy and vibrant
 					</p>
 				</div>
+			</div>
+			<div className="copyright-container">
+				<p>
+					Copyright &copy; <span className="year">2024</span> by GlowCity.All
+					right reserved
+				</p>
 			</div>
 		</div>
 	);
