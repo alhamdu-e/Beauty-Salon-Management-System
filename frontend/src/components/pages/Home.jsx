@@ -3,6 +3,7 @@ import Hero from "../Hero";
 import Services from "../Services";
 import Gallery from "../Gallery";
 import Calltoaction from "../Calltoaction";
+import Footer from "../Footer";
 function Home() {
 	return (
 		<div>
@@ -10,7 +11,9 @@ function Home() {
 			{/* <Hero />
 			<Services />
 			<Gallery />
-			<Calltoaction /> */}
+			 */}
+			{/* <Calltoaction /> */}
+			<Footer />
 		</div>
 	);
 }

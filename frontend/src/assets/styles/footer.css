@@ -1,0 +1,94 @@
+.footer {
+	background-color: black;
+	height: 100vh;
+	padding-top: 100px;
+	/* margin-top: -260px; */
+	/* 
+	clip-path: polygon(
+		88% 7%,
+		100% 0,
+		100% 35%,
+		100% 70%,
+		100% 89%,
+		100% 100%,
+		23% 100%,
+		0 100%,
+		0 0,
+		12% 10%
+	);
+	clip-path: polygon(
+		87% 0,
+		100% 12%,
+		100% 35%,
+		100% 70%,
+		100% 89%,
+		100% 100%,
+		23% 100%,
+		0 100%,
+		0 12%,
+		16% 0
+	); */
+	/* clip-path: polygon(
+		83% 10%,
+		100% 0,
+		100% 35%,
+		100% 70%,
+		100% 89%,
+		100% 100%,
+		27% 100%,
+		0 100%,
+		0 0,
+		18% 9%
+	); */
+	clip-path: polygon(
+		50% 0%,
+		77% 11%,
+		100% 0,
+		100% 70%,
+		100% 100%,
+		50% 100%,
+		0 99%,
+		0% 70%,
+		0 0,
+		20% 10%
+	);
+	clip-path: polygon(
+		51% 8%,
+		93% 8%,
+		100% 0,
+		100% 70%,
+		100% 100%,
+		50% 100%,
+		0 99%,
+		0% 70%,
+		0 0,
+		8% 8%
+	);
+	background-image: linear-gradient(
+		90deg,
+		rgba(18, 0, 36, 0.808) 89%,
+		rgba(2, 0, 36, 0.801) 98%,
+		rgba(18, 0, 36, 0.801) 100%
+	);
+
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	padding-left: 10rem;
+	padding-right: 10rem;
+}
+.footer-h3 {
+	font-size: 2rem;
+	color: #a19b9b;
+	margin-bottom: 3.2rem;
+}
+.footer a {
+	color: #9c9090;
+	font-size: 1.6rem;
+	margin-bottom: 0.5rem;
+	display: inline-block;
+}
+.footer p {
+	color: rgb(231, 108, 26);
+	line-height: 1.6;
+	font-size: 1.6rem;
+}
