@@ -11,8 +11,7 @@
 	width: 40rem;
 	background-color: white;
 }
-.loginform,
-.signupform input {
+.loginform input {
 	width: 100%;
 	padding: 1.2rem;
 	font-size: 1.8rem;

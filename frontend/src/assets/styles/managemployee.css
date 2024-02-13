@@ -1,0 +1,80 @@
+table {
+	border-collapse: collapse;
+	width: 100%;
+	color: #ebdbfe;
+	background: #261a2f;
+}
+
+td,
+th {
+	border: 1px solid #dddddd4b;
+	text-align: left;
+	padding: 8px;
+}
+.employedata-conatiner {
+	background-color: #261a2f;
+	height: fit-content;
+	padding-left: 4rem;
+	padding-right: 4rem;
+	padding-bottom: 4rem;
+	border-radius: 14px;
+}
+.action {
+	border: none;
+	padding: 0.5rem 0.8rem;
+	font-size: 1.4rem;
+	border-radius: 9px;
+	width: 90%;
+
+	background-color: #03dac6;
+}
+.delete {
+	background-color: #cf6679;
+}
+td {
+	font-size: 1.4rem;
+}
+th {
+	font-size: 1.8rem;
+}
+.add {
+	border-radius: 50%;
+	background-color: #bb86fc;
+	padding: 2rem;
+	padding: 1rem 1.8rem;
+	border: none;
+	margin: 3rem 0;
+	font-size: 3.2rem;
+	text-align: center;
+	transition: all 0.5s;
+}
+.add:hover {
+	background-color: #d6b6fd;
+}
+.manage-employe-button {
+	border: none;
+	font-size: 2rem;
+	padding: 1.2rem;
+	margin-left: 3.2rem;
+	background-color: #38284c;
+	/* background-color: transparent; */
+	color: #ebdbfe;
+	border-radius: 12px;
+	transition: all 0.3s;
+}
+.manage-employe-button:hover {
+	background-color: #664c79;
+}
+.welcome {
+	color: #9481a3;
+	font-size: 5.2rem;
+}
+.welcome-container {
+	text-align: center;
+}
+tr:hover {
+	background-color: #110818;
+}
+button {
+	cursor: pointer;
+}

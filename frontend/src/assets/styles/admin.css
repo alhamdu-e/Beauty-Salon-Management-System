@@ -1,0 +1,50 @@
+.admin-conatiner {
+	background-color: rgb(14, 1, 24);
+	height: fit-content;
+	display: grid;
+	grid-template-columns: 20fr 80fr;
+	padding-right: 6rem;
+}
+.admin-menu {
+	background: #261a2f;
+	width: 20rem;
+	height: 100vh;
+	padding-top: 3rem;
+	padding-left: 3.2rem;
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	left: 0;
+	top: 0;
+	/* display: none; */
+}
+
+.admin-h2 {
+	font-size: 2rem;
+	color: #f8f3ff;
+	margin-bottom: 3.2rem;
+}
+.admin-h3 {
+	margin-top: 3.2rem;
+	color: #f8f3ff;
+	font-size: 1.2rem;
+	margin-bottom: 1.6rem;
+}
+
+.admin-menu a {
+	font-size: 1.4rem;
+	color: #ebdbfe;
+	margin-bottom: 1.4rem;
+	display: block;
+	transition: all 0.4s;
+	padding: 0.8rem;
+}
+.admin-menu a:hover {
+	background-color: rgb(14, 1, 24);
+
+	border-radius: 12px;
+}
+.admin-sidebar {
+	display: inline-block;
+	width: max-content;
+}

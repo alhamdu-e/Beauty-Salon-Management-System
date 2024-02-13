@@ -4,6 +4,7 @@ import Signup from "./components/pages/Signup";
 import Service from "./components/service";
 import Appointment from "./components/pages/Appointment";
 import Home from "./components/pages/Home";
+import Admin from "./components/pages/Admin";
 
 function App() {
 	// Example in a React component
@@ -15,10 +16,11 @@ function App() {
 	return (
 		<div>
 			{/* <Login /> */}
-			<Signup />
+			{/* <Signup /> */}
 			{/* <Service /> */}
 			{/* <Appointment /> */}
-			{/* <Home /> */}
+			<Home />
+			<Admin />
 		</div>
 	);
 }
