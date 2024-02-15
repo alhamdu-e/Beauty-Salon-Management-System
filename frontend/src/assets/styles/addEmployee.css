@@ -1,0 +1,47 @@
+.addemployee input {
+	width: 100%;
+	padding: 1.2rem;
+	font-size: 1.6rem;
+	border: none;
+	background-color: #f3eeee;
+	border-radius: 9px;
+}
+.addemployee {
+	grid-template-columns: 1fr 1fr;
+	/* row-gap: 1.2rem; */
+	column-gap: 5rem;
+	padding: 40px;
+	padding-top: 0;
+	border-radius: 12px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	/* border: solid #ccc 1px; */
+	row-gap: 8px;
+	background: #261a2f;
+	/* background-color: white; */
+}
+.addemployee label {
+	color: #ebdbfe;
+}
+select {
+	width: 100%;
+	padding: 1.2rem;
+	font-size: 1.6rem;
+	border: none;
+	background-color: #f3eeee;
+	border-radius: 9px;
+}
+.addemployee-a {
+	padding: 1.2rem;
+	background-color: #ebdbfe;
+	font-size: 1.8rem;
+	width: 50%;
+	border-radius: 12px;
+	text-align: center;
+	margin-top: 2rem;
+	color: #261a2f;
+}
+.conatnerforaddemployee {
+	background: #261a2f;
+	padding-left: 40px;
+}

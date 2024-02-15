@@ -18,6 +18,7 @@ th {
 	padding-right: 4rem;
 	padding-bottom: 4rem;
 	border-radius: 14px;
+	padding-top: 0.8rem;
 }
 .action {
 	border: none;
@@ -32,10 +33,10 @@ th {
 	background-color: #cf6679;
 }
 td {
-	font-size: 1.4rem;
+	font-size: 1.2rem;
 }
 th {
-	font-size: 1.8rem;
+	font-size: 1.4rem;
 }
 .add {
 	border-radius: 50%;
@@ -57,7 +58,7 @@ th {
 	padding: 1.2rem;
 	margin-left: 3.2rem;
 	background-color: #38284c;
-	/* background-color: transparent; */
+
 	color: #ebdbfe;
 	border-radius: 12px;
 	transition: all 0.3s;
@@ -66,7 +67,7 @@ th {
 	background-color: #664c79;
 }
 .welcome {
-	color: #9481a3;
+	color: #c5bbcc;
 	font-size: 5.2rem;
 }
 .welcome-container {
@@ -77,4 +78,12 @@ tr:hover {
 }
 button {
 	cursor: pointer;
+}
+.h3-customer {
+	color: #ebdbfe;
+	margin-bottom: 1.8rem;
+	font-size: 2em;
+}
+.image-admin {
+	width: 80px;
 }

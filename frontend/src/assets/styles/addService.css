@@ -1,0 +1,43 @@
+.addservice input {
+	width: 100%;
+	padding: 1.2rem;
+	font-size: 1.6rem;
+	border: none;
+	background-color: #f3eeee;
+	border-radius: 9px;
+}
+.addservice {
+	grid-template-columns: 1fr 1fr;
+	/* row-gap: 1.2rem; */
+	column-gap: 5rem;
+	padding: 40px;
+	padding-top: 0;
+	border-radius: 12px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	/* border: solid #ccc 1px; */
+	row-gap: 8px;
+	background: #261a2f;
+	/* background-color: white; */
+}
+.addservice label {
+	color: #ebdbfe;
+}
+
+.addservice-a {
+	padding: 1.2rem;
+	padding-top: 1.2rem;
+	background-color: #ebdbfe;
+	font-size: 1.8rem;
+	border-radius: 12px;
+	text-align: center;
+	margin-top: 2rem;
+	align-items: normal;
+	min-width: min-content;
+	display: block;
+}
+.conatnerforaddservice {
+	background: #261a2f;
+	padding-left: 40px;
+	margin-top: 9rem;
+}

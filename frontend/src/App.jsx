@@ -19,7 +19,7 @@ function App() {
 			{/* <Signup /> */}
 			{/* <Service /> */}
 			{/* <Appointment /> */}
-			<Home />
+			{/* <Home /> */}
 			<Admin />
 		</div>
 	);

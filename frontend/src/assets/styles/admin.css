@@ -1,6 +1,6 @@
 .admin-conatiner {
 	background-color: rgb(14, 1, 24);
-	height: fit-content;
+	min-height: 100vh;
 	display: grid;
 	grid-template-columns: 20fr 80fr;
 	padding-right: 6rem;
