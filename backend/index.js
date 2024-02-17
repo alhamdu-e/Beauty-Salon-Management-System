@@ -1,20 +1,15 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const db = require("./database/connection");
+const path = require("path");
+app.use(express.json());
+const adminRoutes = require("./routes/admin.js");
+const userRoutes = require("./routes/users.js");
 app.use(cors());
+app.use(express.static(path.join(__dirname, "public")));
 
-db.connect((error) => {
-	if (error) {
-		console.log(error);
-		return;
-	}
-
-	console.log("connected succesfully");
-});
-app.get("/login", (req, res) => {
-	res.json({ message: "this alhamdu" });
-});
+app.use(adminRoutes);
+app.use(userRoutes);
 
 app.listen(5000, () => {
 	console.log("server started on 5000");

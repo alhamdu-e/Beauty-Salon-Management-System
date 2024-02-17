@@ -11,7 +11,7 @@ function App() {
 	// fetch("http://127.0.0.1:5000/login")
 	// 	.then((response) => response.json())
 	// 	.then((data) => console.log("Server Response:", data.message))
-	// 	.catch((error) => console.error("Error fetching data:", error));
+	// 	.catch((error) => co nsole.error("Error fetching data:", error));
 
 	return (
 		<div>

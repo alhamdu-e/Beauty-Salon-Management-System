@@ -35,6 +35,9 @@
 	align-items: normal;
 	min-width: min-content;
 	display: block;
+	width: 100%;
+	border: none;
+	margin-top: 3.2rem;
 }
 .conatnerforaddservice {
 	background: #261a2f;

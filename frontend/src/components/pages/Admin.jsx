@@ -1,4 +1,4 @@
-import "../../assets/styles/admin.css";
+import "../../assets/styles/Admin/admin.css";
 import { FaUser } from "react-icons/fa";
 import { useState } from "react";
 import { MdProductionQuantityLimits } from "react-icons/md";
@@ -6,11 +6,11 @@ import { MdDesignServices } from "react-icons/md";
 import { FaBookOpen } from "react-icons/fa";
 import { FcRating } from "react-icons/fc";
 import { IoMdHome } from "react-icons/io";
-import Manageemployee from "../manageEmployeeAndCustomer";
-import ManageProduct from "../manageServiceAndProduct";
-import AddEmployee from "../addEmployee";
-import AddProduct from "../addProduct";
-import AddService from "../addService";
+import Manageemployee from "../admin/manageEmployeeAndCustomer";
+import ManageProduct from "../admin/manageServiceAndProduct";
+import AddEmployee from "../admin/addEmployee";
+import AddProduct from "../admin/addProduct";
+import AddService from "../admin/addService";
 
 function Admin() {
 	const [isEmployee, setEmployee] = useState(true);

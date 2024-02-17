@@ -8,13 +8,13 @@ import Footer from "../Footer";
 function Home() {
 	return (
 		<div>
-			{/* <Header /> */}
-			{/* <Hero />
+			<Header />
+			<Hero />
 			<Services />
 			<Gallery />
 
 			<Calltoaction />
-			<Footer /> */}
+			<Footer />
 		</div>
 	);
 }
