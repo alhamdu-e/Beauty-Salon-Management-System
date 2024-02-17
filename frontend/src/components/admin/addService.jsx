@@ -22,7 +22,30 @@ function AddService(props) {
 	const handleServiceImage = (event) => {
 		setServiceImage(event.target.files[0]);
 	};
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		const formData = new FormData();
+		formData.append("serviceName", serviceName);
+		formData.append("serviceDesc", serviceDesc);
+		formData.append("serviceCatagory", serviceCatagory);
+		formData.append("servicePrice", servicePrice);
+		formData.append("serviceImage", serviceImage);
 
+		try {
+			const response = await fetch("http://127.0.0.1:5000/addService", {
+				method: "POSt",
+				body: formData,
+			});
+			if (response.ok) {
+				const responseData = await response.json();
+				console.log(responseData);
+			} else {
+				console.log("Failed to add product:", response.statusText);
+			}
+		} catch (error) {
+			console.log(error, "error when Adding Service");
+		}
+	};
 	return (
 		<div>
 			<div className="conatnerforaddservice">
@@ -31,67 +54,69 @@ function AddService(props) {
 					Manage Service
 				</button>
 			</div>
-			<div className="addservice container">
-				<div>
-					<label htmlFor="servicename">Service Name</label>
-					<input
-						type="text"
-						name="servicename"
-						id="servicename"
-						placeholder="Service Name"
-						onChange={handleServiceName}
-					/>
-				</div>
+			<form onSubmit={handleSubmit} encType="multipart/form-data">
+				<div className="addservice container">
+					<div>
+						<label htmlFor="servicename">Service Name</label>
+						<input
+							type="text"
+							name="servicename"
+							id="servicename"
+							placeholder="Service Name"
+							onChange={handleServiceName}
+						/>
+					</div>
 
-				<div>
-					<label htmlFor="servicedesc">Service Description</label>
-					<input
-						type="text"
-						name="servicedesc"
-						id="servicedesc"
-						placeholder="Service Description"
-						onChange={handleServiceDesc}
-					/>
-				</div>
+					<div>
+						<label htmlFor="servicedesc">Service Description</label>
+						<input
+							type="text"
+							name="servicedesc"
+							id="servicedesc"
+							placeholder="Service Description"
+							onChange={handleServiceDesc}
+						/>
+					</div>
 
-				<div>
-					<label htmlFor="serviceprice">Service Price</label>
-					<input
-						type="text"
-						name="serviceprice"
-						id="serviceprice"
-						placeholder="Service Price"
-						onChange={handleServicePrice}
-					/>
+					<div>
+						<label htmlFor="serviceprice">Service Price</label>
+						<input
+							type="text"
+							name="serviceprice"
+							id="serviceprice"
+							placeholder="Service Price"
+							onChange={handleServicePrice}
+						/>
+					</div>
+					<div>
+						<label htmlFor="adress">Service Catagory</label>
+						<select
+							id="servicecatagory"
+							name="servicecatagory"
+							className="serviceform-select"
+							onChange={handleServiceCatagory}>
+							<option selected disabled>
+								Select Service Catagory
+							</option>
+							<option value="makeup">Makeup</option>
+							<option value="nail">Nail</option>
+							<option value="hair">Hair</option>
+						</select>
+					</div>
+					<div>
+						<label htmlFor="serviceimage">Service Image</label>
+						<input
+							type="file"
+							name="serviceimage"
+							id="serviceimage"
+							onChange={handleServiceImage}
+						/>
+					</div>
+					<div>
+						<button className="addservice-a">Add Service </button>
+					</div>
 				</div>
-				<div>
-					<label htmlFor="adress">Service Catagory</label>
-					<select
-						id="servicecatagory"
-						name="servicecatagory"
-						className="serviceform-select"
-						onChange={handleServiceCatagory}>
-						<option selected disabled>
-							Select Service Catagory
-						</option>
-						<option value="makeup">Makeup</option>
-						<option value="nail">Nail</option>
-						<option value="hair">Hair</option>
-					</select>
-				</div>
-				<div>
-					<label htmlFor="serviceimage">Service Image</label>
-					<input
-						type="file"
-						name="serviceimage"
-						id="serviceimage"
-						onChange={handleServiceImage}
-					/>
-				</div>
-				<div>
-					<button className="addservice-a">Add Product </button>
-				</div>
-			</div>
+			</form>
 		</div>
 	);
 }

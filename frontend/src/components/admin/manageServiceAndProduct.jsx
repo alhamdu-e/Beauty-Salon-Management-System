@@ -2,6 +2,7 @@ import "../../assets/styles/Admin/manageproduct.css";
 import { useEffect, useState } from "react";
 function ManageProduct(props) {
 	const [product, setProduct] = useState([]);
+	const [service, setService] = useState([]);
 	useEffect(() => {
 		fetch("http://127.0.0.1:5000/product", {
 			method: "Get",
@@ -9,6 +10,14 @@ function ManageProduct(props) {
 			.then((response) => response.json())
 			.then((data) => {
 				setProduct(data);
+			});
+		fetch("http://127.0.0.1:5000/service", {
+			method: "Get",
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				setService(data);
+				console.log(service);
 			});
 	}, []);
 
@@ -40,41 +49,37 @@ function ManageProduct(props) {
 						<>
 							<tr>
 								<th>Service Name</th>
-								<th>Service Catagory</th>
 								<th>Service Desc</th>
 								<th>Service Price</th>
+								<th>Service Catagory</th>
 								<th>Service Image</th>
 
 								<th colSpan={2}>Action</th>
 							</tr>
 
-							<tr>
-								<td>Alfreds Futterkiste</td>
-								{props.isService && (
-									<>
-										<td>Nail</td>
-									</>
-								)}
-								<td>
-									In React, "props" refers to properties that are passed to a
-									component. It is a way to pass data from a parent component to
-									its child components.
-								</td>
-								<td>0964</td>
-								<td>
-									<img
-										src="../../../../../G1.jpg"
-										alt=""
-										className="image-admin"
-									/>
-								</td>
-								<td>
-									<button className="action">Edit</button>
-								</td>
-								<td>
-									<button className="action delete">Delete</button>
-								</td>
-							</tr>
+							{service.map((service) => (
+								<tr key={service.id}>
+									<td>{service.servicename}</td>
+
+									<td>{service.servicedesc}</td>
+
+									<td>{service.serviceprice}</td>
+									<td>{service.servicecatagory}</td>
+									<td>
+										<img
+											src={service.serviceimage}
+											alt=""
+											className="image-admin"
+										/>
+									</td>
+									<td>
+										<button className="action">Edit</button>
+									</td>
+									<td>
+										<button className="action delete">Delete</button>
+									</td>
+								</tr>
+							))}
 						</>
 					)}
 

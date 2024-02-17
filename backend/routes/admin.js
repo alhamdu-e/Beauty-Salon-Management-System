@@ -34,6 +34,17 @@ router.get("/product", (req, res) => {
 		}
 	});
 });
+router.get("/service", (req, res) => {
+	const sql = "select * from service";
+
+	db.query(sql, (err, result) => {
+		if (err) {
+			console.log(err);
+		} else {
+			res.json(result);
+		}
+	});
+});
 router.get("/employee", (req, res) => {
 	console.log("hi");
 	const sql = "SELECT * FROM profesional";
@@ -90,6 +101,29 @@ router.post("/addProduct", upload.single("productImage"), (req, res) => {
 		} else {
 			console.log("Product created successfully");
 			res.status(200).json({ message: "product added" });
+		}
+	});
+});
+router.post("/addService", upload.single("serviceImage"), (req, res) => {
+	const { serviceName, serviceDesc, servicePrice, serviceCatagory } = req.body;
+	const fileName = req.file.filename;
+	const imagePath = "http://127.0.0.1:5000/images/" + fileName;
+	const sql =
+		"insert into service(servicename, servicedesc, serviceprice, serviceimage,servicecatagory) values(?,?,?,?,?)";
+	const params = [
+		serviceName,
+		serviceDesc,
+		servicePrice,
+		imagePath,
+		serviceCatagory,
+	];
+	db.query(sql, params, (err, result) => {
+		if (err) {
+			console.log(err);
+			return;
+		} else {
+			console.log("Product created successfully");
+			res.status(200).json({ message: "service added" });
 		}
 	});
 });
