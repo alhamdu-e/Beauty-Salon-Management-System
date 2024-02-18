@@ -5,23 +5,26 @@ import Service from "./components/service";
 import Appointment from "./components/pages/Appointment";
 import Home from "./components/pages/Home";
 import Admin from "./components/pages/Admin";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-	// Example in a React component
-	// fetch("http://127.0.0.1:5000/login")
-	// 	.then((response) => response.json())
-	// 	.then((data) => console.log("Server Response:", data.message))
-	// 	.catch((error) => co nsole.error("Error fetching data:", error));
-
 	return (
-		<div>
-			{/* <Login /> */}
-			{/* <Signup /> */}
-			{/* <Service /> */}
-			{/* <Appointment /> */}
-			{/* <Home /> */}
-			<Admin />
-		</div>
+		<BrowserRouter>
+			<Routes>
+				{/* <Login /> */}
+				{/* <Signup /> */}
+				{/* <Service /> */}
+				{/* <Appointment /> */}
+				{/* <Home /> */}
+				{/* <Admin /> */}
+
+				<Route path="/" element={<Home />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/signup" element={<Signup />} />
+				<Route path="/admin" element={<Admin />} />
+				<Route path="/appointment" element={<Appointment />} />
+			</Routes>
+		</BrowserRouter>
 	);
 }
 

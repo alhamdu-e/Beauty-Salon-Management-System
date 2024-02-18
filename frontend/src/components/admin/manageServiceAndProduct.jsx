@@ -73,7 +73,9 @@ function ManageProduct(props) {
 										/>
 									</td>
 									<td>
-										<button className="action">Edit</button>
+										<form action="">
+											<button className="action">Edit</button>
+										</form>
 									</td>
 									<td>
 										<button className="action delete">Delete</button>
