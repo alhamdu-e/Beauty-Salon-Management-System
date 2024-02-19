@@ -73,9 +73,14 @@ function ManageProduct(props) {
 										/>
 									</td>
 									<td>
-										<form action="">
-											<button className="action">Edit</button>
-										</form>
+										<button
+											className="action"
+											onClick={() => {
+												props.handleEditService(service.id);
+												props.handleShowEditService();
+											}}>
+											Edit
+										</button>
 									</td>
 									<td>
 										<button className="action delete">Delete</button>
@@ -107,7 +112,14 @@ function ManageProduct(props) {
 										/>
 									</td>
 									<td>
-										<button className="action">Edit</button>
+										<button
+											className="action"
+											onClick={() => {
+												props.handleShowEditProduct();
+												props.handleEditProduct(product.id);
+											}}>
+											Edit
+										</button>
 									</td>
 									<td>
 										<button className="action delete">Delete</button>

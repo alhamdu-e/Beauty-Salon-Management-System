@@ -1,6 +1,6 @@
 import "../../assets/styles/Admin/admin.css";
 import { FaUser } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { MdDesignServices } from "react-icons/md";
 import { FaBookOpen } from "react-icons/fa";
@@ -11,6 +11,8 @@ import ManageProduct from "../admin/manageServiceAndProduct";
 import AddEmployee from "../admin/addEmployee";
 import AddProduct from "../admin/addProduct";
 import AddService from "../admin/addService";
+import EditProduct from "../admin/editProduct";
+import EditService from "../admin/editService";
 
 function Admin() {
 	const [isEmployee, setEmployee] = useState(true);
@@ -22,6 +24,9 @@ function Admin() {
 	const [showAddEmployee, setshowAddEmployee] = useState(false);
 	const [showAddProduct, setShowAddProduct] = useState(false);
 	const [showAddService, setShowAddService] = useState(false);
+	const [showEditProduct, setShowEditProduct] = useState(false);
+	const [showEditService, setShowEditService] = useState(false);
+
 	const handleEmployee = (e) => {
 		e.preventDefault();
 		setEmployee(true);
@@ -31,6 +36,8 @@ function Admin() {
 		setshowAddEmployee(false);
 		setShowAddProduct(false);
 		setShowAddService(false);
+		setShowEditProduct(false);
+		setShowEditService(false);
 	};
 	const handleCustomer = (e) => {
 		e.preventDefault();
@@ -41,6 +48,8 @@ function Admin() {
 		setshowAddEmployee(false);
 		setShowAddProduct(false);
 		setShowAddService(false);
+		setShowEditProduct(false);
+		setShowEditService(false);
 	};
 	const handleProduct = (e) => {
 		e.preventDefault();
@@ -51,6 +60,8 @@ function Admin() {
 		setshowAddEmployee(false);
 		setShowAddProduct(false);
 		setShowAddService(false);
+		setShowEditProduct(false);
+		setShowEditService(false);
 	};
 
 	const handleService = (e) => {
@@ -62,6 +73,8 @@ function Admin() {
 		setshowAddEmployee(false);
 		setShowAddProduct(false);
 		setShowAddService(false);
+		setShowEditProduct(false);
+		setShowEditService(false);
 	};
 	const handleAddEmployee = (e) => {
 		e.preventDefault();
@@ -70,6 +83,8 @@ function Admin() {
 		setShowEmploye(false);
 		setShowAddProduct(false);
 		setShowAddService(false);
+		setShowEditProduct(false);
+		setShowEditService(false);
 	};
 	const handleAddProduct = (e) => {
 		e.preventDefault();
@@ -78,6 +93,8 @@ function Admin() {
 		setShowProduct(false);
 		setShowEmploye(false);
 		setShowAddService(false);
+		setShowEditProduct(false);
+		setShowEditService(false);
 	};
 	const handleAddService = (e) => {
 		e.preventDefault();
@@ -86,8 +103,54 @@ function Admin() {
 		setshowAddEmployee(false);
 		setShowProduct(false);
 		setShowEmploye(false);
+		setShowEditProduct(false);
+		setShowEditService(false);
+	};
+	const handleShowEditProduct = (e) => {
+		setShowEditProduct(true);
+		setShowProduct(false);
+		setShowAddService(false);
+		setShowAddProduct(false);
+		setshowAddEmployee(false);
+		setShowEmploye(false);
+		setShowEditService(false);
+	};
+	const handleShowEditService = (e) => {
+		setShowEditService(true);
+		setShowEditProduct(false);
+		setShowAddService(false);
+		setShowAddProduct(false);
+		setshowAddEmployee(false);
+		setShowProduct(false);
+		setShowEmploye(false);
+	};
+	const handleEditProduct = async (productid) => {
+		const response = await fetch(`http://127.0.0.1:5000/product/${productid}`, {
+			method: "GET",
+		});
+		if (response.ok) {
+			const data = await response.json();
+			console.log(data);
+			localStorage.setItem("productData", JSON.stringify(data));
+			console.log("Product data set in local storage:", data);
+		} else {
+			console.error("Failed to fetch product data");
+		}
 	};
 
+	const handleEditService = async (serviceid) => {
+		const response = await fetch(`http://127.0.0.1:5000/service/${serviceid}`, {
+			method: "GET",
+		});
+		if (response.ok) {
+			const data = await response.json();
+			console.log(data);
+			localStorage.setItem("serviceData", JSON.stringify(data));
+			console.log("service  data set in local storage:", data);
+		} else {
+			console.error("Failed to fetch product data");
+		}
+	};
 	return (
 		<div>
 			<div className="admin-conatiner">
@@ -178,6 +241,10 @@ function Admin() {
 							isProduct={isProduct}
 							handleAddProduct={handleAddProduct}
 							handleAddService={handleAddService}
+							handleEditProduct={handleEditProduct}
+							handleShowEditProduct={handleShowEditProduct}
+							handleShowEditService={handleShowEditService}
+							handleEditService={handleEditService}
 						/>
 					</>
 				)}
@@ -195,6 +262,19 @@ function Admin() {
 				{showAddService && (
 					<>
 						<AddService handleService={handleService} />
+					</>
+				)}
+				{showEditProduct && (
+					<>
+						{" "}
+						<EditProduct />{" "}
+					</>
+				)}
+
+				{showEditService && (
+					<>
+						{" "}
+						<EditService />{" "}
 					</>
 				)}
 			</div>

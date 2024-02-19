@@ -13,48 +13,38 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-router.get("/customer", (req, res) => {
-	const sql = "SELECT * FROM users";
-	db.query(sql, (err, result) => {
+const executeQuery = (sql, params = [], res, successMessage) => {
+	db.query(sql, params, (err, result) => {
 		if (err) {
 			console.log(err);
+			res.status(500).json({ message: "Database Erroe" });
 		} else {
-			res.json(result);
+			console.log(successMessage);
+			res.status(200).json(result);
 		}
 	});
+};
+
+router.get("/customer", (req, res) => {
+	const sql = "SELECT * FROM users";
+	executeQuery(sql, [], res, "ALL CUSTOMER RETIVED");
 });
+
 router.get("/product", (req, res) => {
 	const sql = "select * from product";
 
-	db.query(sql, (err, result) => {
-		if (err) {
-			console.log(err);
-		} else {
-			res.json(result);
-		}
-	});
+	executeQuery(sql, [], res, "ALL product RETRIVED");
 });
+
 router.get("/service", (req, res) => {
 	const sql = "select * from service";
 
-	db.query(sql, (err, result) => {
-		if (err) {
-			console.log(err);
-		} else {
-			res.json(result);
-		}
-	});
+	executeQuery(sql, [], res, "ALL service RETRIVED");
 });
+
 router.get("/employee", (req, res) => {
-	console.log("hi");
 	const sql = "SELECT * FROM profesional";
-	db.query(sql, (err, result) => {
-		if (err) {
-			console.log(err);
-		} else {
-			res.json(result);
-		}
-	});
+	executeQuery(sql, [], res, "ALL employee RETRIVED");
 });
 
 router.post("/addEmployee", (req, res) => {
@@ -69,20 +59,14 @@ router.post("/addEmployee", (req, res) => {
 		gender,
 		profesion,
 	} = req.body;
+	[fname, lname, gender, profesion, email, age, phone, adress, password];
 	const sql =
 		"insert into profesional (fname,lname,gender,profession,email,age,phone,address,password) values (?,?,?,?,?,?,?,?,?)";
-	db.query(
+	executeQuery(
 		sql,
 		[fname, lname, gender, profesion, email, age, phone, adress, password],
-		(err, result) => {
-			if (err) {
-				console.log(err);
-				return;
-			} else {
-				console.log(result);
-				res.status(200).json({ message: "employe added" });
-			}
-		}
+		res,
+		"ALL employee Added"
 	);
 });
 
@@ -94,16 +78,59 @@ router.post("/addProduct", upload.single("productImage"), (req, res) => {
 	const sql =
 		"insert into product(productname, productdesc, productprice, productimage) values(?,?,?,?)";
 	const params = [productName, productDesc, productPrice, imagePath];
-	db.query(sql, params, (err, result) => {
-		if (err) {
-			console.log(err);
-			return;
-		} else {
-			console.log("Product created successfully");
-			res.status(200).json({ message: "product added" });
-		}
-	});
+	executeQuery(sql, params, res, "product added sucessfully");
 });
+
+router.put("/editProduct", upload.single("productImage"), (req, res) => {
+	const { productName, productDesc, productPrice, productId } = req.body;
+
+	let sql = "";
+	let values = [];
+	if (req.file) {
+		const fileName = req.file.filename;
+		const imagePath = "http://127.0.0.1:5000/images/" + fileName;
+		sql = `UPDATE product SET productname = ?, productdesc = ?, productprice = ?, productimage = ? WHERE id = ?`;
+		values = [productName, productDesc, productPrice, imagePath, productId];
+	} else {
+		sql = `UPDATE product SET productname = ?, productdesc = ?, productprice = ? WHERE id = ?`;
+		values = [productName, productDesc, productPrice, productId];
+	}
+
+	executeQuery(sql, values, res, "product edited successfully");
+});
+
+router.put("/editService", upload.single("serviceImage"), (req, res) => {
+	const { serviceName, serviceDesc, servicePrice, serviceId, serviceCatagory } =
+		req.body;
+
+	let sql = "";
+	let values = [];
+	if (req.file) {
+		const fileName = req.file.filename;
+		const imagePath = "http://127.0.0.1:5000/images/" + fileName;
+		sql = `UPDATE service SET servicename = ?, servicedesc = ?, serviceprice = ?, serviceimage = ?,servicecatagory = ? WHERE id = ?`;
+		values = [
+			serviceName,
+			serviceDesc,
+			servicePrice,
+			imagePath,
+			serviceCatagory,
+			serviceId,
+		];
+	} else {
+		sql = `UPDATE service SET servicename = ?, servicedesc = ?, serviceprice = ?,servicecatagory = ? WHERE id = ?`;
+		values = [
+			serviceName,
+			serviceDesc,
+			servicePrice,
+			serviceCatagory,
+			serviceId,
+		];
+	}
+
+	executeQuery(sql, values, res, "service Edited Successfully");
+});
+
 router.post("/addService", upload.single("serviceImage"), (req, res) => {
 	const { serviceName, serviceDesc, servicePrice, serviceCatagory } = req.body;
 	const fileName = req.file.filename;
@@ -117,14 +144,17 @@ router.post("/addService", upload.single("serviceImage"), (req, res) => {
 		imagePath,
 		serviceCatagory,
 	];
-	db.query(sql, params, (err, result) => {
-		if (err) {
-			console.log(err);
-			return;
-		} else {
-			console.log("Product created successfully");
-			res.status(200).json({ message: "service added" });
-		}
-	});
+	executeQuery(sql, params, res, "product added successfully");
+});
+router.get("/product/:id", (req, res) => {
+	const product = req.params.id;
+	const sql = "select * from product where id =?";
+	executeQuery(sql, [product], res, "single product retrived");
+});
+router.get("/service/:id", (req, res) => {
+	const service = req.params.id;
+	console.log(service);
+	const sql = "select * from service where id =?";
+	executeQuery(sql, [service], res, "single service retrieved");
 });
 module.exports = router;
