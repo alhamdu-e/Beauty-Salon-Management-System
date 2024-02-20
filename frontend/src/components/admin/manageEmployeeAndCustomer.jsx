@@ -25,9 +25,9 @@ function Manageemployee(props) {
 
 	return (
 		<div>
-			<div className="welcome-container">
+			{/* <div className="welcome-container">
 				<h1 className="welcome">Welcome Alhamdu</h1>
-			</div>
+			</div> */}
 			<div className="employedata-conatiner">
 				{props.isEmployee && (
 					<>

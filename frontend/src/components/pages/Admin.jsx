@@ -13,6 +13,7 @@ import AddProduct from "../admin/addProduct";
 import AddService from "../admin/addService";
 import EditProduct from "../admin/editProduct";
 import EditService from "../admin/editService";
+import { CiCircleCheck } from "react-icons/ci";
 
 function Admin() {
 	const [isEmployee, setEmployee] = useState(true);
@@ -26,7 +27,7 @@ function Admin() {
 	const [showAddService, setShowAddService] = useState(false);
 	const [showEditProduct, setShowEditProduct] = useState(false);
 	const [showEditService, setShowEditService] = useState(false);
-
+	const [showPopup, setShowPopup] = useState(false);
 	const handleEmployee = (e) => {
 		e.preventDefault();
 		setEmployee(true);
@@ -124,6 +125,13 @@ function Admin() {
 		setShowProduct(false);
 		setShowEmploye(false);
 	};
+	const handleShowPopup = (e) => {
+		setShowPopup(!showPopup);
+	};
+
+	if (showPopup) {
+		setTimeout(handleShowPopup, 3000);
+	}
 	const handleEditProduct = async (productid) => {
 		const response = await fetch(`http://127.0.0.1:5000/product/${productid}`, {
 			method: "GET",
@@ -223,6 +231,7 @@ function Admin() {
 						</div>
 					</div>
 				</div>
+
 				{showEmploye && (
 					<>
 						<Manageemployee
@@ -245,6 +254,7 @@ function Admin() {
 							handleShowEditProduct={handleShowEditProduct}
 							handleShowEditService={handleShowEditService}
 							handleEditService={handleEditService}
+							handleShowPopup={handleShowPopup}
 						/>
 					</>
 				)}
@@ -278,6 +288,17 @@ function Admin() {
 					</>
 				)}
 			</div>
+
+			{showPopup && (
+				<>
+					<div className="popup-container" onClick={handleShowPopup}>
+						<div className="popup">
+							<span className="check-mark"> &#10003;</span>
+							<p>Product Deleted successfully</p>
+						</div>
+					</div>
+				</>
+			)}
 		</div>
 	);
 }

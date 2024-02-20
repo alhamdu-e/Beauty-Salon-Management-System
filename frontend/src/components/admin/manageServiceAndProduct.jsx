@@ -21,11 +21,22 @@ function ManageProduct(props) {
 			});
 	}, []);
 
+	const handleDeleteService = async (serviceid) => {
+		const response = await fetch(`http://127.0.0.1:5000/service/${serviceid}`, {
+			method: "Delete",
+		});
+		if (response.ok) {
+			const data = await response.json();
+			setService(data);
+		} else {
+			console.error("Failed to fetch product data");
+		}
+	};
 	return (
 		<div>
-			<div className="welcome-container">
+			{/* <div className="welcome-container">
 				<h1 className="welcome">Welcome Alhamdu</h1>
-			</div>
+			</div> */}
 			<div className="employedata-conatiner">
 				{props.isService && (
 					<>
@@ -83,7 +94,14 @@ function ManageProduct(props) {
 										</button>
 									</td>
 									<td>
-										<button className="action delete">Delete</button>
+										<button
+											className="action delete"
+											onClick={() => {
+												handleDeleteService(service.id);
+												props.handleShowPopup();
+											}}>
+											Delete
+										</button>
 									</td>
 								</tr>
 							))}

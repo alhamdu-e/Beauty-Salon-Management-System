@@ -46,6 +46,26 @@ router.get("/employee", (req, res) => {
 	const sql = "SELECT * FROM profesional";
 	executeQuery(sql, [], res, "ALL employee RETRIVED");
 });
+router.delete("/service/:id", (req, res) => {
+	let id = req.params.id;
+	console.log(id);
+
+	const sql = "DELETE FROM service WHERE id =?";
+	db.query(sql, [id], (err, result) => {
+		if (err) {
+			console.log(err);
+		} else {
+			const sql = "select * from service";
+			db.query(sql, (err, result) => {
+				if (err) {
+					console.log(err, "service");
+				} else {
+					res.status(200).json(result);
+				}
+			});
+		}
+	});
+});
 
 router.post("/addEmployee", (req, res) => {
 	const {
