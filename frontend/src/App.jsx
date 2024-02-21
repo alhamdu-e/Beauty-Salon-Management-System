@@ -18,11 +18,11 @@ function App() {
 				{/* <Home /> */}
 				{/* <Admin /> */}
 
-				<Route path="/" element={<Home />} />
+				{/* <Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/signup" element={<Signup />} />
 				<Route path="/admin" element={<Admin />} />
-				<Route path="/appointment" element={<Appointment />} />
+				<Route path="/appointment" element={<Appointment />} /> */}
 			</Routes>
 		</BrowserRouter>
 	);
