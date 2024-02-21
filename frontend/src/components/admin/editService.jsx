@@ -1,7 +1,15 @@
-import "../../assets/styles/Admin/addService.css";
+import "../../assets/styles/Admin/editService.css";
 import { useEffect, useState } from "react";
 function EditService(props) {
 	const [serviceData, setServiceData] = useState([]);
+	const nameRegx = /^[a-z]+$/i;
+	const numberRegex = /^\d+(\.\d+)?$/;
+
+	const [errName, showErrName] = useState(false);
+	const [errDesc, showErrDesc] = useState(false);
+	const [errPrice, showErrPrice] = useState(false);
+	const [errImg, showErrImg] = useState(false);
+	const [errCat, showErrCat] = useState(false);
 
 	useEffect(() => {
 		// Function to retrieve data from local storage
@@ -48,6 +56,41 @@ function EditService(props) {
 	};
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		if (!nameRegx.test(serviceName)) {
+			showErrName(true);
+			return;
+		}
+		if (nameRegx.test(serviceName)) {
+			showErrName(false);
+		}
+		if (!nameRegx.test(serviceDesc)) {
+			showErrDesc(true);
+			return;
+		}
+		if (nameRegx.test(serviceDesc)) {
+			showErrDesc(false);
+		}
+		if (!numberRegex.test(servicePrice)) {
+			showErrPrice(true);
+			return;
+		}
+		if (numberRegex.test(servicePrice)) {
+			showErrPrice(false);
+		}
+		if (!serviceImage) {
+			showErrImg(true);
+			return;
+		}
+		if (serviceImage) {
+			showErrImg(false);
+		}
+		if (!serviceCatagory) {
+			showErrCat(true);
+			return;
+		}
+		if (serviceCatagory) {
+			showErrCat(false);
+		}
 		const formData = new FormData();
 		formData.append("serviceName", serviceName);
 		formData.append("serviceDesc", serviceDesc);
@@ -73,14 +116,14 @@ function EditService(props) {
 	};
 	return (
 		<div>
-			<div className="conatnerforaddservice">
-				<button className="add">&#43;</button>
-				<button className="manage-employe-button" onClick={props.handleService}>
+			<div className="conatnerforeditservice">
+				{/* <button className="add">&#43;</button> */}
+				<button className="manage-service-button" onClick={props.handleService}>
 					Manage Service
 				</button>
 			</div>
 			<form onSubmit={handleSubmit} encType="multipart/form-data">
-				<div className="addservice container">
+				<div className="editservice container">
 					<div>
 						<label htmlFor="servicename">Service Name</label>
 						<input
@@ -91,6 +134,12 @@ function EditService(props) {
 							onChange={handleServiceName}
 							value={serviceName}
 						/>
+						<p
+							className={`${
+								errName ? "block erro-message" : "none erro-message"
+							}`}>
+							only charcter are allowed!
+						</p>
 					</div>
 
 					<div>
@@ -103,6 +152,12 @@ function EditService(props) {
 							onChange={handleServiceDesc}
 							value={serviceDesc}
 						/>
+						<p
+							className={`${
+								errDesc ? "block erro-message" : "none erro-message"
+							}`}>
+							only charcter are allowed!
+						</p>
 					</div>
 
 					<div>
@@ -115,6 +170,12 @@ function EditService(props) {
 							onChange={handleServicePrice}
 							value={servicePrice}
 						/>
+						<p
+							className={`${
+								errPrice ? "block erro-message" : "none erro-message"
+							}`}>
+							only Positive Number are allowed!
+						</p>
 					</div>
 					<div>
 						<label htmlFor="adress">Service Catagory</label>
@@ -131,6 +192,12 @@ function EditService(props) {
 							<option value="nail">Nail</option>
 							<option value="hair">Hair</option>
 						</select>
+						<p
+							className={`${
+								errCat ? "block erro-message" : "none erro-message"
+							}`}>
+							Please select a service Catagory.
+						</p>
 					</div>
 					<div>
 						<label htmlFor="serviceimage">Service Image</label>
@@ -140,9 +207,15 @@ function EditService(props) {
 							id="serviceimage"
 							onChange={handleServiceImage}
 						/>
+						<p
+							className={`${
+								errImg ? "block erro-message" : "none erro-message"
+							}`}>
+							Please select a service image.
+						</p>
 					</div>
 					<div>
-						<button className="addservice-a">Edit Service </button>
+						<button className="editservice-a">Edit Service </button>
 					</div>
 				</div>
 			</form>

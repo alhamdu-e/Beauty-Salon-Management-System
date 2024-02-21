@@ -22,10 +22,12 @@ router.post("/signup", (req, res) => {
 });
 router.post("/login", (req, res) => {
 	const { email, password } = req.body;
+	console.log(email, password);
 
 	const sqlUsers = "SELECT * FROM users WHERE email=? AND password=?";
 	const sqlProfesional =
 		"SELECT * FROM profesional WHERE email=? AND password=?";
+	const sqlAdmin = "SELECT * FROM admin WHERE email=? AND password=?";
 
 	db.query(sqlUsers, [email, password], (err, usersResult) => {
 		if (err) {
@@ -48,9 +50,21 @@ router.post("/login", (req, res) => {
 					.status(200)
 					.json({ userType: "profesional", data: profesionalResult });
 			}
+			db.query(sqlAdmin, [email, password], (err, adminResult) => {
+				if (err) {
+					console.log(err);
+					return res.sendStatus(400);
+				}
+				if (adminResult.length > 0) {
+					console.log("admin");
+					return res
+						.status(200)
+						.json({ userType: "profesional", data: adminResult });
+				}
 
-			console.log("User not found");
-			return res.status(404).json({ message: "User not found" });
+				console.log("User not found");
+				return res.status(404).json({ message: "User not found" });
+			});
 		});
 	});
 });

@@ -67,6 +67,46 @@ router.delete("/service/:id", (req, res) => {
 	});
 });
 
+router.delete("/product/:id", (req, res) => {
+	let id = req.params.id;
+	console.log(id);
+
+	const sql = "DELETE FROM product WHERE id =?";
+	db.query(sql, [id], (err, result) => {
+		if (err) {
+			console.log(err);
+		} else {
+			const sql = "select * from product";
+			db.query(sql, (err, result) => {
+				if (err) {
+					console.log(err, "product");
+				} else {
+					res.status(200).json(result);
+				}
+			});
+		}
+	});
+});
+
+router.delete("/employee/:id", (req, res) => {
+	let id = req.params.id;
+	const sql = "DELETE FROM profesional WHERE id =?";
+	db.query(sql, [id], (err, result) => {
+		if (err) {
+			console.log(err);
+		} else {
+			const sql = "select * from profesional";
+			db.query(sql, (err, result) => {
+				if (err) {
+					console.log(err, "product");
+				} else {
+					res.status(200).json(result);
+				}
+			});
+		}
+	});
+});
+
 router.post("/addEmployee", (req, res) => {
 	const {
 		fname,
@@ -117,6 +157,28 @@ router.put("/editProduct", upload.single("productImage"), (req, res) => {
 	}
 
 	executeQuery(sql, values, res, "product edited successfully");
+});
+
+router.put("/editEmployee", (req, res) => {
+	const {
+		fname,
+		lname,
+		email,
+		phone,
+		adress,
+		age,
+		password,
+		gender,
+		profesion,
+		id,
+	} = req.body;
+	const sql = `update profesional set fname=?,lname=?,email=?,phone=?,address=?,age=? ,gender=?,profession=?,password=? where id=?`;
+	executeQuery(
+		sql,
+		[fname, lname, email, phone, adress, age, gender, profesion, password, id],
+		res,
+		"employe edited sucessfully"
+	);
 });
 
 router.put("/editService", upload.single("serviceImage"), (req, res) => {
@@ -175,6 +237,12 @@ router.get("/service/:id", (req, res) => {
 	const service = req.params.id;
 	console.log(service);
 	const sql = "select * from service where id =?";
+	executeQuery(sql, [service], res, "single service retrieved");
+});
+router.get("/employee/:id", (req, res) => {
+	const service = req.params.id;
+	console.log(service);
+	const sql = "select * from profesional where id =?";
 	executeQuery(sql, [service], res, "single service retrieved");
 });
 module.exports = router;

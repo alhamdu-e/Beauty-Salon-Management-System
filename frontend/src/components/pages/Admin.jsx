@@ -13,7 +13,8 @@ import AddProduct from "../admin/addProduct";
 import AddService from "../admin/addService";
 import EditProduct from "../admin/editProduct";
 import EditService from "../admin/editService";
-import { CiCircleCheck } from "react-icons/ci";
+import EditEmployee from "../admin/editEmployee";
+import { RiDashboard3Fill } from "react-icons/ri";
 
 function Admin() {
 	const [isEmployee, setEmployee] = useState(true);
@@ -27,7 +28,9 @@ function Admin() {
 	const [showAddService, setShowAddService] = useState(false);
 	const [showEditProduct, setShowEditProduct] = useState(false);
 	const [showEditService, setShowEditService] = useState(false);
+	const [showEditEmployee, setShowEditEmployee] = useState(false);
 	const [showPopup, setShowPopup] = useState(false);
+	const [popupMessage, setPopupMessage] = useState("");
 	const handleEmployee = (e) => {
 		e.preventDefault();
 		setEmployee(true);
@@ -39,6 +42,8 @@ function Admin() {
 		setShowAddService(false);
 		setShowEditProduct(false);
 		setShowEditService(false);
+		setShowEditEmployee(false);
+		setPopupMessage("Employee Deleted successfully");
 	};
 	const handleCustomer = (e) => {
 		e.preventDefault();
@@ -51,6 +56,7 @@ function Admin() {
 		setShowAddService(false);
 		setShowEditProduct(false);
 		setShowEditService(false);
+		setShowEditEmployee(false);
 	};
 	const handleProduct = (e) => {
 		e.preventDefault();
@@ -63,6 +69,8 @@ function Admin() {
 		setShowAddService(false);
 		setShowEditProduct(false);
 		setShowEditService(false);
+		setPopupMessage("Product Deleted successfully");
+		setShowEditEmployee(false);
 	};
 
 	const handleService = (e) => {
@@ -76,6 +84,8 @@ function Admin() {
 		setShowAddService(false);
 		setShowEditProduct(false);
 		setShowEditService(false);
+		setPopupMessage("Service Deleted successfully");
+		setShowEditEmployee(false);
 	};
 	const handleAddEmployee = (e) => {
 		e.preventDefault();
@@ -86,6 +96,7 @@ function Admin() {
 		setShowAddService(false);
 		setShowEditProduct(false);
 		setShowEditService(false);
+		setShowEditEmployee(false);
 	};
 	const handleAddProduct = (e) => {
 		e.preventDefault();
@@ -96,6 +107,7 @@ function Admin() {
 		setShowAddService(false);
 		setShowEditProduct(false);
 		setShowEditService(false);
+		setShowEditEmployee(false);
 	};
 	const handleAddService = (e) => {
 		e.preventDefault();
@@ -106,6 +118,7 @@ function Admin() {
 		setShowEmploye(false);
 		setShowEditProduct(false);
 		setShowEditService(false);
+		setShowEditEmployee(false);
 	};
 	const handleShowEditProduct = (e) => {
 		setShowEditProduct(true);
@@ -115,9 +128,21 @@ function Admin() {
 		setshowAddEmployee(false);
 		setShowEmploye(false);
 		setShowEditService(false);
+		setShowEditEmployee(false);
 	};
 	const handleShowEditService = (e) => {
 		setShowEditService(true);
+		setShowEditProduct(false);
+		setShowAddService(false);
+		setShowAddProduct(false);
+		setshowAddEmployee(false);
+		setShowProduct(false);
+		setShowEmploye(false);
+		setShowEditEmployee(false);
+	};
+	const handleShowEditEmployee = (e) => {
+		setShowEditEmployee(true);
+		setShowEditService(false);
 		setShowEditProduct(false);
 		setShowAddService(false);
 		setShowAddProduct(false);
@@ -176,9 +201,16 @@ function Admin() {
 									<li>
 										<a href="#" onClick={handleProduct}>
 											{" "}
+											<RiDashboard3Fill /> Dashboard
+										</a>
+									</li>
+									<li>
+										<a href="#" onClick={handleProduct}>
+											{" "}
 											<MdProductionQuantityLimits /> Manage Product
 										</a>
 									</li>
+
 									<li>
 										<a href="#" onClick={handleService}>
 											{" "}
@@ -192,13 +224,19 @@ function Admin() {
 										</a>
 									</li>
 									<li>
+										<a href="#" onClick={handleCustomer}>
+											{" "}
+											<FaUser /> View Customer
+										</a>
+									</li>
+									<li>
 										<a href="#">
 											{" "}
 											<FaBookOpen /> View Appointment{" "}
 										</a>
 									</li>
 									<li>
-										<a href="#" onClick={handleCustomer}>
+										<a href="#">
 											<FcRating /> View Reviwes
 										</a>
 									</li>
@@ -214,7 +252,7 @@ function Admin() {
 											<IoMdHome /> Home
 										</a>
 									</li>
-									<li>
+									{/* <li>
 										<a href="#">
 											{" "}
 											<MdDesignServices /> Service
@@ -225,7 +263,7 @@ function Admin() {
 											{" "}
 											<MdProductionQuantityLimits /> Product
 										</a>
-									</li>
+									</li> */}
 								</ul>
 							</div>
 						</div>
@@ -239,6 +277,8 @@ function Admin() {
 							isCustomer={isCustomer}
 							handleEmployee={handleEmployee}
 							handleAddEmployee={handleAddEmployee}
+							handleShowEditEmployee={handleShowEditEmployee}
+							handleShowPopup={handleShowPopup}
 						/>
 					</>
 				)}
@@ -277,14 +317,19 @@ function Admin() {
 				{showEditProduct && (
 					<>
 						{" "}
-						<EditProduct />{" "}
+						<EditProduct handleProduct={handleProduct} />{" "}
 					</>
 				)}
 
 				{showEditService && (
 					<>
 						{" "}
-						<EditService />{" "}
+						<EditService handleService={handleService} />{" "}
+					</>
+				)}
+				{showEditEmployee && (
+					<>
+						<EditEmployee />
 					</>
 				)}
 			</div>
@@ -294,7 +339,7 @@ function Admin() {
 					<div className="popup-container" onClick={handleShowPopup}>
 						<div className="popup">
 							<span className="check-mark"> &#10003;</span>
-							<p>Product Deleted successfully</p>
+							<p>{popupMessage}</p>
 						</div>
 					</div>
 				</>

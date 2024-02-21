@@ -1,6 +1,15 @@
 import "../../assets/styles/Admin/addService.css";
 import { useEffect, useState } from "react";
 function AddService(props) {
+	const nameRegx = /^[a-z]+$/i;
+	const numberRegex = /^\d+(\.\d+)?$/;
+
+	const [errName, showErrName] = useState(false);
+	const [errDesc, showErrDesc] = useState(false);
+	const [errPrice, showErrPrice] = useState(false);
+	const [errImg, showErrImg] = useState(false);
+	const [errCat, showErrCat] = useState(false);
+
 	const [serviceName, setServiceName] = useState("");
 	const [serviceDesc, setServiceDesc] = useState("");
 	const [servicePrice, setServicePrice] = useState("");
@@ -24,6 +33,41 @@ function AddService(props) {
 	};
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		if (!nameRegx.test(serviceName)) {
+			showErrName(true);
+			return;
+		}
+		if (nameRegx.test(serviceName)) {
+			showErrName(false);
+		}
+		if (!nameRegx.test(serviceDesc)) {
+			showErrDesc(true);
+			return;
+		}
+		if (nameRegx.test(serviceDesc)) {
+			showErrDesc(false);
+		}
+		if (!numberRegex.test(servicePrice)) {
+			showErrPrice(true);
+			return;
+		}
+		if (numberRegex.test(servicePrice)) {
+			showErrPrice(false);
+		}
+		if (!serviceImage) {
+			showErrImg(true);
+			return;
+		}
+		if (serviceImage) {
+			showErrImg(false);
+		}
+		if (!serviceCatagory) {
+			showErrCat(true);
+			return;
+		}
+		if (serviceCatagory) {
+			showErrCat(false);
+		}
 		const formData = new FormData();
 		formData.append("serviceName", serviceName);
 		formData.append("serviceDesc", serviceDesc);
@@ -65,6 +109,12 @@ function AddService(props) {
 							placeholder="Service Name"
 							onChange={handleServiceName}
 						/>
+						<p
+							className={`${
+								errName ? "block erro-message" : "none erro-message"
+							}`}>
+							only charcter are allowed!
+						</p>
 					</div>
 
 					<div>
@@ -76,6 +126,12 @@ function AddService(props) {
 							placeholder="Service Description"
 							onChange={handleServiceDesc}
 						/>
+						<p
+							className={`${
+								errDesc ? "block erro-message" : "none erro-message"
+							}`}>
+							only charcter are allowed!
+						</p>
 					</div>
 
 					<div>
@@ -87,6 +143,12 @@ function AddService(props) {
 							placeholder="Service Price"
 							onChange={handleServicePrice}
 						/>
+						<p
+							className={`${
+								errPrice ? "block erro-message" : "none erro-message"
+							}`}>
+							only Positive Number are allowed!
+						</p>
 					</div>
 					<div>
 						<label htmlFor="adress">Service Catagory</label>
@@ -102,6 +164,12 @@ function AddService(props) {
 							<option value="nail">Nail</option>
 							<option value="hair">Hair</option>
 						</select>
+						<p
+							className={`${
+								errCat ? "block erro-message" : "none erro-message"
+							}`}>
+							Please select a service Catagory.
+						</p>
 					</div>
 					<div>
 						<label htmlFor="serviceimage">Service Image</label>
@@ -111,6 +179,12 @@ function AddService(props) {
 							id="serviceimage"
 							onChange={handleServiceImage}
 						/>
+						<p
+							className={`${
+								errImg ? "block erro-message" : "none erro-message"
+							}`}>
+							Please select a service image.
+						</p>
 					</div>
 					<div>
 						<button className="addservice-a">Add Service </button>

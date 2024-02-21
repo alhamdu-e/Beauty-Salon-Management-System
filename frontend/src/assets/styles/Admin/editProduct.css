@@ -1,4 +1,4 @@
-.addProduct input {
+.editProduct input {
 	width: 100%;
 	padding: 1.2rem;
 	font-size: 1.6rem;
@@ -6,10 +6,7 @@
 	background-color: #f3eeee;
 	border-radius: 9px;
 }
-.addProduct input:focus {
-	outline: solid 4px rgba(173, 78, 0, 0.849);
-}
-.addProduct {
+.editProduct {
 	grid-template-columns: 1fr 1fr;
 	/* row-gap: 1.2rem; */
 	column-gap: 5rem;
@@ -23,11 +20,11 @@
 	background: #261a2f;
 	/* background-color: white; */
 }
-.addProduct label {
+.editProduct label {
 	color: #ebdbfe;
 }
 
-.addProduct-a {
+.editProduct-a {
 	padding: 1.2rem;
 	padding-top: 1.2rem;
 	background-color: #ebdbfe;
@@ -40,20 +37,20 @@
 	display: block;
 	border: none;
 }
-.conatnerforaddproduct {
+.conatnerforeditproduct {
 	background: #261a2f;
 	padding-left: 40px;
 	margin-top: 15rem;
+	padding-top: 3rem;
 }
-.erro-message {
-	font-size: 1.4rem;
-	margin-top: 1rem;
-	color: rgb(255, 81, 0);
-	display: none;
-}
-.block {
-	display: block;
-}
-.none {
-	display: none;
+.manage-product-button {
+	border: none;
+	font-size: 2rem;
+	padding: 1.2rem;
+	/* margin-left: 3.2rem; */
+	background-color: #38284c;
+	color: #ebdbfe;
+	border-radius: 12px;
+	transition: all 0.3s;
+	margin-bottom: 3rem;
 }

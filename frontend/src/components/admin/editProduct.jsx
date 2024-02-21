@@ -1,8 +1,15 @@
-import "../../assets/styles/Admin/addProduct.css";
+import "../../assets/styles/Admin/editProduct.css";
 import { useState, useEffect } from "react";
 
 function EditProduct(props) {
 	const [productData, setProductData] = useState([]);
+	const nameRegx = /^[a-z]+$/i;
+	const numberRegex = /^\d+(\.\d+)?$/;
+
+	const [errName, showErrName] = useState(false);
+	const [errDesc, showErrDesc] = useState(false);
+	const [errPrice, showErrPrice] = useState(false);
+	const [errImg, showErrImg] = useState(false);
 
 	useEffect(() => {
 		// Function to retrieve data from local storage
@@ -49,6 +56,35 @@ function EditProduct(props) {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
+		if (!nameRegx.test(productName)) {
+			showErrName(true);
+			return;
+		}
+		if (nameRegx.test(productName)) {
+			showErrName(false);
+		}
+		if (!nameRegx.test(productDesc)) {
+			showErrDesc(true);
+			return;
+		}
+		if (nameRegx.test(productDesc)) {
+			showErrDesc(false);
+		}
+		if (!numberRegex.test(productPrice)) {
+			showErrPrice(true);
+			return;
+		}
+		if (numberRegex.test(productPrice)) {
+			showErrPrice(false);
+		}
+		if (!productImage) {
+			showErrImg(true);
+			return;
+		}
+		if (productImage) {
+			showErrImg(false);
+		}
+
 		// Create a new FormData object
 		const formData = new FormData();
 
@@ -79,14 +115,14 @@ function EditProduct(props) {
 
 	return (
 		<div>
-			<div className="conatnerforaddproduct">
-				<button className="add">&#43;</button>
-				<button className="manage-employe-button" onClick={props.handleProduct}>
+			<div className="conatnerforeditproduct">
+				{/* <button className="add">&#43;</button> */}
+				<button className="manage-product-button" onClick={props.handleProduct}>
 					Manage Product
 				</button>
 			</div>
 			<form encType="multipart/form-data" onSubmit={handleSubmit}>
-				<div className="addProduct container">
+				<div className="editProduct container">
 					<div>
 						<label htmlFor="productname">Product Name</label>
 						<input
@@ -97,6 +133,12 @@ function EditProduct(props) {
 							onChange={handleProductName}
 							value={productName}
 						/>
+						<p
+							className={`${
+								errName ? "block erro-message" : "none erro-message"
+							}`}>
+							only charcter are allowed!
+						</p>
 					</div>
 
 					<div>
@@ -109,6 +151,12 @@ function EditProduct(props) {
 							onChange={handleProductDesc}
 							value={productDesc}
 						/>
+						<p
+							className={`${
+								errDesc ? "block erro-message" : "none erro-message"
+							}`}>
+							only charcter are allowed!
+						</p>
 					</div>
 
 					<div>
@@ -121,6 +169,12 @@ function EditProduct(props) {
 							onChange={handleProductPrice}
 							value={productPrice}
 						/>
+						<p
+							className={`${
+								errPrice ? "block erro-message" : "none erro-message"
+							}`}>
+							only Positive Number are allowed!
+						</p>
 					</div>
 					<div>
 						<label htmlFor="product-image">Product Image</label>
@@ -131,9 +185,15 @@ function EditProduct(props) {
 							placeholder="Your Address"
 							onChange={handleProductImage}
 						/>
+						<p
+							className={`${
+								errImg ? "block erro-message" : "none erro-message"
+							}`}>
+							Please select a product image.
+						</p>
 					</div>
 					<div>
-						<button className="addProduct-a">Edit Product </button>
+						<button className="editProduct-a">Edit Product </button>
 					</div>
 				</div>
 			</form>

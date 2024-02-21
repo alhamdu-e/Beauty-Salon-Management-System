@@ -1,6 +1,14 @@
 import "../../assets/styles/Admin/addProduct.css";
 import { useState, useEffect } from "react";
 function AddProduct(props) {
+	const nameRegx = /^[a-z]+$/i;
+	const numberRegex = /^\d+(\.\d+)?$/;
+
+	const [errName, showErrName] = useState(false);
+	const [errDesc, showErrDesc] = useState(false);
+	const [errPrice, showErrPrice] = useState(false);
+	const [errImg, showErrImg] = useState(false);
+
 	const [productName, setProductName] = useState("");
 	const [productDesc, setProductDesc] = useState("");
 	const [productPrice, setProductPrice] = useState("");
@@ -30,6 +38,39 @@ function AddProduct(props) {
 		formData.append("productDesc", productDesc);
 		formData.append("productPrice", productPrice);
 		formData.append("productImage", productImage);
+		if (!nameRegx.test(productName)) {
+			showErrName(true);
+			return;
+		}
+		if (nameRegx.test(productName)) {
+			showErrName(false);
+		}
+		if (!nameRegx.test(productDesc)) {
+			showErrDesc(true);
+			return;
+		}
+		if (nameRegx.test(productDesc)) {
+			showErrDesc(false);
+		}
+		if (!numberRegex.test(productPrice)) {
+			showErrPrice(true);
+			return;
+		}
+		if (numberRegex.test(productPrice)) {
+			showErrPrice(false);
+		}
+		if (!productImage) {
+			showErrImg(true);
+			return;
+		}
+		if (productImage) {
+			showErrImg(false);
+		}
+
+		// if (formIsValid) {
+		// 	console.log(formIsValid);
+		// 	return;
+		// }
 
 		try {
 			const response = await fetch("http://127.0.0.1:5000/addProduct", {
@@ -68,6 +109,12 @@ function AddProduct(props) {
 							placeholder="Product Name"
 							onChange={handleProductName}
 						/>
+						<p
+							className={`${
+								errName ? "block erro-message" : "none erro-message"
+							}`}>
+							only charcter are allowed!
+						</p>
 					</div>
 
 					<div>
@@ -79,6 +126,12 @@ function AddProduct(props) {
 							placeholder="Product Description"
 							onChange={handleProductDesc}
 						/>
+						<p
+							className={`${
+								errDesc ? "block erro-message" : "none erro-message"
+							}`}>
+							only charcter are allowed!
+						</p>
 					</div>
 
 					<div>
@@ -90,6 +143,12 @@ function AddProduct(props) {
 							placeholder="Product Price"
 							onChange={handleProductPrice}
 						/>
+						<p
+							className={`${
+								errPrice ? "block erro-message" : "none erro-message"
+							}`}>
+							only Positive Number are allowed!
+						</p>
 					</div>
 					<div>
 						<label htmlFor="product-image">Product Image</label>
@@ -100,6 +159,12 @@ function AddProduct(props) {
 							placeholder="Your Adress"
 							onChange={handleProductImage}
 						/>
+						<p
+							className={`${
+								errImg ? "block erro-message" : "none erro-message"
+							}`}>
+							Please select a product image.
+						</p>
 					</div>
 					<div>
 						<button className="addProduct-a">Add Product </button>

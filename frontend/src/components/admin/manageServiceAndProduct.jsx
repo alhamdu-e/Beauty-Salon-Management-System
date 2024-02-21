@@ -32,6 +32,17 @@ function ManageProduct(props) {
 			console.error("Failed to fetch product data");
 		}
 	};
+	const handleDeleteProduct = async (productid) => {
+		const response = await fetch(`http://127.0.0.1:5000/product/${productid}`, {
+			method: "Delete",
+		});
+		if (response.ok) {
+			const data = await response.json();
+			setProduct(data);
+		} else {
+			console.error("Failed to fetch product data");
+		}
+	};
 	return (
 		<div>
 			{/* <div className="welcome-container">
@@ -140,7 +151,14 @@ function ManageProduct(props) {
 										</button>
 									</td>
 									<td>
-										<button className="action delete">Delete</button>
+										<button
+											className="action delete"
+											onClick={() => {
+												handleDeleteProduct(product.id);
+												props.handleShowPopup();
+											}}>
+											Delete
+										</button>
 									</td>
 								</tr>
 							))}

@@ -22,7 +22,36 @@ function Manageemployee(props) {
 				setEmployee(data);
 			});
 	}, []);
-
+	const handleEditEmployee = async (employeeid) => {
+		const response = await fetch(
+			`http://127.0.0.1:5000/employee/${employeeid}`,
+			{
+				method: "GET",
+			}
+		);
+		if (response.ok) {
+			const data = await response.json();
+			console.log(data);
+			localStorage.setItem("employeeData", JSON.stringify(data));
+			console.log("service  data set in local storage:", data);
+		} else {
+			console.error("Failed to fetch product data");
+		}
+	};
+	const handleDeleteEmployee = async (employeeid) => {
+		const response = await fetch(
+			`http://127.0.0.1:5000/employee/${employeeid}`,
+			{
+				method: "Delete",
+			}
+		);
+		if (response.ok) {
+			const data = await response.json();
+			setEmployee(data);
+		} else {
+			console.error("Failed to fetch product data");
+		}
+	};
 	return (
 		<div>
 			{/* <div className="welcome-container">
@@ -86,10 +115,24 @@ function Manageemployee(props) {
 								<td>{data.gender}</td>
 								<td>{data.profession}</td>
 								<td>
-									<button className="action">Edit</button>
+									<button
+										className="action"
+										onClick={() => {
+											handleEditEmployee(data.id);
+											props.handleShowEditEmployee();
+										}}>
+										Edit
+									</button>
 								</td>
 								<td>
-									<button className="action delete">Delete</button>
+									<button
+										className="action delete"
+										onClick={() => {
+											handleDeleteEmployee(data.id);
+											props.handleShowPopup();
+										}}>
+										Delete
+									</button>
 								</td>
 							</tr>
 						))}
