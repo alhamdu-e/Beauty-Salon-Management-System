@@ -1,21 +1,29 @@
 .appointmentform {
 	grid-template-columns: 1fr 1fr;
-	width: 40%;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	width: 60%;
 	padding: 40px;
 	border-radius: 12px;
 	border: solid #ccc 1px;
-	row-gap: 8px;
+	background-color: white;
+	column-gap: 4rem;
+	margin-top: 7rem;
+	margin-left: 3rem;
 }
 .appointmentform-select {
-	width: 74%;
+	background-color: #e2e2e2;
 }
 .appointmentform-a {
 	display: block;
 	padding: 4px 8px;
 	width: 74%;
 	border: solid 1px #ccc;
+}
+.appointmentform input {
+	padding: 1.2rem;
+	width: 100%;
+	border: none;
+	background-color: #e2e2e2;
+}
+.input {
+	width: 100%;
 }
