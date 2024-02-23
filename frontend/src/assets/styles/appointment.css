@@ -1,29 +1,84 @@
 .appointmentform {
 	grid-template-columns: 1fr 1fr;
-	width: 60%;
+	/* width: 60%; */
 	padding: 40px;
 	border-radius: 12px;
-	border: solid #ccc 1px;
+	border: solid #cccccca2 1px;
 	background-color: white;
 	column-gap: 4rem;
-	margin-top: 7rem;
-	margin-left: 3rem;
+	/* margin-top: 7rem; */
+	/* margin-left: 3rem; */
+	row-gap: 2rem;
+	border: none;
+	box-shadow: 0 0 2px 2px rgba(170, 167, 167, 0.178);
 }
 .appointmentform-select {
 	background-color: #e2e2e2;
+	padding: 0.6rem;
 }
-.appointmentform-a {
-	display: block;
-	padding: 4px 8px;
-	width: 74%;
-	border: solid 1px #ccc;
-}
+
 .appointmentform input {
-	padding: 1.2rem;
+	padding: 0.6rem;
 	width: 100%;
 	border: none;
 	background-color: #e2e2e2;
+	font-size: 1.6rem;
+}
+.main-cont-for-appointment {
+	background-color: white;
+}
+.appointment-container {
+	display: grid;
+	grid-template-columns: 60fr 40fr;
+	padding-top: 5rem;
+	padding-left: 4rem;
+	padding-right: 4rem;
+	column-gap: 3rem;
 }
 .input {
+	width: 100%; /* Adjust width as needed */
+}
+.appointmentform-button {
 	width: 100%;
+	font-size: 2rem;
+	font-weight: 500;
+	margin-top: 1.6rem;
+	padding: 0.8rem;
+	background-color: #6d6b69;
+	color: rgb(243, 243, 243);
+	border: none;
+	border-radius: 4rem;
+}
+.react-datepicker__time-box {
+	/* Style the time box */
+	font-size: 1.6rem;
+}
+.react-datepicker {
+	/* Style the date picker container */
+	font-size: 1.4rem;
+}
+.profesional-image {
+	width: 100%;
+}
+p {
+	font-size: 1.4rem;
+	margin-top: 0.4rem;
+}
+
+.image-cont {
+	display: grid;
+	grid-template-columns: 33fr 60fr;
+}
+h3 {
+	font-size: 1.6rem;
+}
+li {
+	font-size: 1.4rem;
+}
+span {
+	font-size: 1.6rem;
+}
+.service-prof-cont {
+	background-color: rgb(218, 218, 218);
+	padding-left: 1rem;
 }

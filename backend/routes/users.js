@@ -38,7 +38,9 @@ router.post("/login", (req, res) => {
 		}
 		if (usersResult.length > 0) {
 			console.log("user");
-			return res.status(200).json({ userType: "user", isAut: token });
+			return res
+				.status(200)
+				.json({ userType: "user", isAut: token, usersResult: usersResult });
 		}
 
 		db.query(sqlProfesional, [email, password], (err, profesionalResult) => {
@@ -67,4 +69,30 @@ router.post("/login", (req, res) => {
 		});
 	});
 });
+
+router.get("/user/:id", (req, res) => {
+	let id = req.params.id;
+	const sql = "select * FROM users WHERE id =?";
+	db.query(sql, [id], (err, result) => {
+		if (err) {
+			console.log(err);
+			return;
+		} else {
+			res.status(200).json(result);
+		}
+	});
+});
+router.get("/profesional/available", (req, res) => {
+	const sql = "select * FROM profesional";
+	db.query(sql, (err, result) => {
+		if (err) {
+			console.log(err);
+			return;
+		} else {
+			console.log(result);
+			res.status(200).json(result);
+		}
+	});
+});
+
 module.exports = router;

@@ -1,7 +1,7 @@
 import "../../assets/styles/login.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/Autcontext";
+import { useEffect } from "react";
 function Login() {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
@@ -24,13 +24,14 @@ function Login() {
 
 			if (response) {
 				const data = await response.json();
+				console.log(data);
 				if (response.ok) {
 					localStorage.setItem("token", data.token);
 					if (data.userType == "admin") {
 						navigate("/admin");
 					}
 					if (data.userType == "user") {
-						navigate("/");
+						localStorage.setItem("userId", data.usersResult[0].id);
 					}
 					if (data.userType == "profesional") {
 						navigate("/login");
@@ -46,6 +47,7 @@ function Login() {
 			console.log("error", error);
 		}
 	};
+
 	return (
 		<form onSubmit={handlesubmit}>
 			<div className="login-container">
