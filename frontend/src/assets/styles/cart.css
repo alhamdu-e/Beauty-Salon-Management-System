@@ -2,31 +2,35 @@
 .carthead{
     font-size: 30px;
     margin-left:20rem;
-    margin-bottom: 5rem;
+    margin-top: 1.5rem;
     color: #333;
     
 }
-
-.ll{
-    display: grid;
-    grid-template-columns: 15fr 60fr 20fr;
-    width: 800px;
+.ll {
+  display: grid;
+  grid-template-columns: 15fr 40fr 50fr;
+  
 }
 
 .cart-image{
 	width: 7rem;
     margin-left: 1.6rem;
-    margin-top: 0.6rem;
+    margin-top: 0.5rem;
 }
 .cart-image-container{
-    background-color: #dedcda;
-    margin-top: 8rem;
-    margin-left:3.5rem;
+  	box-shadow: 5px 10px 18px rgba(153, 149, 149, 0.777);;
+    margin-top: 1.8rem;
+    margin-left:4rem;
     width: 10rem; 
     height: 10rem; 
   }
+
+  .middle{
+    align-items: start; 
+    
+    } 
 .cart-title {
-    margin-top: 9rem;
+    margin-top: 3rem;
     font-size:16px;
     margin-left: 1.6rem;
     display: inline-block;
@@ -39,7 +43,7 @@
     display: inline-block;
   }
   .cancel-icon {
-    margin-left: 1.5rem;
+    margin-left:9rem;
     color: rgb(224, 122, 139);
     font-size: 1.5rem;
     display: inline-block;
@@ -53,11 +57,13 @@
     color:hsl(0, 0%, 58%);
   };
   
-  .cartquantity {
-    display: inline-block;
-    margin: 0 0.5rem;
-    font-size: 1.5rem !important;
-    color: hsl(210, 1%, 45%);
+.hi {
+  display: inline-block;
+    margin-right: 0.5rem;
+    margin-left: 2rem;
+    margin-top: 1.2rem;
+    font-size: 0.6rem;
+    color:hsl(0, 0%, 58%);
   }
   
   .minus {
@@ -66,14 +72,40 @@
     color:hsl(0, 0%, 58%);
     font-size: 1.5rem;
   }
-.ll {
-  display: grid;
-  grid-template-columns: 15fr 70fr 70fr;
-  width: 800px;
-}
 
 .leftside {	
   background-color: #fdf2e9;
-    height: 100vh; /* Set the height to 100% of the viewport height */
- 
+  height: 385px; 
+}
+.checkout{
+  margin-left:4.5rem;
+ margin-top: 2rem;
+  font-size:2rem ;
+  font-weight: bold;
+  color: #333;
+}
+.totaltitle{
+  margin-left: 4.5rem;
+  font-size: 1.5rem;
+  color: rgb(224, 122, 139);
+  margin-top: 5rem;
+  display: inline-block;
+}
+.subtotal{
+  margin-left:18rem;
+  display: inline-block;
+  font-size:1.5rem ;
+  color: rgb(224, 122, 139);
+}
+.middlehr {
+	top: 54%;
+	left: 50px;
+	border: solid 0.5px rgb(231, 226, 226);
+  width: 500px ;
+}
+.lefthr{
+  top: 54%;
+	left: 710px;
+	border: solid 1.5px rgb(180, 174, 174);
+  width: 320px ;
 }

@@ -1,46 +1,60 @@
 import "../../assets/styles/cart.css";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { MdOutlineCancel } from "react-icons/md";
-function Cart (){
-        const [quantity, setQuantity] = useState(0);
-      
-        const handleIncrement = () => {
-          setQuantity(quantity + 1);
-        };
-      
-        const handleDecrement = () => {
-          if (quantity > 0) {
-            setQuantity(quantity - 1);
-          }
-        };
-    return(
-     
-        <div className="whole">
-             <h className="carthead"> Service Cart</h>
-            
-            <div className="ll">
-            <div className="cart container">
+import Header from "../Header";
+
+function Cart() {
+  const [quantity, setQuantity] = useState(0);
+
+  const handleIncrement = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+    }
+  };
+  return (
+    <div>
+      {" "}
+      <Header />
+      <div className="whole">
+        <h1 className="carthead"> Service Cart</h1>
+
+        <div className="ll">
+          <div className="cartcontainer">
             <div className="cart-image-container">
-            <img src="./images/G7.jpg" alt="" className="cart-image"/>
+              <img src="./images/G7.jpg" alt="" className="cart-image" />
             </div>
+          </div>
+          <div className="middle">
+            <div>
+              <p className="cart-title">EyeLash Extension</p>
+              <p className="price">300.00 Birr</p>
+              <MdOutlineCancel className="cancel-icon" />
             </div>
-           <div>
-            <div><p className="cart-title">EyeLash Extension</p> 
-            <p className="price">300.00 Birr</p>
-            <MdOutlineCancel className="cancel-icon"  /></div>
-      <div><span className="plus"onClick={handleIncrement}>&#43;</span>
-            <span className="cartquantity">{quantity}</span>
-            <span className="minus" onClick={handleDecrement}>&#8722;</span> 
-            </div>      </div>
-          
-            <div className="leftside">
-                <p>Total price</p>
+            <div>
+              <span className="plus" onClick={handleIncrement}>
+                &#43;
+              </span>
+              <span className="plus">{quantity}</span>
+              <span className="minus" onClick={handleDecrement}>
+                &#8722;
+              </span>
+              <hr className="middlehr" />
             </div>
-            </div>
+          </div>
+
+          <div className="leftside">
+            <p className="checkout">CHECK OUT</p>
+            <p className="totaltitle">Total price</p>
+            <p className="subtotal">1200 Birr</p>
+            <hr className="lefthr" />
+          </div>
         </div>
-      
-    )
-
+      </div>
+    </div>
+  );
 }
-export default Cart
-
+export default Cart;

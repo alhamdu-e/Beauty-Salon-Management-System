@@ -10,6 +10,7 @@
 	height: 100vh;
 	text-align: center;
 	padding-top: 16rem;
+	background-attachment: fixed;
 }
 .call-to-action h1 {
 	color: rgb(248, 245, 245);
