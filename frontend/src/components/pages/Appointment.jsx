@@ -9,13 +9,20 @@ function Appointment() {
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [selectedStartTime, setSelectedStartTime] = useState(null);
 	const [startTime, setStartTime] = useState(null);
-	const [selectedEndTime, setSelectedEndTime] = useState(null);
+	const [endTime, setEndTime] = useState(null);
+	const [date, setDate] = useState(null);
+
 	const [userData, setUserData] = useState([]);
+	const [classfier, setClassfier] = useState(0);
 
 	const [availableProfessional, SetAvailableProfessional] = useState([]);
 	const [selectedProfessionalId, setSelectedProfessionalId] = useState("");
+	const [errPro, setErrProf] = useState(false);
+	const [errDate, setErrDate] = useState(false);
+	const [errTime, setErrTime] = useState(false);
 
 	const userId = localStorage.getItem("userId");
+	const [appointmetDate, setAppointmentDate] = useState([]);
 
 	useEffect(() => {
 		fetch(`http://127.0.0.1:5000/user/${userId}`, {
@@ -34,32 +41,80 @@ function Appointment() {
 				SetAvailableProfessional(data);
 			});
 	}, []);
+	useEffect(() => {
+		fetch(
+			`http://127.0.0.1:5000/profesionalAppointed/${selectedProfessionalId}`,
+			{
+				method: "GET",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data);
+				setAppointmentDate(data);
+			});
+	}, [selectedProfessionalId]);
 
 	const handleDateChange = (date) => {
 		setSelectedDate(date);
-		console.log("Selected Date:", date); // Log selected date to console
+		const day = date.getDate(); // Get the day of the month
+		const month = date.getMonth() + 1; // Get the month (add 1 since it's 0-indexed)
+		const year = date.getFullYear(); // Get the full year
+		const formatedDate = `${day}/${month}/${year}`;
+		setDate(formatedDate);
 	};
 
 	const handleStartTimeChange = (time) => {
 		setSelectedStartTime(time);
-		// Extracting hours and minutes from selectedStartTime
-		// const selectedStartTimeString = time.toLocaleTimeString();
-		// console.log(selectedStartTimeString);
-		// const selectedStartTimeFormatted = selectedStartTimeString
-		// 	.split(":")
-		// 	.slice(0, 2)
-		// 	.join(":");
+		console.log(time);
 		const hours = time.getHours();
+		let startmeridian = "";
+		console.log("ji");
+		let endHour;
+		let startHour;
+		if (hours >= 9 && hours <= 10) {
+			endHour = hours + 2;
+			startHour = hours;
+			startmeridian = "AM";
+		} else if (hours === 11) {
+			endHour = 1;
+			startHour = hours;
+			startmeridian = "PM";
+		} else if (hours === 12) {
+			endHour = 2;
+			startHour = hours;
+			startmeridian = "PM";
+		} else if (hours === 13) {
+			endHour = 3;
+			startHour = 1;
+			startmeridian = "PM";
+		} else if (hours === 14) {
+			endHour = 4;
+			startHour = 2;
+			startmeridian = "PM";
+		} else if (hours === 15) {
+			endHour = 5;
+			startHour = 3;
+			startmeridian = "PM";
+		} else if (hours === 16) {
+			endHour = 6;
+			startHour = 4;
+			startmeridian = "PM";
+		} else if (hours === 17) {
+			endHour = 7;
+			startHour = 5;
+			startmeridian = "PM";
+		}
+
+		setClassfier(hours + 2);
 		const minutes = time.getMinutes();
 		const meridian = hours >= 12 ? "PM" : "AM";
-		// console.log("Selected Time:", selectedStartTimeFormatted);
-		const formatedDate = `${hours}:${meridian}`;
-		setStartTime(formatedDate);
-	};
+		const formattedMinutes = minutes.toString().padStart(2, "0");
+		const formattedStratTime = `${startHour}:${formattedMinutes} ${meridian}`;
+		const formattedEndTime = `${endHour}:${formattedMinutes} ${startmeridian}`;
 
-	const handleEndTimeChange = (time) => {
-		setSelectedEndTime(time);
-		console.log("Selected End Time:", time); // Log selected end time to console
+		setStartTime(formattedStratTime);
+		setEndTime(formattedEndTime);
 	};
 
 	const handleProfessionalChange = (e) => {
@@ -72,14 +127,86 @@ function Appointment() {
 		);
 		console.log(selectedProfessional);
 	}
+	const appointData = {
+		selectedProfessionalId,
+		userId,
+		date,
+		startTime,
+		endTime,
+	};
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		// if (!selectedProfessionalId || !selectedDate || !selectedStartTime) {
+		// 	alert("Please fill out all required fields.");
+		// 	return;
+		// }
+		if (!selectedProfessionalId) {
+			setErrProf(true);
+			return;
+		}
+		if (selectedProfessionalId) {
+			setErrProf(false);
+		}
+		if (!selectedDate) {
+			setErrDate(true);
+			return;
+		}
+		if (selectedDate) {
+			setErrDate(false);
+		}
+		if (!selectedStartTime) {
+			setErrTime(true);
+			return;
+		}
+
+		if (selectedStartTime) {
+			setErrTime(false);
+		}
+		// Check for overlapping appointments
+		const overlappingAppointments = appointmetDate.filter((appointment) => {
+			// Format the stored appointment date and time
+			const storedAppointmentDate = appointment.appointmentDate;
+			const storedAppointmentStartTime = appointment.startTime;
+			const storedAppointmentEndTime = appointment.endTime;
+			// Check if the selected time slot overlaps with the current appointment
+			return (
+				storedAppointmentDate === date &&
+				storedAppointmentStartTime === startTime &&
+				storedAppointmentEndTime === endTime
+			);
+		});
+
+		// If there are overlapping appointments, prevent submission
+		if (overlappingAppointments.length > 0) {
+			alert(
+				"Selected time slot overlaps with an existing appointment. Please choose a different time."
+			);
+			return;
+		}
+
+		console.log(appointData);
+		try {
+			const response = await fetch("http://127.0.0.1:5000/appointment", {
+				method: "POST",
+				body: JSON.stringify(appointData),
+				headers: { "Content-Type": "application/json" },
+			});
+			if (response.ok) {
+				console.log("user registered");
+			} else {
+				console.log("user not registered", response.statusText);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	return (
 		<div className="main-cont-for-appointment">
 			<Header />
 
 			<div className="appointment-container">
-				<form action="">
+				<form onSubmit={handleSubmit}>
 					<div className="appointmentform container">
-						<input type="text" value={startTime} />
 						<div>
 							<label htmlFor="service">Select professional</label>
 							<select
@@ -95,17 +222,23 @@ function Appointment() {
 										</option>
 									))}
 							</select>
+							<p className={errPro ? "block err" : "err"}>
+								Please Select Profesional
+							</p>
 						</div>
 						<div>
 							<label htmlFor="date">Select Date</label>
 							<DatePicker
 								selected={selectedDate}
 								onChange={handleDateChange}
-								dateFormat="MM/dd/yyyy"
+								dateFormat="dd/MM/yyyy"
 								placeholderText="Select date"
 								minDate={new Date()}
 								wrapperClassName="input"
 							/>
+							<p className={errDate ? "block err" : "err"}>
+								Please Select Date
+							</p>
 						</div>
 
 						<div>
@@ -115,29 +248,21 @@ function Appointment() {
 								onChange={handleStartTimeChange}
 								showTimeSelect
 								showTimeSelectOnly
-								timeIntervals={30} // Updated to 60 minutes (1 hour)
+								timeIntervals={15}
 								dateFormat="h:mm aa"
 								placeholderText="Select time"
-								minTime={new Date().setHours(2, 0)} // 2:00 AM
-								maxTime={new Date().setHours(13, 0)} // 5:00 PM
+								minTime={new Date().setHours(9, 0)} // Set your minimum time
+								maxTime={new Date().setHours(17, 0)} // Set your maximum time
 								wrapperClassName="input"
 							/>
+							<p className={errTime ? "block err" : "err"}>
+								Please Select Start time
+							</p>
 						</div>
 
 						<div>
-							<label htmlFor="time">Select End Time</label>
-							<DatePicker
-								selected={selectedEndTime}
-								onChange={handleEndTimeChange}
-								showTimeSelect
-								showTimeSelectOnly
-								timeIntervals={120}
-								dateFormat="h:mm aa"
-								placeholderText="Select time"
-								minTime={new Date().setHours(2, 0)} // 2:00 AM
-								maxTime={new Date().setHours(17, 0)} // 5:00 PM
-								wrapperClassName="input"
-							/>
+							<label htmlFor="time">End Time</label>
+							<input type="text" value={endTime} readOnly className="input" />
 						</div>
 						<div>
 							<button className="appointmentform-button">Appoint Now</button>
@@ -154,21 +279,50 @@ function Appointment() {
 									alt=""
 								/>
 								<div className="service-prof-cont">
-									<p>
-										<span>Name: </span>
+									<p className="srrv-name">
+										<span className="spanpro">Name: </span>
 										{selectedProfessional[0].fname}
 									</p>
-									<p>
-										<span>Email: </span>
+									<p className="srrv-name">
+										<span className="spanpro">Email: </span>
 										{selectedProfessional[0].email}
 									</p>
-									<p>
-										<span>Rating(⭐)</span>5
+									<p className="srrv-name">
+										<span className="spanpro">Rating(⭐)</span>5
 									</p>
 								</div>
 							</>
 						)}
 					</div>
+					{appointmetDate.length > 0 && (
+						<div>
+							<h2 className="schedile">Selected ptofessional schedule</h2>
+							<table className="apooointment-table">
+								<thead>
+									<tr className="th">
+										<th className="th">Date</th>
+										<th className="th">Start time</th>
+										<th className="th">end Time</th>
+									</tr>
+								</thead>
+								{appointmetDate.length > 0 &&
+									appointmetDate.map((appointData) => (
+										<>
+											<tr className="th">
+												<td className="td">{appointData.appointmentDate}</td>
+												<td className="td">{appointData.startTime}</td>
+												<td className="td">{appointData.endTime}</td>
+											</tr>
+										</>
+									))}
+							</table>
+						</div>
+					)}
+					{appointmetDate.length == 0 && (
+						<h1 className="selectedPro">
+							Selected Profesional have no Schedule
+						</h1>
+					)}
 				</div>
 			</div>
 		</div>

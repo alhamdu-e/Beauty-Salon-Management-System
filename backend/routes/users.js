@@ -82,6 +82,20 @@ router.get("/user/:id", (req, res) => {
 		}
 	});
 });
+router.get("/profesionalAppointed/:id", (req, res) => {
+	let id = req.params.id;
+	console.log(id);
+	const sql = "select * FROM appointments WHERE  professionalId=?";
+	db.query(sql, [id], (err, result) => {
+		if (err) {
+			console.log(err);
+			return;
+		} else {
+			res.status(200).json(result);
+		}
+	});
+});
+
 router.get("/profesional/available", (req, res) => {
 	const sql = "select * FROM profesional";
 	db.query(sql, (err, result) => {
@@ -91,6 +105,19 @@ router.get("/profesional/available", (req, res) => {
 		} else {
 			console.log(result);
 			res.status(200).json(result);
+		}
+	});
+});
+router.post("/appointment", (req, res) => {
+	const { selectedProfessionalId, userId, date, startTime, endTime } = req.body;
+	const sql =
+		"insert into appointments (customerId,professionalId,appointmentDate,startTime,endTime,serviceId) values (?,?,?,?,?,?)";
+	const param = [userId, selectedProfessionalId, date, startTime, endTime, 15];
+	db.query(sql, param, (err, result) => {
+		if (err) {
+			console.log(err);
+		} else {
+			console.log(result);
 		}
 	});
 });

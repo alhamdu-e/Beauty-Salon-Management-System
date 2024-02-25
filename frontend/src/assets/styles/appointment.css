@@ -1,5 +1,5 @@
 .appointmentform {
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr;
 	/* width: 60%; */
 	padding: 40px;
 	border-radius: 12px;
@@ -15,25 +15,26 @@
 .appointmentform-select {
 	background-color: #e2e2e2;
 	padding: 0.6rem;
+	border: #6d6662 solid 1px;
 }
 
 .appointmentform input {
 	padding: 0.6rem;
 	width: 100%;
-	border: none;
 	background-color: #e2e2e2;
 	font-size: 1.6rem;
+	border: #6d6662 solid 1px;
 }
 .main-cont-for-appointment {
 	background-color: white;
 }
 .appointment-container {
 	display: grid;
-	grid-template-columns: 60fr 40fr;
+	grid-template-columns: 30fr 40fr;
 	padding-top: 5rem;
 	padding-left: 4rem;
 	padding-right: 4rem;
-	column-gap: 3rem;
+	column-gap: 30rem;
 }
 .input {
 	width: 100%; /* Adjust width as needed */
@@ -60,7 +61,7 @@
 .profesional-image {
 	width: 100%;
 }
-p {
+.srrv-name {
 	font-size: 1.4rem;
 	margin-top: 0.4rem;
 }
@@ -69,16 +70,40 @@ p {
 	display: grid;
 	grid-template-columns: 33fr 60fr;
 }
-h3 {
-	font-size: 1.6rem;
-}
-li {
-	font-size: 1.4rem;
-}
+
 span {
 	font-size: 1.6rem;
 }
 .service-prof-cont {
 	background-color: rgb(218, 218, 218);
 	padding-left: 1rem;
+}
+.apooointment-table {
+	background-color: transparent;
+	color: #383533;
+}
+
+.td,
+.th {
+	border: 1px solid #b8a4a4;
+}
+/* .th:nth-child(even) {
+	background-color: #c5c1be;
+} */
+.schedile {
+	margin: 1.6rem 0;
+	color: #414040;
+}
+.selectedPro {
+	font-size: 2rem !important;
+}
+.err {
+	color: red;
+	display: none;
+}
+.block {
+	display: block;
+}
+.th:hover {
+	background-color: #cac3c3 !important;
 }
