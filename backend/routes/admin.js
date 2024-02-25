@@ -20,6 +20,7 @@ const executeQuery = (sql, params = [], res, successMessage) => {
 			res.status(500).json({ message: "Database Erroe" });
 		} else {
 			console.log(successMessage);
+			console.log(result);
 			res.status(200).json(result);
 		}
 	});
@@ -182,30 +183,45 @@ router.put("/editEmployee", (req, res) => {
 });
 
 router.put("/editService", upload.single("serviceImage"), (req, res) => {
-	const { serviceName, serviceDesc, servicePrice, serviceId, serviceCatagory } =
-		req.body;
+	const {
+		serviceName,
+		serviceDesc,
+		servicePrice,
+		serviceId,
+		serviceCatagory,
+		serviceDuration,
+	} = req.body;
+
+	let homeprice = parseInt(servicePrice) + 300;
+	if (serviceName === "full makeup") {
+		homeprice = parseInt(servicePrice) + 500;
+	}
 
 	let sql = "";
 	let values = [];
 	if (req.file) {
 		const fileName = req.file.filename;
 		const imagePath = "http://127.0.0.1:5000/images/" + fileName;
-		sql = `UPDATE service SET servicename = ?, servicedesc = ?, serviceprice = ?, serviceimage = ?,servicecatagory = ? WHERE id = ?`;
+		sql = `UPDATE service SET servicename = ?, servicedesc = ?, serviceprice = ?, serviceimage = ?,servicecatagory = ?, serviceduration=?,servicehomeprice=? WHERE id = ?`;
 		values = [
 			serviceName,
 			serviceDesc,
 			servicePrice,
 			imagePath,
 			serviceCatagory,
+			serviceDuration,
+			homeprice,
 			serviceId,
 		];
 	} else {
-		sql = `UPDATE service SET servicename = ?, servicedesc = ?, serviceprice = ?,servicecatagory = ? WHERE id = ?`;
+		sql = `UPDATE service SET servicename = ?, servicedesc = ?, serviceprice = ?,servicecatagory = ?, serviceduration=?,servicehomeprice=? WHERE id = ?`;
 		values = [
 			serviceName,
 			serviceDesc,
 			servicePrice,
 			serviceCatagory,
+			serviceDuration,
+			homeprice,
 			serviceId,
 		];
 	}
@@ -214,17 +230,31 @@ router.put("/editService", upload.single("serviceImage"), (req, res) => {
 });
 
 router.post("/addService", upload.single("serviceImage"), (req, res) => {
-	const { serviceName, serviceDesc, servicePrice, serviceCatagory } = req.body;
+	const {
+		serviceName,
+		serviceDesc,
+		servicePrice,
+		serviceCatagory,
+		serviceDuration,
+	} = req.body;
+	console.log(serviceDuration);
+	let homeprice = parseInt(servicePrice) + 300;
+	if (serviceName === "full makeup") {
+		homeprice = parseInt(servicePrice) + 500;
+	}
+	console.log(serviceDuration, serviceName, homeprice);
 	const fileName = req.file.filename;
 	const imagePath = "http://127.0.0.1:5000/images/" + fileName;
 	const sql =
-		"insert into service(servicename, servicedesc, serviceprice, serviceimage,servicecatagory) values(?,?,?,?,?)";
+		"insert into service(servicename, servicedesc, serviceprice, serviceimage,servicecatagory,serviceduration,servicehomeprice) values(?,?,?,?,?,?,?)";
 	const params = [
 		serviceName,
 		serviceDesc,
 		servicePrice,
 		imagePath,
 		serviceCatagory,
+		serviceDuration,
+		homeprice,
 	];
 	executeQuery(sql, params, res, "product added successfully");
 });

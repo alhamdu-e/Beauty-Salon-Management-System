@@ -1,7 +1,8 @@
 import "../../assets/styles/Admin/addProduct.css";
 import { useState, useEffect } from "react";
 function AddProduct(props) {
-	const nameRegx = /^[a-z]+$/i;
+	const nameRegx = /^[a-z\s]+$/i;
+
 	const numberRegex = /^\d+(\.\d+)?$/;
 
 	const [errName, showErrName] = useState(false);

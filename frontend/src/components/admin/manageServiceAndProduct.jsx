@@ -72,8 +72,10 @@ function ManageProduct(props) {
 							<tr>
 								<th>Service Name</th>
 								<th>Service Desc</th>
-								<th>Service Price</th>
+								<th>Salon Price</th>
+								<th>Home Price</th>
 								<th>Service Catagory</th>
+								<th>Service Duration</th>
 								<th>Service Image</th>
 
 								<th colSpan={2}>Action</th>
@@ -86,7 +88,10 @@ function ManageProduct(props) {
 									<td>{service.servicedesc}</td>
 
 									<td>{service.serviceprice}</td>
+									<td>{service.servicehomeprice}</td>
+
 									<td>{service.servicecatagory}</td>
+									<td>{service.serviceduration}</td>
 									<td>
 										<img
 											src={service.serviceimage}
