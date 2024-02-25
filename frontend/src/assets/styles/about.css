@@ -1,0 +1,41 @@
+
+  .about-image2 {
+    padding: 3rem;
+    padding-right: 0px;
+    width: 400px;
+    height: auto;
+    clip-path: polygon(
+      50% 0%,
+      90% 20%,
+      100% 60%,
+      75% 100%,
+      25% 100%,
+      0% 60%,
+      10% 20%
+    );
+    clip-path: circle(50% at 50% 50%);
+  
+ }
+ .downone{
+  background-color: aliceblue;
+  display: grid;
+  grid-template-columns: 35fr 65fr;
+ }
+ .aboutpar{
+  margin-top: 25rem;
+  font-weight:500;
+  vertical-align: top;
+  max-height: 200px; 
+  margin-left: 20px;
+  line-height: 1.4;
+  font-size: 1.4rem;
+  margin-right: 100px;
+  color: rgb(75, 74, 74);
+ 
+ }
+ .abouthr{
+  margin-top: 87rem;
+	left: 540px;
+	border: solid 1.5px rgb(101, 73, 73);
+  width: 400px ;
+}
