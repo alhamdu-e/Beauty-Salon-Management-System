@@ -2,7 +2,6 @@
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	overflow: hidden;
-
 	column-gap: 5rem;
 	padding: 0 10rem;
 	margin-bottom: 10rem;
@@ -31,35 +30,46 @@
 	margin-left: 2rem;
 }
 .servicetype-description {
-	font-size: 1.6rem;
+	font-size: 1.5rem;
 	line-height: 1.6;
 	margin: 0 2rem;
 	margin-right: 1rem;
 	margin-bottom: 3rem;
+	font-family:Arial, Helvetica, sans-serif
 }
 .service-image:hover {
 	scale: 0.9;
 }
 .servicefeature {
-	font-size: 3.2rem;
+	font-size: 3.4rem;
 	letter-spacing: 0.5px;
+	color:#fed1af;
 	/* background-color: rgb(139, 134, 134); */
 	width: 20rem;
 	margin: auto;
 	margin-top: 3.2rem;
 	margin-bottom: 3.2rem;
+	font-family:Verdana, Geneva, Tahoma, sans-serif;
+
 }
 .more {
-	background-color: pink;
+	background-color:#c95b6f;
 	padding: 1rem 3.8rem;
 	margin: 0 0 0 2rem;
 	font-size: 1.8rem;
 	text-transform: uppercase;
-	border-radius: 40px;
+	border-radius: 10px;
 	transition: all 0.3s;
 	border: none;
 	outline: none;
+	color:#fae4d3
 }
 .more:hover {
-	outline: solid 2px rgb(177, 255, 238);
+	outline: solid 2px rgb(255, 95, 220);
 }
+.servicehr{
+	margin-top: 53rem;
+	  left: 450px;
+	  border: solid 1.7px #fae4d3;
+	width: 270px ;
+  }

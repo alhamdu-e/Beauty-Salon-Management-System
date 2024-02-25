@@ -31,19 +31,20 @@ function Cart() {
           <div className="middle">
             <div>
               <p className="cart-title">EyeLash Extension</p>
+              <div className="boxcart">
+                <span className="plus" onClick={handleIncrement}>
+                  &#43;
+                </span>
+                <span className="plus">{quantity}</span>
+                <span className="minus" onClick={handleDecrement}>
+                  &#8722;
+                </span>
+              </div>
               <p className="price">300.00 Birr</p>
               <MdOutlineCancel className="cancel-icon" />
             </div>
-            <div>
-              <span className="plus" onClick={handleIncrement}>
-                &#43;
-              </span>
-              <span className="plus">{quantity}</span>
-              <span className="minus" onClick={handleDecrement}>
-                &#8722;
-              </span>
-              <hr className="middlehr" />
-            </div>
+
+            <hr className="middlehr" />
           </div>
 
           <div className="leftside">
