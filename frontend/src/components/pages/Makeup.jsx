@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import React, { useState } from "react";
 import Header from "../Header";
 import "../../assets/styles/makeup.css";
 import { useEffect } from "react";

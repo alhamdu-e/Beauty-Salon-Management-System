@@ -1,7 +1,7 @@
 import "../../assets/styles/Admin/addService.css";
 import { useEffect, useState } from "react";
 function AddService(props) {
-	const nameRegx = /^[a-z]+$/i;
+	const nameRegx = /^[a-z\s]+$/i;
 	const numberRegex = /^\d+(\.\d+)?$/;
 
 	const [errName, showErrName] = useState(false);
@@ -9,12 +9,14 @@ function AddService(props) {
 	const [errPrice, showErrPrice] = useState(false);
 	const [errImg, showErrImg] = useState(false);
 	const [errCat, showErrCat] = useState(false);
+	const [errDur, showErrDur] = useState(false);
 
 	const [serviceName, setServiceName] = useState("");
 	const [serviceDesc, setServiceDesc] = useState("");
 	const [servicePrice, setServicePrice] = useState("");
 	const [serviceImage, setServiceImage] = useState("");
 	const [serviceCatagory, setServiceCatagory] = useState("");
+	const [serviceDuration, setServiceDuration] = useState("");
 
 	const handleServiceName = (event) => {
 		setServiceName(event.target.value);
@@ -28,16 +30,19 @@ function AddService(props) {
 	const handleServiceCatagory = (event) => {
 		setServiceCatagory(event.target.value);
 	};
+	const handleServiceDuration = (event) => {
+		setServiceDuration(event.target.value);
+	};
 	const handleServiceImage = (event) => {
 		setServiceImage(event.target.files[0]);
 	};
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		if (!nameRegx.test(serviceName)) {
+		if (!serviceName) {
 			showErrName(true);
 			return;
 		}
-		if (nameRegx.test(serviceName)) {
+		if (serviceName) {
 			showErrName(false);
 		}
 		if (!nameRegx.test(serviceDesc)) {
@@ -68,10 +73,18 @@ function AddService(props) {
 		if (serviceCatagory) {
 			showErrCat(false);
 		}
+		if (!serviceDuration) {
+			showErrDur(true);
+			return;
+		}
+		if (serviceDuration) {
+			showErrDur(false);
+		}
 		const formData = new FormData();
 		formData.append("serviceName", serviceName);
 		formData.append("serviceDesc", serviceDesc);
 		formData.append("serviceCatagory", serviceCatagory);
+		formData.append("serviceDuration", serviceDuration);
 		formData.append("servicePrice", servicePrice);
 		formData.append("serviceImage", serviceImage);
 
@@ -101,56 +114,6 @@ function AddService(props) {
 			<form onSubmit={handleSubmit} encType="multipart/form-data">
 				<div className="addservice container">
 					<div>
-						<label htmlFor="servicename">Service Name</label>
-						<input
-							type="text"
-							name="servicename"
-							id="servicename"
-							placeholder="Service Name"
-							onChange={handleServiceName}
-						/>
-						<p
-							className={`${
-								errName ? "block erro-message" : "none erro-message"
-							}`}>
-							only charcter are allowed!
-						</p>
-					</div>
-
-					<div>
-						<label htmlFor="servicedesc">Service Description</label>
-						<input
-							type="text"
-							name="servicedesc"
-							id="servicedesc"
-							placeholder="Service Description"
-							onChange={handleServiceDesc}
-						/>
-						<p
-							className={`${
-								errDesc ? "block erro-message" : "none erro-message"
-							}`}>
-							only charcter are allowed!
-						</p>
-					</div>
-
-					<div>
-						<label htmlFor="serviceprice">Service Price</label>
-						<input
-							type="text"
-							name="serviceprice"
-							id="serviceprice"
-							placeholder="Service Price"
-							onChange={handleServicePrice}
-						/>
-						<p
-							className={`${
-								errPrice ? "block erro-message" : "none erro-message"
-							}`}>
-							only Positive Number are allowed!
-						</p>
-					</div>
-					<div>
 						<label htmlFor="adress">Service Catagory</label>
 						<select
 							id="servicecatagory"
@@ -171,6 +134,88 @@ function AddService(props) {
 							Please select a service Catagory.
 						</p>
 					</div>
+
+					<div>
+						<label htmlFor="servicedesc">Service Description</label>
+						<input
+							type="text"
+							name="servicedesc"
+							id="servicedesc"
+							placeholder="Service Description"
+							onChange={handleServiceDesc}
+						/>
+						<p
+							className={`${
+								errDesc ? "block erro-message" : "none erro-message"
+							}`}>
+							only charcter are allowed!
+						</p>
+					</div>
+
+					{serviceCatagory && (
+						<div>
+							<label htmlFor="servicename">Service Name</label>
+							<select
+								id="servicecatagory"
+								name="servicecatagory"
+								className="serviceform-select"
+								onChange={handleServiceName}>
+								<option selected disabled>
+									Select Service Name
+								</option>
+								{serviceCatagory == "makeup" && (
+									<>
+										<option value="full makeup">Full Makeup</option>
+										<option value="normal makeup">Normal Makeup</option>
+										<option value="eyelash extension">Eyelash Extension</option>
+										<option value="eyebrow">Eyebrow </option>
+									</>
+								)}
+								{serviceCatagory == "hair" && (
+									<>
+										<option value="hair extension">Hair Extension </option>
+										<option value="hair color">Hair Color </option>
+										<option value="hair treatment">Hair Treatment </option>
+										<option value="hair braid">Hair Braid </option>
+										<option value="hair style">Hair Styling </option>
+									</>
+								)}
+								{serviceCatagory == "nail" && (
+									<>
+										<option value="manicure">Manicure </option>
+										<option value="pedicure">Pedicure </option>
+										<option value="gel">Gel Manicure/Pedicure </option>
+										<option value="nail extension">Nail Extension</option>
+										<option value="nail polish">Nail Polish</option>
+										<option value="nail repair">Nail Repair</option>
+									</>
+								)}
+							</select>
+							<p
+								className={`${
+									errName ? "block erro-message" : "none erro-message"
+								}`}>
+								Please select a service Name.
+							</p>
+						</div>
+					)}
+					<div>
+						<label htmlFor="serviceprice">Service Price</label>
+						<input
+							type="text"
+							name="serviceprice"
+							id="serviceprice"
+							placeholder="Service Price"
+							onChange={handleServicePrice}
+						/>
+						<p
+							className={`${
+								errPrice ? "block erro-message" : "none erro-message"
+							}`}>
+							only Positive Number are allowed!
+						</p>
+					</div>
+
 					<div>
 						<label htmlFor="serviceimage">Service Image</label>
 						<input
@@ -184,6 +229,26 @@ function AddService(props) {
 								errImg ? "block erro-message" : "none erro-message"
 							}`}>
 							Please select a service image.
+						</p>
+					</div>
+					<div>
+						<label htmlFor="adress">Service Duration</label>
+						<select
+							id="servicecatagory"
+							name="servicecatagory"
+							className="serviceform-select"
+							onChange={handleServiceDuration}>
+							<option selected disabled>
+								Select Service duration
+							</option>
+							<option value="1">1 Hour</option>
+							<option value="2">2 Hour</option>
+						</select>
+						<p
+							className={`${
+								errDur ? "block erro-message" : "none erro-message"
+							}`}>
+							Please select a service duration.
 						</p>
 					</div>
 					<div>

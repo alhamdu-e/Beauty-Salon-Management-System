@@ -2,14 +2,15 @@ import "../../assets/styles/Admin/editService.css";
 import { useEffect, useState } from "react";
 function EditService(props) {
 	const [serviceData, setServiceData] = useState([]);
-	const nameRegx = /^[a-z]+$/i;
+	const nameRegx = /^[a-z\s]+$/i;
+
 	const numberRegex = /^\d+(\.\d+)?$/;
 
 	const [errName, showErrName] = useState(false);
 	const [errDesc, showErrDesc] = useState(false);
 	const [errPrice, showErrPrice] = useState(false);
-	const [errImg, showErrImg] = useState(false);
 	const [errCat, showErrCat] = useState(false);
+	const [errDur, showErrDur] = useState(false);
 
 	useEffect(() => {
 		// Function to retrieve data from local storage
@@ -28,6 +29,7 @@ function EditService(props) {
 	const [servicePrice, setServicePrice] = useState("");
 	const [serviceImage, setServiceImage] = useState("");
 	const [serviceCatagory, setServiceCatagory] = useState("");
+	const [serviceDuration, setServiceduration] = useState(0);
 
 	useEffect(() => {
 		// Update state with local storage data
@@ -36,11 +38,15 @@ function EditService(props) {
 			setServiceDesc(serviceData[0].servicedesc);
 			setServicePrice(serviceData[0].serviceprice);
 			setServiceCatagory(serviceData[0].servicecatagory);
+			setServiceduration(serviceData[0].serviceduration);
 		}
 	}, [serviceData]);
 
 	const handleServiceName = (event) => {
 		setServiceName(event.target.value);
+	};
+	const handleServiceDuration = (event) => {
+		setServiceduration(event.target.value);
 	};
 	const handleServiceDesc = (event) => {
 		setServiceDesc(event.target.value);
@@ -56,11 +62,11 @@ function EditService(props) {
 	};
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		if (!nameRegx.test(serviceName)) {
+		if (!serviceName) {
 			showErrName(true);
 			return;
 		}
-		if (nameRegx.test(serviceName)) {
+		if (serviceName) {
 			showErrName(false);
 		}
 		if (!nameRegx.test(serviceDesc)) {
@@ -77,13 +83,7 @@ function EditService(props) {
 		if (numberRegex.test(servicePrice)) {
 			showErrPrice(false);
 		}
-		if (!serviceImage) {
-			showErrImg(true);
-			return;
-		}
-		if (serviceImage) {
-			showErrImg(false);
-		}
+
 		if (!serviceCatagory) {
 			showErrCat(true);
 			return;
@@ -91,10 +91,19 @@ function EditService(props) {
 		if (serviceCatagory) {
 			showErrCat(false);
 		}
+		if (!serviceDuration) {
+			showErrDur(true);
+			return;
+		}
+		if (serviceDuration) {
+			showErrDur(false);
+		}
 		const formData = new FormData();
 		formData.append("serviceName", serviceName);
 		formData.append("serviceDesc", serviceDesc);
 		formData.append("serviceCatagory", serviceCatagory);
+		formData.append("serviceDuration", serviceDuration);
+
 		formData.append("servicePrice", servicePrice);
 		formData.append("serviceImage", serviceImage);
 		formData.append("serviceId", serviceData[0].id);
@@ -125,59 +134,6 @@ function EditService(props) {
 			<form onSubmit={handleSubmit} encType="multipart/form-data">
 				<div className="editservice container">
 					<div>
-						<label htmlFor="servicename">Service Name</label>
-						<input
-							type="text"
-							name="servicename"
-							id="servicename"
-							placeholder="Service Name"
-							onChange={handleServiceName}
-							value={serviceName}
-						/>
-						<p
-							className={`${
-								errName ? "block erro-message" : "none erro-message"
-							}`}>
-							only charcter are allowed!
-						</p>
-					</div>
-
-					<div>
-						<label htmlFor="servicedesc">Service Description</label>
-						<input
-							type="text"
-							name="servicedesc"
-							id="servicedesc"
-							placeholder="Service Description"
-							onChange={handleServiceDesc}
-							value={serviceDesc}
-						/>
-						<p
-							className={`${
-								errDesc ? "block erro-message" : "none erro-message"
-							}`}>
-							only charcter are allowed!
-						</p>
-					</div>
-
-					<div>
-						<label htmlFor="serviceprice">Service Price</label>
-						<input
-							type="text"
-							name="serviceprice"
-							id="serviceprice"
-							placeholder="Service Price"
-							onChange={handleServicePrice}
-							value={servicePrice}
-						/>
-						<p
-							className={`${
-								errPrice ? "block erro-message" : "none erro-message"
-							}`}>
-							only Positive Number are allowed!
-						</p>
-					</div>
-					<div>
 						<label htmlFor="adress">Service Catagory</label>
 						<select
 							id="servicecatagory"
@@ -199,6 +155,91 @@ function EditService(props) {
 							Please select a service Catagory.
 						</p>
 					</div>
+
+					<div>
+						<label htmlFor="servicedesc">Service Description</label>
+						<input
+							type="text"
+							name="servicedesc"
+							id="servicedesc"
+							placeholder="Service Description"
+							onChange={handleServiceDesc}
+							value={serviceDesc}
+						/>
+						<p
+							className={`${
+								errDesc ? "block erro-message" : "none erro-message"
+							}`}>
+							only charcter are allowed!
+						</p>
+					</div>
+
+					{serviceCatagory && (
+						<div>
+							<label htmlFor="servicename">Service Name</label>
+							<select
+								id="servicecatagory"
+								name="servicecatagory"
+								className="serviceform-select"
+								onChange={handleServiceName}
+								value={serviceName}>
+								<option selected disabled>
+									Select Service Name
+								</option>
+								{serviceCatagory == "makeup" && (
+									<>
+										<option value="full makeup">Full Makeup</option>
+										<option value="normal makeup">Normal Makeup</option>
+										<option value="eyelash extension">Eyelash Extension</option>
+										<option value="eyebrow">Eyebrow </option>
+									</>
+								)}
+								{serviceCatagory == "hair" && (
+									<>
+										<option value="hair extension">Hair Extension </option>
+										<option value="hair color">Hair Color </option>
+										<option value="hair treatment">Hair Treatment </option>
+										<option value="hair braid">Hair Braid </option>
+										<option value="hair style">Hair Styling </option>
+									</>
+								)}
+								{serviceCatagory == "nail" && (
+									<>
+										<option value="manicure">Manicure </option>
+										<option value="pedicure">Pedicure </option>
+										<option value="gel">Gel Manicure/Pedicure </option>
+										<option value="nail extension">Nail Extension</option>
+										<option value="nail polish">Nail Polish</option>
+										<option value="nail repair">Nail Repair</option>
+									</>
+								)}
+							</select>
+							<p
+								className={`${
+									errName ? "block erro-message" : "none erro-message"
+								}`}>
+								Please select a service Name.
+							</p>
+						</div>
+					)}
+					<div>
+						<label htmlFor="serviceprice">Service Price</label>
+						<input
+							type="text"
+							name="serviceprice"
+							id="serviceprice"
+							placeholder="Service Price"
+							onChange={handleServicePrice}
+							value={servicePrice}
+						/>
+						<p
+							className={`${
+								errPrice ? "block erro-message" : "none erro-message"
+							}`}>
+							only Positive Number are allowed!
+						</p>
+					</div>
+
 					<div>
 						<label htmlFor="serviceimage">Service Image</label>
 						<input
@@ -207,11 +248,26 @@ function EditService(props) {
 							id="serviceimage"
 							onChange={handleServiceImage}
 						/>
+					</div>
+					<div>
+						<label htmlFor="adress">Service Duration</label>
+						<select
+							id="servicecatagory"
+							name="servicecatagory"
+							className="serviceform-select"
+							onChange={handleServiceDuration}
+							value={serviceImage}>
+							<option selected disabled>
+								Select Service duration
+							</option>
+							<option value="1">1 Hour</option>
+							<option value="2">2 Hour</option>
+						</select>
 						<p
 							className={`${
-								errImg ? "block erro-message" : "none erro-message"
+								errDur ? "block erro-message" : "none erro-message"
 							}`}>
-							Please select a service image.
+							Please select a service duration.
 						</p>
 					</div>
 					<div>
