@@ -12,27 +12,18 @@ function Appointment() {
 	const [endTime, setEndTime] = useState(null);
 	const [date, setDate] = useState(null);
 
-	const [userData, setUserData] = useState([]);
-	const [classfier, setClassfier] = useState(0);
-
 	const [availableProfessional, SetAvailableProfessional] = useState([]);
 	const [selectedProfessionalId, setSelectedProfessionalId] = useState("");
 	const [errPro, setErrProf] = useState(false);
 	const [errDate, setErrDate] = useState(false);
 	const [errTime, setErrTime] = useState(false);
+	const [oneHour, setOneHour] = useState(1);
+	const [twoHour, setTwoHour] = useState(3);
 
 	const userId = localStorage.getItem("userId");
 	const [appointmetDate, setAppointmentDate] = useState([]);
 
 	useEffect(() => {
-		fetch(`http://127.0.0.1:5000/user/${userId}`, {
-			method: "GET",
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				setUserData(data);
-			});
-
 		fetch(`http://127.0.0.1:5000/profesional/available`, {
 			method: "GET",
 		})
@@ -72,41 +63,82 @@ function Appointment() {
 		console.log("ji");
 		let endHour;
 		let startHour;
-		if (hours >= 9 && hours <= 10) {
-			endHour = hours + 2;
-			startHour = hours;
-			startmeridian = "AM";
-		} else if (hours === 11) {
-			endHour = 1;
-			startHour = hours;
-			startmeridian = "PM";
-		} else if (hours === 12) {
-			endHour = 2;
-			startHour = hours;
-			startmeridian = "PM";
-		} else if (hours === 13) {
-			endHour = 3;
-			startHour = 1;
-			startmeridian = "PM";
-		} else if (hours === 14) {
-			endHour = 4;
-			startHour = 2;
-			startmeridian = "PM";
-		} else if (hours === 15) {
-			endHour = 5;
-			startHour = 3;
-			startmeridian = "PM";
-		} else if (hours === 16) {
-			endHour = 6;
-			startHour = 4;
-			startmeridian = "PM";
-		} else if (hours === 17) {
-			endHour = 7;
-			startHour = 5;
-			startmeridian = "PM";
+		if (twoHour === 2) {
+			if (hours >= 9 && hours <= 10) {
+				endHour = hours + 2;
+				startHour = hours;
+				startmeridian = "AM";
+			} else if (hours === 11) {
+				endHour = 1;
+				startHour = hours;
+				startmeridian = "PM";
+			} else if (hours === 12) {
+				endHour = 2;
+				startHour = hours;
+				startmeridian = "PM";
+			} else if (hours === 13) {
+				endHour = 3;
+				startHour = 1;
+				startmeridian = "PM";
+			} else if (hours === 14) {
+				endHour = 4;
+				startHour = 2;
+				startmeridian = "PM";
+			} else if (hours === 15) {
+				endHour = 5;
+				startHour = 3;
+				startmeridian = "PM";
+			} else if (hours === 16) {
+				endHour = 6;
+				startHour = 4;
+				startmeridian = "PM";
+			} else if (hours === 17) {
+				endHour = 7;
+				startHour = 5;
+				startmeridian = "PM";
+			}
 		}
 
-		setClassfier(hours + 2);
+		if (oneHour === 1) {
+			if (hours >= 9 && hours <= 10) {
+				endHour = hours + 1;
+				startHour = hours;
+				startmeridian = "AM";
+			} else if (hours === 11) {
+				endHour = hours + 1;
+				startHour = hours;
+				startmeridian = "PM";
+			} else if (hours === 12) {
+				endHour = 1;
+				startHour = hours;
+				startmeridian = "PM";
+			} else if (hours === 13) {
+				endHour = 2;
+				startHour = 1;
+				startmeridian = "PM";
+			} else if (hours === 14) {
+				endHour = 3;
+				startHour = 2;
+				startmeridian = "PM";
+			} else if (hours === 15) {
+				endHour = 4;
+				startHour = 3;
+				startmeridian = "PM";
+			} else if (hours === 16) {
+				endHour = 5;
+				startHour = 4;
+				startmeridian = "PM";
+			} else if (hours === 17) {
+				endHour = 6;
+				startHour = 5;
+				startmeridian = "PM";
+			} else if (hours === 18) {
+				endHour = 7;
+				startHour = 6;
+				startmeridian = "PM";
+			}
+		}
+
 		const minutes = time.getMinutes();
 		const meridian = hours >= 12 ? "PM" : "AM";
 		const formattedMinutes = minutes.toString().padStart(2, "0");
@@ -136,10 +168,7 @@ function Appointment() {
 	};
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		// if (!selectedProfessionalId || !selectedDate || !selectedStartTime) {
-		// 	alert("Please fill out all required fields.");
-		// 	return;
-		// }
+
 		if (!selectedProfessionalId) {
 			setErrProf(true);
 			return;
@@ -243,18 +272,34 @@ function Appointment() {
 
 						<div>
 							<label htmlFor="time">Select Start Time</label>
-							<DatePicker
-								selected={selectedStartTime}
-								onChange={handleStartTimeChange}
-								showTimeSelect
-								showTimeSelectOnly
-								timeIntervals={15}
-								dateFormat="h:mm aa"
-								placeholderText="Select time"
-								minTime={new Date().setHours(9, 0)} // Set your minimum time
-								maxTime={new Date().setHours(17, 0)} // Set your maximum time
-								wrapperClassName="input"
-							/>
+							{twoHour === 2 && (
+								<DatePicker
+									selected={selectedStartTime}
+									onChange={handleStartTimeChange}
+									showTimeSelect
+									showTimeSelectOnly
+									timeIntervals={15}
+									dateFormat="h:mm aa"
+									placeholderText="Select time"
+									minTime={new Date().setHours(9, 0)} // Set your minimum time
+									maxTime={new Date().setHours(17, 0)} // Set your maximum time
+									wrapperClassName="input"
+								/>
+							)}
+							{oneHour === 1 && (
+								<DatePicker
+									selected={selectedStartTime}
+									onChange={handleStartTimeChange}
+									showTimeSelect
+									showTimeSelectOnly
+									timeIntervals={15}
+									dateFormat="h:mm aa"
+									placeholderText="Select time"
+									minTime={new Date().setHours(9, 0)} // Set your minimum time
+									maxTime={new Date().setHours(18, 0)} // Set your maximum time
+									wrapperClassName="input"
+								/>
+							)}
 							<p className={errTime ? "block err" : "err"}>
 								Please Select Start time
 							</p>
