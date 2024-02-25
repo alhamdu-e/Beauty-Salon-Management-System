@@ -29,7 +29,7 @@ function Cart() {
             </div>
           </div>
           <div className="middle">
-            <div>
+            <div className="pad">
               <p className="cart-title">EyeLash Extension</p>
               <div className="boxcart">
                 <span className="plus" onClick={handleIncrement}>
