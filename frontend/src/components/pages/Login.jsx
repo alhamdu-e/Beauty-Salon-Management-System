@@ -1,6 +1,9 @@
 import "../../assets/styles/login.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 function Login() {
+	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const handleChangeEmail = (event) => {
@@ -12,7 +15,6 @@ function Login() {
 
 	const handlesubmit = async (event) => {
 		event.preventDefault();
-		console.log(email, password);
 		try {
 			const response = await fetch("http://127.0.0.1:5000/login", {
 				method: "post",
@@ -20,18 +22,32 @@ function Login() {
 				headers: { "Content-Type": "Application/json" },
 			});
 
-			if (response.ok) {
+			if (response) {
 				const data = await response.json();
 				console.log(data);
-				console.log("registered");
+				if (response.ok) {
+					localStorage.setItem("token", data.token);
+					if (data.userType == "admin") {
+						navigate("/admin");
+					}
+					if (data.userType == "user") {
+						localStorage.setItem("userId", data.usersResult[0].id);
+					}
+					if (data.userType == "profesional") {
+						navigate("/login");
+					}
+				}
+				if (!data) {
+					navigate("/signup");
+				}
 			} else {
-				// navigate("/signup");
-				console.log("not");
+				navigate("/signup");
 			}
 		} catch (error) {
 			console.log("error", error);
 		}
 	};
+
 	return (
 		<form onSubmit={handlesubmit}>
 			<div className="login-container">

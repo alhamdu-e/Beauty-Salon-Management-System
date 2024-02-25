@@ -1,21 +1,109 @@
 .appointmentform {
-	grid-template-columns: 1fr 1fr;
-	width: 40%;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	grid-template-columns: 1fr;
+	/* width: 60%; */
 	padding: 40px;
 	border-radius: 12px;
-	border: solid #ccc 1px;
-	row-gap: 8px;
+	border: solid #cccccca2 1px;
+	background-color: white;
+	column-gap: 4rem;
+	/* margin-top: 7rem; */
+	/* margin-left: 3rem; */
+	row-gap: 2rem;
+	border: none;
+	box-shadow: 0 0 2px 2px rgba(170, 167, 167, 0.178);
 }
 .appointmentform-select {
-	width: 74%;
+	background-color: #e2e2e2;
+	padding: 0.6rem;
+	border: #6d6662 solid 1px;
 }
-.appointmentform-a {
+
+.appointmentform input {
+	padding: 0.6rem;
+	width: 100%;
+	background-color: #e2e2e2;
+	font-size: 1.6rem;
+	border: #6d6662 solid 1px;
+}
+.main-cont-for-appointment {
+	background-color: white;
+}
+.appointment-container {
+	display: grid;
+	grid-template-columns: 30fr 40fr;
+	padding-top: 5rem;
+	padding-left: 4rem;
+	padding-right: 4rem;
+	column-gap: 30rem;
+}
+.input {
+	width: 100%; /* Adjust width as needed */
+}
+.appointmentform-button {
+	width: 100%;
+	font-size: 2rem;
+	font-weight: 500;
+	margin-top: 1.6rem;
+	padding: 0.8rem;
+	background-color: #6d6b69;
+	color: rgb(243, 243, 243);
+	border: none;
+	border-radius: 4rem;
+}
+.react-datepicker__time-box {
+	/* Style the time box */
+	font-size: 1.6rem;
+}
+.react-datepicker {
+	/* Style the date picker container */
+	font-size: 1.4rem;
+}
+.profesional-image {
+	width: 100%;
+}
+.srrv-name {
+	font-size: 1.4rem;
+	margin-top: 0.4rem;
+}
+
+.image-cont {
+	display: grid;
+	grid-template-columns: 33fr 60fr;
+}
+
+span {
+	font-size: 1.6rem;
+}
+.service-prof-cont {
+	background-color: rgb(218, 218, 218);
+	padding-left: 1rem;
+}
+.apooointment-table {
+	background-color: transparent;
+	color: #383533;
+}
+
+.td,
+.th {
+	border: 1px solid #b8a4a4;
+}
+/* .th:nth-child(even) {
+	background-color: #c5c1be;
+} */
+.schedile {
+	margin: 1.6rem 0;
+	color: #414040;
+}
+.selectedPro {
+	font-size: 2rem !important;
+}
+.err {
+	color: red;
+	display: none;
+}
+.block {
 	display: block;
-	padding: 4px 8px;
-	width: 74%;
-	border: solid 1px #ccc;
+}
+.th:hover {
+	background-color: #cac3c3 !important;
 }
