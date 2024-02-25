@@ -1,56 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../Header";
 import "../../assets/styles/makeup.css";
+import { useEffect } from "react";
 
 export default function Makeup() {
+  const [service, SetService] = useState([]);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:5000/service", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => SetService(data));
+  }, []);
+
   return (
-    <div className="serviceall">
+    <div>
       <Header />
-      <div className="makeup-container">
-        <img src="./images/G9.jpg" alt="" className="makeup-image" />
-        <div className="makeup-content">
-          <p className="makeup-name">Bridal Makeup</p>
-          <p className="makeup-desc">
-            Ensuring you Radiate Elegance and confidence as you walk down the
-            Aisle
-          </p>
-          {/* <p className="makeup-duration">Duartion: 2hrs</p> */}
-          <div className="price1">
-            <span className="home-price">15000 Birr</span>
-            <a href="" className="home">
-              Home
-            </a>
-          </div>
-          <div className="price2">
-            <span className="salon-price">15000 Birr</span>
-            <a href="" className="salon">
-              Salon
-            </a>
-          </div>
-        </div>
-      </div>
-      <div className="makeup-container">
-        <img src="./images/G9.jpg" alt="" className="makeup-image" />
-        <div className="makeup-content">
-          <p className="makeup-name">Bridal Makeup</p>
-          <p className="makeup-desc">
-            Ensuring you Radiate Elegance and confidence as you walk down the
-            Aisle
-          </p>
-          {/* <p className="makeup-duration">Duartion: 2hrs</p> */}
-          <div className="price1">
-            <span className="home-price">15000 Birr</span>
-            <a href="" className="home">
-              Home
-            </a>
-          </div>
-          <div className="price2">
-            <span className="salon-price">15000 Birr</span>
-            <a href="" className="salon">
-              Salon
-            </a>
-          </div>
-        </div>
+
+      <div className="serviceall">
+        {service.length > 0 &&
+          service.map((service) => (
+            <div className="makeup-container">
+              <div>
+                <img
+                  src={service.serviceimage}
+                  alt=""
+                  className="makeup-image"
+                />
+              </div>
+              <div className="makeup-content">
+                <p className="makeup-name">{service.servicename}</p>
+                <p className="makeup-desc">{service.servicedesc}</p>
+                <p className="makeup-duration">{service.serviceduration}hrs</p>
+                <div className="price1">
+                  <span className="home-price">{service.serviceprice}Birr</span>
+                  <a href="" className="home">
+                    Home
+                  </a>
+                </div>
+                <div className="price2">
+                  <span className="salon-price">
+                    {service.servicehomeprice} Birr
+                  </span>
+                  <a href="" className="salon">
+                    Salon
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        {service.length == 0 && <h1>No Service Added</h1>}
       </div>
     </div>
   );

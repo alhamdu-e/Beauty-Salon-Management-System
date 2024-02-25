@@ -10,6 +10,7 @@ import Cart from "./components/pages/Cart";
 import About from "./components/pages/About";
 import Services from "./components/Services";
 import Makeup from "./components/pages/Makeup";
+import Professional from "./components/pages/Professional";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/about" element={<About />} />
         <Route path="/makeup" element={<Makeup />} />
+        <Route path="/professional" element={<Professional />} />
       </Routes>
     </BrowserRouter>
   );

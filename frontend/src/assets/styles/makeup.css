@@ -1,80 +1,81 @@
-.serviceall{
+.serviceall {
   background-color: #fdf2e9;
+  padding-left: 4rem;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 3rem;
+  column-gap: 3rem;
 }
 .makeup-container {
-    display: grid;
-    grid-template-columns: 12fr 90fr;
+  display: grid;
+  grid-template-columns: 17fr 60fr;
+  column-gap: 2rem;
+  background-color: white;
+  padding-top: 3rem;
+  padding-left: 2rem;
+  border-radius: 12px;
+  padding-bottom: 3rem;
+}
 
-   
-  }
-  
-  .makeup-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-left:15px; 
-    margin-top: 40px;
+.makeup-image {
+  width: 100%; /* border-radius: ; */
+  border-radius: 12px;
+}
 
-  }
+.makeup-content {
+  margin-bottom: -20rem;
+}
 
-  .makeup-content {
-    margin-top: 4rem;
-    margin-left: 2rem;
-    
-  }
+.makeup-name {
+  font-weight: bold;
+  font-size: 22px;
+  color: #434243;
+}
 
-  .makeup-name {
-    font-weight: bold;
-    font-size: 22px;
-    color: #434243;
-  }
-  
-  .makeup-desc {
-    margin-top: 11px;
-    font-size: 16px;
-    color:rgb(100, 42, 52);
-  }
-.makeup-duration{
+.makeup-desc {
+  margin-top: 11px;
+  font-size: 16px;
+  color: rgb(100, 42, 52);
+}
+.makeup-duration {
   margin-top: 10px;
   font-size: 16px;
-  color:rgb(100, 42, 52);
-
+  color: rgb(100, 42, 52);
 }
-  .home-price {
-    font-size: 15px;
+.home-price {
+  font-size: 15px;
 
-    color:rgb(100, 42, 52);
-  }
-  .salon-price{
-    font-size: 15px;
+  color: rgb(100, 42, 52);
+}
+.salon-price {
+  font-size: 15px;
 
-    color:rgb(100, 42, 52);
-  }
-  .price1{
-    margin-top: 1.5rem;
-
-  }
-  .price2{
-    margin-top: 1rem;
-  }
-  .salon{
-	font-size: 1.3rem;
-	padding: 0.2rem 0.7rem;
-	background-color: #bdbdbd;
-  color:rgb(147, 59, 74);
-	border-radius: 0.5rem;
-	transition: all 0.6s;
-	margin-left: 2rem;
-	outline: 1px  #b9b9b9 solid;
+  color: rgb(100, 42, 52);
+}
+.price1 {
+  margin-top: 1.5rem;
+}
+.price2 {
+  margin-top: 1rem;
+}
+.salon {
+  font-size: 1.3rem;
+  padding: 0.2rem 0.7rem;
+  background-color: #bdbdbd;
+  color: rgb(147, 59, 74);
+  border-radius: 0.5rem;
+  transition: all 0.6s;
+  margin-left: 2rem;
+  outline: 1px #b9b9b9 solid;
   margin-top: 9rem;
 }
-.home{
-	font-size: 1.3rem;
-	padding: 0.2rem 0.6rem;
-  color:rgb(147, 59, 74);
-	border-radius: 0.5rem;
-	transition: all 0.6s;
-	margin-left: 2rem;
-	outline: 0.5px #bcb5b5 solid;
+.home {
+  font-size: 1.3rem;
+  padding: 0.2rem 0.6rem;
+  color: rgb(147, 59, 74);
+  border-radius: 0.5rem;
+  transition: all 0.6s;
+  margin-left: 2rem;
+  outline: 0.5px #bcb5b5 solid;
 }
