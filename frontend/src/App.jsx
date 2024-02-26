@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Login from "./components/pages/Login";
 import Signup from "./components/pages/Signup";
 import Service from "./components/service";
@@ -12,27 +12,34 @@ import Services from "./components/Services";
 import Makeup from "./components/pages/Makeup";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        {/* <Login /> */}
-        {/* <Signup /> */}
-        {/* <Service /> */}
-        {/* <Appointment /> */}
-        {/* <Home /> */}
-        {/* <Admin /> */}
+	const [serviceHour, setServiceHour] = useState("");
+	return (
+		<BrowserRouter>
+			<Routes>
+				{/* <Login /> */}
+				{/* <Signup /> */}
+				{/* <Service /> */}
+				{/* <Appointment /> */}
+				{/* <Home /> */}
+				{/* <Admin /> */}
 
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/appointment" element={<Appointment />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/makeup" element={<Makeup />} />
-      </Routes>
-    </BrowserRouter>
-  );
+				<Route path="/" element={<Home />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/signup" element={<Signup />} />
+				<Route path="/admin" element={<Admin />} />
+				<Route
+					path="/appointment"
+					element={<Appointment serviceHour={serviceHour} />}
+				/>
+				<Route path="/cart" element={<Cart />} />
+				<Route path="/about" element={<About />} />
+				<Route
+					path="/makeup"
+					element={<Makeup setServiceHour={setServiceHour} />}
+				/>
+			</Routes>
+		</BrowserRouter>
+	);
 }
 
 export default App;
