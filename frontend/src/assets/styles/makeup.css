@@ -1,83 +1,100 @@
 .serviceall {
-	background-color: #fdf2e9;
-	padding-left: 4rem;
-
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	row-gap: 3rem;
-	column-gap: 3rem;
+  background-color: #fdf2e9;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 3rem;
+  column-gap: 3rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 .makeup-container {
-	display: grid;
-	grid-template-columns: 17fr 60fr;
-	column-gap: 2rem;
-	background-color: white;
-	padding-top: 3rem;
-	padding-left: 2rem;
-	border-radius: 12px;
-	padding-bottom: 3rem;
+  display: grid;
+  grid-template-columns: 17fr 60fr;
+  column-gap: 2rem;
+  background-color: white;
+  padding-top: 3rem;
+  padding-left: 2rem;
+  border-radius: 12px;
+  padding-bottom: 6rem;
 }
 
 .makeup-image {
-	width: 100%; /* border-radius: ; */
-	border-radius: 12px;
+  width: 100%; /* border-radius: ; */
+  border-radius: 12px;
+  transition: all 0.4s;
+  
+}
+.makeup-image:hover {
+  scale: 0.92;
+}
+.makeup-content {
+  margin-bottom: -20rem;
 }
 
-  .makeup-content {
-    margin-top: 4rem;
-    margin-left: 2rem;
-    
-  }
-
 .makeup-name {
-	font-weight: bold;
-	font-size: 22px;
-	color: #434243;
+  font-weight: bold;
+  font-size: 22px;
+  color: #434243;
+  text-transform: capitalize;
 }
 
 .makeup-desc {
-	margin-top: 11px;
-	font-size: 16px;
-	color: rgb(100, 42, 52);
+  margin-top: 11px;
+  font-size: 14px;
+  color: rgb(71, 61, 63);
 }
 .makeup-duration {
-	margin-top: 10px;
-	font-size: 16px;
-	color: rgb(100, 42, 52);
+  margin-top: 10px;
+  font-size: 16px;
+  color: rgb(100, 42, 52);
 }
 .home-price {
-	font-size: 15px;
-
-	color: rgb(100, 42, 52);
+  font-size: 15px;
+  color: rgb(100, 42, 52);
+  background-color: #f5f2f0;
 }
 .salon-price {
-	font-size: 15px;
-
-	color: rgb(100, 42, 52);
+  font-size: 15px;
+  color: rgb(100, 42, 52);
+  background-color: #f5f2f0;
 }
 .price1 {
-	margin-top: 1.5rem;
+  margin-top: 1.5rem;
 }
 .price2 {
-	margin-top: 1rem;
+  margin-top: 1rem;
 }
 .salon {
-	font-size: 1.3rem;
-	padding: 0.2rem 0.7rem;
-	background-color: #bdbdbd;
-	color: rgb(147, 59, 74);
-	border-radius: 0.5rem;
-	transition: all 0.6s;
-	margin-left: 2rem;
-	outline: 1px #b9b9b9 solid;
-	margin-top: 9rem;
+  font-size: 1.5rem;
+  padding: 0.4rem 1.3rem;
+  background-color: #c95b6f;
+  color: rgb(241, 232, 234);
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+  margin-left: 4rem;
+  outline: 1px #b9b9b9 solid;
+  margin-top: 9rem;
+  border: none;
 }
 .home {
-	font-size: 1.3rem;
-	padding: 0.2rem 0.6rem;
-	color: rgb(147, 59, 74);
-	border-radius: 0.5rem;
-	transition: all 0.6s;
-	margin-left: 2rem;
-	outline: 0.5px #bcb5b5 solid;
+  font-size: 1.5rem;
+  padding: 0.2rem 1.2rem;
+  color: rgb(147, 59, 74);
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+  margin-left: 4rem;
+  outline: 3px #e98d58 solid;
+  border: none;
+}
+.link-cont {
+  margin-left: 19rem;
+}
+.home:hover {
+  outline: none;
+}
+.salon:hover {
+  background-color: transparent;
+  color: #434243;
 }
