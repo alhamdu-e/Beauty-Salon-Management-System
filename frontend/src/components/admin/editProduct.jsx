@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 
 function EditProduct(props) {
 	const [productData, setProductData] = useState([]);
-	const nameRegx = /^[a-z]+$/i;
+	const nameRegx = /^[a-z\s]+$/i;
+
 	const numberRegex = /^\d+(\.\d+)?$/;
 
 	const [errName, showErrName] = useState(false);
