@@ -2,7 +2,6 @@ import Header from "../Header";
 import Hero from "../Hero";
 import Product from '../Product';
 import Services from "../Services";
-import Product from "../Product";
 import Gallery from "../Gallery";
 import Calltoaction from "../Calltoaction";
 import Footer from "../Footer";
