@@ -59,15 +59,20 @@ function Appointment(props) {
 		console.log(time);
 		const hours = time.getHours();
 		let minutes = time.getMinutes();
+		let startMinutes = time.getMinutes();
 		let startmeridian = "";
 		console.log("ji ", hours, minutes + 30);
 		let endHour;
 		let startHour;
 		if (serviceHour === "2") {
-			if (hours >= 9 && hours <= 10) {
+			if (hours === 9) {
 				endHour = hours + 2;
 				startHour = hours;
 				startmeridian = "AM";
+			} else if (hours === 10) {
+				endHour = hours + 2;
+				startHour = hours;
+				startmeridian = "PM";
 			} else if (hours === 11) {
 				endHour = 1;
 				startHour = hours;
@@ -142,99 +147,121 @@ function Appointment(props) {
 			if (hours === 9 && minutes < 30) {
 				startHour = hours;
 				endHour = hours + 1;
+				startMinutes = minutes;
 				minutes = minutes + 30;
+
 				startmeridian = "AM";
 			} else if (hours === 9 && minutes >= 30) {
 				startHour = hours;
 				endHour = hours + 2;
+				startMinutes = minutes;
 				minutes = minutes - 30;
 				startmeridian = "AM";
 			} else if (hours === 10 && minutes < 30) {
 				startHour = hours;
 				endHour = hours + 1;
+				startMinutes = minutes;
 				minutes = minutes + 30;
 				startmeridian = "AM";
 			} else if (hours === 10 && minutes >= 30) {
 				startHour = hours;
 				endHour = hours + 2;
+				startMinutes = minutes;
 				minutes = minutes - 30;
 				startmeridian = "PM";
 			} else if (hours === 11 && minutes < 30) {
 				startHour = hours;
 				endHour = hours + 1;
+				startMinutes = minutes;
 				minutes = minutes + 30;
 				startmeridian = "PM";
 			} else if (hours === 11 && minutes >= 30) {
 				startHour = hours;
 				endHour = 1;
+				startMinutes = minutes;
 				minutes = minutes - 30;
 				startmeridian = "PM";
 			} else if (hours === 12 && minutes < 30) {
 				startHour = hours;
 				endHour = 1;
+				startMinutes = minutes;
 				minutes = minutes + 30;
 				startmeridian = "PM";
 			} else if (hours === 12 && minutes >= 30) {
 				startHour = hours;
 				endHour = 2;
+				startMinutes = minutes;
 				minutes = minutes - 30;
 				startmeridian = "PM";
+				startMinutes = minutes;
 			} else if (hours === 13 && minutes < 30) {
 				startHour = 1;
 				endHour = startHour + 1;
+				startMinutes = minutes;
 				minutes = minutes + 30;
 				startmeridian = "PM";
 			} else if (hours === 13 && minutes >= 30) {
 				startHour = 1;
 				endHour = startHour + 2;
+				startMinutes = minutes;
 				minutes = minutes - 30;
 				startmeridian = "PM";
 			} else if (hours === 14 && minutes < 30) {
 				startHour = 2;
 				endHour = startHour + 1;
+				startMinutes = minutes;
 				minutes = minutes + 30;
 				startmeridian = "PM";
 			} else if (hours === 14 && minutes >= 30) {
 				startHour = 2;
 				endHour = startHour + 2;
+				startMinutes = minutes;
 				minutes = minutes - 30;
 				startmeridian = "PM";
 			} else if (hours === 15 && minutes < 30) {
 				startHour = 3;
 				endHour = startHour + 1;
+				startMinutes = minutes;
 				minutes = minutes + 30;
 				startmeridian = "PM";
 			} else if (hours === 15 && minutes >= 30) {
 				startHour = 3;
 				endHour = startHour + 2;
+				startMinutes = minutes;
 				minutes = minutes - 30;
+				startmeridian = "PM";
 			} else if (hours === 16 && minutes < 30) {
 				startHour = 4;
 				endHour = startHour + 1;
+				startMinutes = minutes;
 				minutes = minutes + 30;
 				startmeridian = "PM";
 			} else if (hours === 16 && minutes >= 30) {
 				startHour = 4;
 				endHour = startHour + 2;
+				startMinutes = minutes;
 				minutes = minutes - 30;
 				startmeridian = "PM";
 			} else if (hours === 17 && minutes < 30) {
 				startHour = 5;
 				endHour = startHour + 1;
+				startMinutes = minutes;
 				minutes = minutes + 30;
 				startmeridian = "PM";
 			} else if (hours === 17 && minutes >= 30) {
 				startHour = 5;
 				endHour = startHour + 2;
+				startMinutes = minutes;
 				minutes = minutes - 30;
 				startmeridian = "PM";
 			}
 		}
 
 		const meridian = hours >= 12 ? "PM" : "AM";
-		const formattedMinutes = minutes.toString().padStart(2, "0");
-		const formattedStratTime = `${startHour}:${formattedMinutes} ${meridian}`;
-		const formattedEndTime = `${endHour}:${formattedMinutes} ${startmeridian}`;
+		const formatedstartMinutes = startMinutes.toString().padStart(2, "0");
+		const formattedEndMinutes = minutes.toString().padStart(2, "0");
+		const formattedStratTime = `${startHour}:${formatedstartMinutes} ${meridian}`;
+		const formattedEndTime = `${endHour}:${formattedEndMinutes} ${startmeridian}`;
 
 		setStartTime(formattedStratTime);
 		setEndTime(formattedEndTime);
@@ -289,11 +316,224 @@ function Appointment(props) {
 			const storedAppointmentDate = appointment.appointmentDate;
 			const storedAppointmentStartTime = appointment.startTime;
 			const storedAppointmentEndTime = appointment.endTime;
+			let timeDifference = false;
+			let storedStartHour = "";
+			let storedEndHour = "";
+			let storedMinutes = "";
+			let storedMeridian = storedAppointmentEndTime.slice(-2);
+			let newStartHour = "";
+			let NewMinutes = "";
+			let NewMeridian = startTime.slice(-2);
+			if (storedAppointmentEndTime.length === 8) {
+				storedEndHour = parseInt(storedAppointmentEndTime.substring(0, 2));
+				storedStartHour = parseInt(storedAppointmentStartTime.substring(0, 2));
+
+				storedMinutes = parseInt(storedAppointmentEndTime.substring(3, 5));
+			}
+			if (storedAppointmentEndTime.length === 7) {
+				storedEndHour = parseInt(storedAppointmentEndTime.substring(0, 1));
+				storedStartHour = parseInt(storedAppointmentStartTime.substring(0, 1));
+
+				storedMinutes = parseInt(storedAppointmentEndTime.substring(2, 4));
+			}
+			if (startTime.length === 8) {
+				newStartHour = parseInt(startTime.substring(0, 2));
+				NewMinutes = parseInt(startTime.substring(3, 5));
+			}
+			if (startTime.length === 7) {
+				newStartHour = parseInt(startTime.substring(0, 1));
+				NewMinutes = parseInt(startTime.substring(2, 4));
+			}
+			if (
+				storedEndHour - storedStartHour === 2 ||
+				storedEndHour - storedStartHour === -10
+			) {
+				timeDifference = true;
+			}
 			// Check if the selected time slot overlaps with the current appointment
 			return (
-				storedAppointmentDate === date &&
-				storedAppointmentStartTime === startTime &&
-				storedAppointmentEndTime === endTime
+				(storedAppointmentDate === date &&
+					storedAppointmentStartTime === startTime &&
+					storedAppointmentEndTime === endTime) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 10 &&
+					newStartHour == 9) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 10 &&
+					NewMinutes <= storedMinutes &&
+					newStartHour == 10) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 11 &&
+					newStartHour == 10) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 11 &&
+					NewMinutes <= storedMinutes &&
+					newStartHour == 11) ||
+				(storedEndHour == 12 &&
+					date === storedAppointmentDate &&
+					newStartHour == 11) ||
+				(storedEndHour == 12 &&
+					date === storedAppointmentDate &&
+					NewMinutes <= storedMinutes &&
+					newStartHour == 12) ||
+				(storedEndHour == 1 &&
+					date === storedAppointmentDate &&
+					newStartHour == 12 &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour == 1 &&
+					date === storedAppointmentDate &&
+					newStartHour == 1 &&
+					NewMinutes <= storedMinutes &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour == 2 &&
+					date === storedAppointmentDate &&
+					newStartHour == 1 &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour == 2 &&
+					date === storedAppointmentDate &&
+					newStartHour == 2 &&
+					NewMinutes <= storedMinutes &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour == 3 &&
+					date === storedAppointmentDate &&
+					newStartHour == 2 &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour == 3 &&
+					date === storedAppointmentDate &&
+					newStartHour == 3 &&
+					NewMinutes <= storedMinutes &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour == 4 &&
+					date === storedAppointmentDate &&
+					newStartHour == 3 &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour == 4 &&
+					date === storedAppointmentDate &&
+					newStartHour == 4 &&
+					NewMinutes <= storedMinutes &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour == 5 &&
+					date === storedAppointmentDate &&
+					newStartHour == 4 &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour == 5 &&
+					date === storedAppointmentDate &&
+					newStartHour == 5 &&
+					NewMinutes <= storedMinutes &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour == 6 &&
+					date === storedAppointmentDate &&
+					newStartHour == 5 &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour == 6 &&
+					date === storedAppointmentDate &&
+					newStartHour == 6 &&
+					NewMinutes <= storedMinutes &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour == 7 &&
+					date === storedAppointmentDate &&
+					newStartHour == 7 &&
+					NewMinutes <= storedMinutes &&
+					storedMeridian === NewMeridian) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 11 &&
+					timeDifference &&
+					(newStartHour == 9 || newStartHour == 10)) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 11 &&
+					timeDifference &&
+					NewMinutes <= storedMinutes &&
+					newStartHour == 11) ||
+				(date === storedAppointmentDate &&
+					storedEndHour == 12 &&
+					timeDifference &&
+					(newStartHour == 11 || newStartHour == 10)) ||
+				(date === storedAppointmentDate &&
+					storedEndHour == 12 &&
+					timeDifference &&
+					NewMinutes <= storedMinutes &&
+					newStartHour == 12) ||
+				(date === storedAppointmentDate &&
+					storedEndHour == 1 &&
+					timeDifference &&
+					(newStartHour == 11 || newStartHour == 12)) ||
+				(date === storedAppointmentDate &&
+					storedEndHour == 1 &&
+					timeDifference &&
+					NewMinutes <= storedMinutes &&
+					newStartHour == 1) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 2 &&
+					timeDifference &&
+					(newStartHour == 1 || newStartHour == 12)) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 2 &&
+					timeDifference &&
+					NewMinutes <= storedMinutes &&
+					newStartHour == 2) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 3 &&
+					timeDifference &&
+					(newStartHour == 1 || newStartHour == 2)) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 3 &&
+					timeDifference &&
+					NewMinutes <= storedMinutes &&
+					newStartHour == 3) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 4 &&
+					timeDifference &&
+					(newStartHour == 3 || newStartHour == 2)) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 4 &&
+					timeDifference &&
+					NewMinutes <= storedMinutes &&
+					newStartHour == 4) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 5 &&
+					timeDifference &&
+					(newStartHour == 3 || newStartHour == 4)) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 5 &&
+					timeDifference &&
+					NewMinutes <= storedMinutes &&
+					newStartHour == 5) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 6 &&
+					timeDifference &&
+					(newStartHour == 4 || newStartHour == 5)) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 6 &&
+					timeDifference &&
+					NewMinutes <= storedMinutes &&
+					newStartHour == 6) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 7 &&
+					timeDifference &&
+					(newStartHour == 5 || newStartHour == 6)) ||
+				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian &&
+					storedEndHour == 7 &&
+					timeDifference &&
+					NewMinutes <= storedMinutes &&
+					newStartHour == 7)
 			);
 		});
 
