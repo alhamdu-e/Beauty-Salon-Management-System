@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import Header from "../Header";
 import "../../assets/styles/makeup.css";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
-export default function Makeup() {
+export default function Makeup(props) {
 	const [service, SetService] = useState([]);
 
 	useEffect(() => {
@@ -11,9 +12,13 @@ export default function Makeup() {
 			method: "GET",
 		})
 			.then((response) => response.json())
-			.then((data) => SetService(data));
+			.then((data) => {
+				SetService(data);
+			});
 	}, []);
-
+	const handleservicehour = (hour) => {
+		props.setServiceHour(hour);
+	};
 	return (
 		<div>
 			<Header />
@@ -32,20 +37,38 @@ export default function Makeup() {
 							<div className="makeup-content">
 								<p className="makeup-name">{service.servicename}</p>
 								<p className="makeup-desc">{service.servicedesc}</p>
-								<p className="makeup-duration">{service.serviceduration}hrs</p>
+								<p className="makeup-duration">
+									Duration:
+									<span className="duration">{service.serviceduration}hrs</span>
+								</p>
 								<div className="price1">
-									<span className="home-price">{service.serviceprice}Birr</span>
-									<a href="" className="home">
-										Home
-									</a>
+									<span className="home-price">
+										Salon Price:
+										<span className="duration">
+											{service.serviceprice} Birr
+										</span>
+									</span>
 								</div>
 								<div className="price2">
 									<span className="salon-price">
-										{service.servicehomeprice} Birr
+										Home Price:
+										<span className="duration">
+											{service.servicehomeprice} Birr
+										</span>
 									</span>
-									<a href="" className="salon">
-										Salon
-									</a>
+								</div>
+								<div className="link-cont">
+									<Link className="home" to="/appointment">
+										Book Home
+									</Link>
+									<Link
+										className="salon"
+										to="/appointment"
+										onClick={() => {
+											handleservicehour(service.serviceduration);
+										}}>
+										Book Salon
+									</Link>
 								</div>
 							</div>
 						</div>

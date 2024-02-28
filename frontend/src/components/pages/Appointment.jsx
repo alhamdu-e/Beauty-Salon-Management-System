@@ -5,7 +5,7 @@ import "../../assets/styles/appointment.css";
 import Header from "../Header";
 import { useAuth } from "../../context/Autcontext";
 
-function Appointment() {
+function Appointment(props) {
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [selectedStartTime, setSelectedStartTime] = useState(null);
 	const [startTime, setStartTime] = useState(null);
@@ -17,8 +17,7 @@ function Appointment() {
 	const [errPro, setErrProf] = useState(false);
 	const [errDate, setErrDate] = useState(false);
 	const [errTime, setErrTime] = useState(false);
-	const [oneHour, setOneHour] = useState(1);
-	const [twoHour, setTwoHour] = useState(3);
+	const [serviceHour, setServiceHour] = useState(props.serviceHour);
 
 	const userId = localStorage.getItem("userId");
 	const [appointmetDate, setAppointmentDate] = useState([]);
@@ -59,11 +58,12 @@ function Appointment() {
 		setSelectedStartTime(time);
 		console.log(time);
 		const hours = time.getHours();
+		let minutes = time.getMinutes();
 		let startmeridian = "";
-		console.log("ji");
+		console.log("ji ", hours, minutes + 30);
 		let endHour;
 		let startHour;
-		if (twoHour === 2) {
+		if (serviceHour === "2") {
 			if (hours >= 9 && hours <= 10) {
 				endHour = hours + 2;
 				startHour = hours;
@@ -99,7 +99,7 @@ function Appointment() {
 			}
 		}
 
-		if (oneHour === 1) {
+		if (serviceHour === "1") {
 			if (hours >= 9 && hours <= 10) {
 				endHour = hours + 1;
 				startHour = hours;
@@ -138,8 +138,99 @@ function Appointment() {
 				startmeridian = "PM";
 			}
 		}
+		if (serviceHour === "1:30") {
+			if (hours === 9 && minutes < 30) {
+				startHour = hours;
+				endHour = hours + 1;
+				minutes = minutes + 30;
+				startmeridian = "AM";
+			} else if (hours === 9 && minutes >= 30) {
+				startHour = hours;
+				endHour = hours + 2;
+				minutes = minutes - 30;
+				startmeridian = "AM";
+			} else if (hours === 10 && minutes < 30) {
+				startHour = hours;
+				endHour = hours + 1;
+				minutes = minutes + 30;
+				startmeridian = "AM";
+			} else if (hours === 10 && minutes >= 30) {
+				startHour = hours;
+				endHour = hours + 2;
+				minutes = minutes - 30;
+				startmeridian = "PM";
+			} else if (hours === 11 && minutes < 30) {
+				startHour = hours;
+				endHour = hours + 1;
+				minutes = minutes + 30;
+				startmeridian = "PM";
+			} else if (hours === 11 && minutes >= 30) {
+				startHour = hours;
+				endHour = 1;
+				minutes = minutes - 30;
+				startmeridian = "PM";
+			} else if (hours === 12 && minutes < 30) {
+				startHour = hours;
+				endHour = 1;
+				minutes = minutes + 30;
+				startmeridian = "PM";
+			} else if (hours === 12 && minutes >= 30) {
+				startHour = hours;
+				endHour = 2;
+				minutes = minutes - 30;
+				startmeridian = "PM";
+			} else if (hours === 13 && minutes < 30) {
+				startHour = 1;
+				endHour = startHour + 1;
+				minutes = minutes + 30;
+				startmeridian = "PM";
+			} else if (hours === 13 && minutes >= 30) {
+				startHour = 1;
+				endHour = startHour + 2;
+				minutes = minutes - 30;
+				startmeridian = "PM";
+			} else if (hours === 14 && minutes < 30) {
+				startHour = 2;
+				endHour = startHour + 1;
+				minutes = minutes + 30;
+				startmeridian = "PM";
+			} else if (hours === 14 && minutes >= 30) {
+				startHour = 2;
+				endHour = startHour + 2;
+				minutes = minutes - 30;
+				startmeridian = "PM";
+			} else if (hours === 15 && minutes < 30) {
+				startHour = 3;
+				endHour = startHour + 1;
+				minutes = minutes + 30;
+				startmeridian = "PM";
+			} else if (hours === 15 && minutes >= 30) {
+				startHour = 3;
+				endHour = startHour + 2;
+				minutes = minutes - 30;
+			} else if (hours === 16 && minutes < 30) {
+				startHour = 4;
+				endHour = startHour + 1;
+				minutes = minutes + 30;
+				startmeridian = "PM";
+			} else if (hours === 16 && minutes >= 30) {
+				startHour = 4;
+				endHour = startHour + 2;
+				minutes = minutes - 30;
+				startmeridian = "PM";
+			} else if (hours === 17 && minutes < 30) {
+				startHour = 5;
+				endHour = startHour + 1;
+				minutes = minutes + 30;
+				startmeridian = "PM";
+			} else if (hours === 17 && minutes >= 30) {
+				startHour = 5;
+				endHour = startHour + 2;
+				minutes = minutes - 30;
+				startmeridian = "PM";
+			}
+		}
 
-		const minutes = time.getMinutes();
 		const meridian = hours >= 12 ? "PM" : "AM";
 		const formattedMinutes = minutes.toString().padStart(2, "0");
 		const formattedStratTime = `${startHour}:${formattedMinutes} ${meridian}`;
@@ -168,6 +259,7 @@ function Appointment() {
 	};
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		console.log("bad thing");
 
 		if (!selectedProfessionalId) {
 			setErrProf(true);
@@ -213,13 +305,16 @@ function Appointment() {
 			return;
 		}
 
-		console.log(appointData);
+		console.log(appointData, "good thing");
 		try {
+			console.log("hi");
 			const response = await fetch("http://127.0.0.1:5000/appointment", {
 				method: "POST",
 				body: JSON.stringify(appointData),
 				headers: { "Content-Type": "application/json" },
 			});
+			console.log(response);
+			console.log("hi");
 			if (response.ok) {
 				console.log("user registered");
 			} else {
@@ -272,7 +367,7 @@ function Appointment() {
 
 						<div>
 							<label htmlFor="time">Select Start Time</label>
-							{twoHour === 2 && (
+							{(serviceHour === "2" || serviceHour === "1:30") && (
 								<DatePicker
 									selected={selectedStartTime}
 									onChange={handleStartTimeChange}
@@ -286,7 +381,7 @@ function Appointment() {
 									wrapperClassName="input"
 								/>
 							)}
-							{oneHour === 1 && (
+							{serviceHour === "1" && (
 								<DatePicker
 									selected={selectedStartTime}
 									onChange={handleStartTimeChange}

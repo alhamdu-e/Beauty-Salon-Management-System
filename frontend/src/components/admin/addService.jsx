@@ -243,6 +243,7 @@ function AddService(props) {
 							</option>
 							<option value="1">1 Hour</option>
 							<option value="2">2 Hour</option>
+							<option value="1:30">1:30 Hour</option>
 						</select>
 						<p
 							className={`${
