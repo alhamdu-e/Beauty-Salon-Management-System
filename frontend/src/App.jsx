@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Login from "./components/pages/Login";
 import Signup from "./components/pages/Signup";
-import Service from "./components/service";
 import Appointment from "./components/pages/Appointment";
 import Home from "./components/pages/Home";
 import Admin from "./components/pages/Admin";
@@ -13,6 +12,7 @@ import Makeup from "./components/pages/Makeup";
 
 function App() {
 	const [serviceHour, setServiceHour] = useState("");
+	const [serviceId, setServiceID] = useState("");
 	return (
 		<BrowserRouter>
 			<Routes>
@@ -29,13 +29,20 @@ function App() {
 				<Route path="/admin" element={<Admin />} />
 				<Route
 					path="/appointment"
-					element={<Appointment serviceHour={serviceHour} />}
+					element={
+						<Appointment serviceHour={serviceHour} serviceId={serviceId} />
+					}
 				/>
 				<Route path="/cart" element={<Cart />} />
 				<Route path="/about" element={<About />} />
 				<Route
 					path="/makeup"
-					element={<Makeup setServiceHour={setServiceHour} />}
+					element={
+						<Makeup
+							setServiceHour={setServiceHour}
+							setServiceID={setServiceID}
+						/>
+					}
 				/>
 			</Routes>
 		</BrowserRouter>

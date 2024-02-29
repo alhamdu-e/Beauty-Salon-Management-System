@@ -1,4 +1,5 @@
 import "../assets/styles/hero.css";
+import { Link } from "react-router-dom";
 function Hero() {
 	return (
 		<div>
@@ -13,9 +14,9 @@ function Hero() {
 					<a href="" className="explormore">
 						Explore More
 					</a>
-					<a href="" className="enrolltoday">
-						Enroll Today
-					</a>
+					<Link to="/signup" className="enrolltoday">
+						Join Us Today
+					</Link>
 				</div>
 				<div className="hero-image-container">
 					<img src="./images/G8.jpg" alt="" className="hero-image" />

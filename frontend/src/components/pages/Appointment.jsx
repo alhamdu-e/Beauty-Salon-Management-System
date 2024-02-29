@@ -18,9 +18,22 @@ function Appointment(props) {
 	const [errDate, setErrDate] = useState(false);
 	const [errTime, setErrTime] = useState(false);
 	const [serviceHour, setServiceHour] = useState(props.serviceHour);
+	const [serviceId, setServiceId] = useState(props.serviceId);
+
+	console.log(serviceId);
+
+	const [showPopup, setShowPopup] = useState(false);
 
 	const userId = localStorage.getItem("userId");
 	const [appointmetDate, setAppointmentDate] = useState([]);
+
+	const handleShowPopup = (e) => {
+		setShowPopup(!showPopup);
+	};
+
+	// if (showPopup) {
+	// 	setTimeout(handleShowPopup, 3000);
+	// }
 
 	useEffect(() => {
 		fetch(`http://127.0.0.1:5000/profesional/available`, {
@@ -280,6 +293,7 @@ function Appointment(props) {
 		date,
 		startTime,
 		endTime,
+		serviceId,
 	};
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -603,9 +617,7 @@ function Appointment(props) {
 
 		// If there are overlapping appointments, prevent submission
 		if (overlappingAppointments.length > 0) {
-			alert(
-				"Selected time slot overlaps with an existing appointment. Please choose a different time."
-			);
+			handleShowPopup();
 			return;
 		}
 
@@ -648,6 +660,9 @@ function Appointment(props) {
 								className="appointmentform-select"
 								onChange={handleProfessionalChange} // Added onChange handler
 							>
+								<option selected disabled>
+									Select Service duration
+								</option>
 								{availableProfessional &&
 									availableProfessional.map((professional) => (
 										<option key={professional.id} value={professional.id}>
@@ -774,6 +789,14 @@ function Appointment(props) {
 					)}
 				</div>
 			</div>
+			{showPopup && (
+				<div className="appointment-popup-container" onClick={handleShowPopup}>
+					<div className="appointment-popup">
+						<span className="appointment-check-mark"> &#9888;</span>
+						<p>Your Appointment Overlap With Exiting One.Please Try Again</p>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

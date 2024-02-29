@@ -24,17 +24,18 @@ function Login() {
 
 			if (response) {
 				const data = await response.json();
-				console.log(data);
 				if (response.ok) {
-					localStorage.setItem("token", data.token);
+					localStorage.setItem("token", data.isAut);
 					if (data.userType == "admin") {
 						navigate("/admin");
 					}
 					if (data.userType == "user") {
 						localStorage.setItem("userId", data.usersResult[0].id);
+						navigate("/");
 					}
 					if (data.userType == "profesional") {
-						navigate("/login");
+						localStorage.setItem("userId", data.profesionalResult[0].id);
+						navigate("/");
 					}
 				}
 				if (!data) {

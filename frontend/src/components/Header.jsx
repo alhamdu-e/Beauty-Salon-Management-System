@@ -1,5 +1,14 @@
 import "../assets/styles/header.css";
-function Header() {
+import { Link } from "react-router-dom";
+function Header(props) {
+	const services = () => {
+		if (props.service.current) {
+			window.scrollTo({
+				top: props.service.current.offsetTop,
+				behavior: "smooth",
+			});
+		}
+	};
 	return (
 		<header>
 			<div className="header-container">
@@ -15,7 +24,7 @@ function Header() {
 						</li>
 
 						<li>
-							<a href="#" className="navigation-link">
+							<a href="#" className="navigation-link" onClick={services}>
 								Service
 							</a>
 						</li>
@@ -27,15 +36,15 @@ function Header() {
 						</li>
 
 						<li>
-							<a href="#" className="navigation-link">
+							<Link to="/about" className="navigation-link">
 								About
-							</a>
+							</Link>
 						</li>
 
 						<li>
-							<a href="#" className="navigation-link join">
-								Join Us
-							</a>
+							<Link to="/login" className="navigation-link join">
+								Login
+							</Link>
 						</li>
 					</ul>
 				</nav>

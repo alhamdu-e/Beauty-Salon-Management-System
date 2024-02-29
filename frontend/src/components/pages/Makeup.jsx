@@ -19,6 +19,9 @@ export default function Makeup(props) {
 	const handleservicehour = (hour) => {
 		props.setServiceHour(hour);
 	};
+	const handleServiceID = (serviceID) => {
+		props.setServiceID(serviceID);
+	};
 	return (
 		<div>
 			<Header />
@@ -66,6 +69,7 @@ export default function Makeup(props) {
 										to="/appointment"
 										onClick={() => {
 											handleservicehour(service.serviceduration);
+											handleServiceID(service.id);
 										}}>
 										Book Salon
 									</Link>

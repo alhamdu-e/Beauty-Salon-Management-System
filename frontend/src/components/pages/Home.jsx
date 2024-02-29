@@ -4,13 +4,15 @@ import Services from "../Services";
 import Gallery from "../Gallery";
 import Calltoaction from "../Calltoaction";
 import Footer from "../Footer";
+import { useRef } from "react";
 
 function Home() {
+	const service = useRef(null);
 	return (
 		<div>
-			<Header />
+			<Header service={service} />
 			<Hero />
-			<Services />
+			<Services service={service} />
 			<Gallery />
 
 			<Calltoaction />

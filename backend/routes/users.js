@@ -50,7 +50,13 @@ router.post("/login", (req, res) => {
 			}
 			if (profesionalResult.length > 0) {
 				console.log("profesional");
-				return res.status(200).json({ userType: "profesional", isAut: token });
+				return res
+					.status(200)
+					.json({
+						userType: "profesional",
+						isAut: token,
+						profesionalResult: profesionalResult,
+					});
 			}
 
 			db.query(sqlAdmin, [email, password], (err, adminResult) => {
@@ -110,10 +116,25 @@ router.get("/profesional/available", (req, res) => {
 });
 router.post("/appointment", (req, res) => {
 	console.log("hi");
-	const { selectedProfessionalId, userId, date, startTime, endTime } = req.body;
+	const {
+		selectedProfessionalId,
+		userId,
+		date,
+		startTime,
+		endTime,
+		serviceId,
+	} = req.body;
+	console.log(serviceId);
 	const sql =
 		"insert into appointments (customerId,professionalId,appointmentDate,startTime,endTime,serviceId) values (?,?,?,?,?,?)";
-	const param = [userId, selectedProfessionalId, date, startTime, endTime, 19];
+	const param = [
+		userId,
+		selectedProfessionalId,
+		date,
+		startTime,
+		endTime,
+		serviceId,
+	];
 	db.query(sql, param, (err, result) => {
 		if (err) {
 			console.log(err);
