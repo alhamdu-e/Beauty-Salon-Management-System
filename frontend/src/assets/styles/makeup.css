@@ -29,7 +29,7 @@
 	scale: 0.92;
 }
 .makeup-content {
-	margin-bottom: -20rem;
+  margin-bottom: -20rem;
 }
 
 .makeup-name {
@@ -45,9 +45,9 @@
 	color: rgb(71, 61, 63);
 }
 .makeup-duration {
-	margin-top: 10px;
-	font-size: 16px;
-	color: rgb(100, 42, 52);
+  margin-top: 10px;
+  font-size: 16px;
+  color: rgb(100, 42, 52);
 }
 .home-price {
 	font-size: 15px;
@@ -66,10 +66,10 @@
 	/* font-weight: 600; */
 }
 .price1 {
-	margin-top: 1.5rem;
+  margin-top: 1.5rem;
 }
 .price2 {
-	margin-top: 1rem;
+  margin-top: 1rem;
 }
 .salon {
 	font-size: 1.5rem;
