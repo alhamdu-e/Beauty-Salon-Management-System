@@ -2,6 +2,7 @@ import "../../assets/styles/login.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+
 function Login() {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
@@ -26,15 +27,16 @@ function Login() {
 				const data = await response.json();
 				if (response.ok) {
 					localStorage.setItem("token", data.isAut);
+					localStorage.setItem("userType", data.userType);
 					if (data.userType == "admin") {
 						navigate("/admin");
 					}
 					if (data.userType == "user") {
-						localStorage.setItem("userId", data.usersResult[0].id);
+						localStorage.setItem("userId", data.result[0].id);
 						navigate("/");
 					}
 					if (data.userType == "profesional") {
-						localStorage.setItem("userId", data.profesionalResult[0].id);
+						localStorage.setItem("profesionalId", data.result[0].id);
 						navigate("/");
 					}
 				}

@@ -20,7 +20,6 @@ const executeQuery = (sql, params = [], res, successMessage) => {
 			res.status(500).json({ message: "Database Erroe" });
 		} else {
 			console.log(successMessage);
-			console.log(result);
 			res.status(200).json(result);
 		}
 	});
