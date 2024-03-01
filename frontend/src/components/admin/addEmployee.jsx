@@ -7,10 +7,8 @@ function AddEmployee(props) {
 	const [profesion, setProfesion] = useState("");
 	const [email, setEmail] = useState("");
 	const [age, setAge] = useState("");
-	const [password, setPassword] = useState("");
 	const [phone, setPhone] = useState("");
 	const [adress, setAdress] = useState("");
-	const [confirmPassword, setConfirmPassword] = useState("");
 
 	const handleChangeFirstName = (event) => {
 		setFname(event.target.value);
@@ -27,12 +25,7 @@ function AddEmployee(props) {
 	const handleChangeEmail = (event) => {
 		setEmail(event.target.value);
 	};
-	const handleChangePassword = (event) => {
-		setPassword(event.target.value);
-	};
-	const handleChangeConfirmPassword = (event) => {
-		setConfirmPassword(event.target.value);
-	};
+
 	const handleChangePhone = (event) => {
 		setPhone(event.target.value);
 	};
@@ -50,7 +43,6 @@ function AddEmployee(props) {
 		phone,
 		adress,
 		age,
-		password,
 		gender,
 		profesion,
 	};
@@ -174,26 +166,6 @@ function AddEmployee(props) {
 							<option value="hair">Hair stylist</option>
 							<option value="makeup">Makeup stylist</option>
 						</select>
-					</div>
-					<div>
-						<label htmlFor="password">Password</label>
-						<input
-							type="password"
-							name="password"
-							id="password"
-							placeholder="Password"
-							onChange={handleChangePassword}
-						/>
-					</div>
-
-					<div>
-						<label htmlFor="confirmPassword">Confirm Password</label>
-						<input
-							type="password"
-							name="confirmPassword"
-							id="confirmPassword"
-							placeholder="Confirm Password"
-						/>
 					</div>
 
 					<button className="addemployee-a" type="submit">
