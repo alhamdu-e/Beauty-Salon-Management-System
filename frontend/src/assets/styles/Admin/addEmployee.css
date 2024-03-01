@@ -45,3 +45,6 @@ select {
 	background: #261a2f;
 	padding-left: 40px;
 }
+.error{
+	color:rgb(229, 51, 51);
+}
