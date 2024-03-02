@@ -43,13 +43,12 @@
 .servicefeature {
 	font-size: 3.4rem;
 	letter-spacing: 0.5px;
-	color:#fed1af;
+	color:#000000;
 	/* background-color: rgb(139, 134, 134); */
 	width: 20rem;
 	margin: auto;
 	margin-top: 3.2rem;
 	margin-bottom: 3.2rem;
-	font-family:Verdana, Geneva, Tahoma, sans-serif;
 
 }
 .more {

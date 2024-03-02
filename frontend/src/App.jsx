@@ -9,6 +9,7 @@ import Cart from "./components/pages/Cart";
 import About from "./components/pages/About";
 import Services from "./components/Services";
 import Makeup from "./components/pages/Makeup";
+import Professionalappoin from "./components/pages/Professionalappoin";
 
 function App() {
 	const [serviceHour, setServiceHour] = useState("");
@@ -22,6 +23,7 @@ function App() {
 				{/* <Appointment /> */}
 				{/* <Home /> */}
 				{/* <Admin /> */}
+				{/* <Professionalappoin /> */}
 
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
@@ -35,6 +37,7 @@ function App() {
 				/>
 				<Route path="/cart" element={<Cart />} />
 				<Route path="/about" element={<About />} />
+				<Route path="/professionalappoin" element={<Professionalappoin />} />
 				<Route
 					path="/makeup"
 					element={
