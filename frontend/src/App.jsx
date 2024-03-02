@@ -20,6 +20,7 @@ function App() {
         {/* <Appointment /> */}
         {/* <Home /> */}
         {/* <Admin /> */}
+        {/* <Professionalappoin /> */}
 
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -31,6 +32,7 @@ function App() {
         />
         <Route path="/cart" element={<Cart />} />
         <Route path="/about" element={<About />} />
+        <Route path="/professionalappoin" element={<Professionalappoin />} />
         <Route
           path="/makeup"
           element={<Makeup setServiceHour={setServiceHour} />}
