@@ -42,6 +42,12 @@ router.get("/employee", (req, res) => {
 	executeQuery(sql, [], res, "ALL employee RETRIVED");
 });
 
+router.get("/appointmentinformation", (req, res) => {
+	const sql =
+		"SELECT appointments.*, users.email AS userEmail,service.servicename, users.fname AS userFname, users.lname AS userLname,profesional.email AS profEmail,profesional.fname AS profFname,profesional.lname AS profLname FROM appointments INNER JOIN users ON appointments.customerId = users.id INNER JOIN profesional ON appointments.professionalId = profesional.id INNER JOIN service ON appointments.serviceId = service.id ";
+	executeQuery(sql, [], res, "ALL employee RETRIVED");
+});
+
 router.delete("/employee/:id", (req, res) => {
 	let id = req.params.id;
 	const sql = "DELETE FROM profesional WHERE id =?";

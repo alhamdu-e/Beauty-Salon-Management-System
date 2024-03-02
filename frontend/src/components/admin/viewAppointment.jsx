@@ -1,4 +1,18 @@
+import { useEffect, useState } from "react";
+
 function ViewAppointment() {
+	const [appointmentInfo, setAppointmentInfo] = useState([]);
+	useEffect(() => {
+		fetch("http://127.0.0.1:5000/appointmentinformation", {
+			method: "GET",
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data);
+				setAppointmentInfo(data);
+			});
+	}, []);
+
 	return (
 		<div className="view-appointment">
 			<div className="first">
@@ -15,18 +29,20 @@ function ViewAppointment() {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>2/23/2024</td>
-							<td>10:00 AM</td>
-							<td>1:00 PM</td>
-							<td>2/23/2024</td>
-							<td>10:00 AM</td>
-							<td>10:00 AM</td>
+						{appointmentInfo.map((data) => (
+							<tr>
+								<td>{data.appointmentDate}</td>
+								<td>{data.startTime}</td>
+								<td>{data.endTime}</td>
+								<td>{data.profFname + " " + data.profLname}</td>
+								<td>{data.userFname + " " + data.userLname}</td>
+								<td>{data.servicename}</td>
 
-							<td>
-								<button className="action">Details</button>
-							</td>
-						</tr>
+								<td>
+									<button className="action">Details</button>
+								</td>
+							</tr>
+						))}
 					</tbody>
 				</table>
 			</div>

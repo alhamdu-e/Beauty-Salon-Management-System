@@ -1,4 +1,3 @@
-require("dotenv").config();
 
 let ElasticEmail = require("@elasticemail/elasticemail-client");
 const key = process.env.API_KEY;

@@ -6,10 +6,7 @@ const sendEmail = require("../sendEmail.js");
 
 const crypto = require("crypto");
 
-const generatePassword = () => {
-	const buffer = crypto.randomBytes(4);
-	return buffer.toString("hex");
-};
+
 
 const secreteKey = "my secret key";
 
