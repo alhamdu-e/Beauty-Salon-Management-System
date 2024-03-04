@@ -1,0 +1,51 @@
+.divide{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: white;
+}
+.image-side{
+    margin-top: 2rem;
+
+}
+.detail-title{
+    font-size: 38px;
+    margin-top: 62px;
+    
+}
+.product-detail{
+    font-size: 13px;
+    font-weight: lighter;
+    margin-top: 32px;
+    overflow: hidden;
+}
+.detailprice{
+    font-size: 16px;
+    margin-top: 12px;
+    color: #296991;
+    margin-top: 2rem;
+
+}
+.detailbox{
+    font-size: 15px;
+    display: inline-block;
+    padding: 0.4rem 1.2rem;
+  margin-top: 3rem;
+    transition: all 0.3s;
+  outline: 1px #7f4848 solid;
+}
+
+
+.detailquantity{
+    margin-left: 1rem;
+}
+.detailminus{
+    margin-left: 1rem;
+}
+.detailcart{
+    font-size: 15px;
+    padding: 0.4rem 1rem;
+  margin-top: 3rem;
+  margin-left: 4rem;
+  color: aliceblue;
+  background-color: rgb(45, 44, 44);
+}

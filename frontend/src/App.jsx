@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Cart from "./components/pages/Cart";
 import About from "./components/pages/About";
 import Makeup from "./components/pages/Makeup";
+import DetailProduct from "./components/pages/DetailProduct";
 
 function App() {
   const [serviceHour, setServiceHour] = useState("");
@@ -32,7 +33,9 @@ function App() {
         />
         <Route path="/cart" element={<Cart />} />
         <Route path="/about" element={<About />} />
-        <Route path="/professionalappoin" element={<Professionalappoin />} />
+        <Route path="/detail" element={<DetailProduct />} />
+
+        {/* <Route path="/professionalappoin" element={<Professionalappoin />} /> */}
         <Route
           path="/makeup"
           element={<Makeup setServiceHour={setServiceHour} />}
