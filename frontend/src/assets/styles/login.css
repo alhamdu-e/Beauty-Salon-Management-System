@@ -70,3 +70,20 @@ span a {
 .forget-button:hover {
 	outline: 3px solid rgb(236, 114, 83);
 }
+.password-cont {
+	position: relative;
+}
+.off-eye {
+	position: absolute;
+	bottom: 8px;
+	right: 10px;
+	font-size: 16px;
+	border-radius: 50%;
+	padding: 5px 6px;
+	border: none;
+	background-color: white;
+	transition: all 0.4s;
+}
+.off-eye:hover {
+	background-color: #f7c2a9;
+}

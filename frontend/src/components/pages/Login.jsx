@@ -2,18 +2,25 @@ import "../../assets/styles/login.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { FaRegEyeSlash } from "react-icons/fa6";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 function Login() {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	const [showPassword, setShowPassword] = useState(false);
 	const handleChangeEmail = (event) => {
 		setEmail(event.target.value);
 	};
 	const handleChangePassword = (event) => {
 		setPassword(event.target.value);
 	};
-
+	const handleShwoPassword = () => {
+		setShowPassword(!showPassword);
+	};
 	const handlesubmit = async (event) => {
 		event.preventDefault();
 		try {
@@ -25,6 +32,7 @@ function Login() {
 
 			if (response) {
 				const data = await response.json();
+				console.log(data);
 				if (response.ok) {
 					localStorage.setItem("token", data.isAut);
 					localStorage.setItem("userType", data.userType);
@@ -32,12 +40,13 @@ function Login() {
 						navigate("/admin");
 					}
 					if (data.userType == "user") {
-						localStorage.setItem("userId", data.result[0].id);
+						localStorage.setItem("userId", data.usersResult[0].id);
 						navigate("/");
 					}
 					if (data.userType == "profesional") {
-						localStorage.setItem("profesionalId", data.result[0].id);
-						navigate("/");
+						localStorage.setItem("userId", data.profesionalResult[0].id);
+						console.log("profesional");
+						navigate("/Professionalappoin");
 					}
 				}
 				if (!data) {
@@ -69,15 +78,27 @@ function Login() {
 						/>
 						<br />
 					</div>
-					<div>
+					<div className="password-cont">
 						<label htmlFor="password">Password</label>
 						<input
 							placeholder="Password"
-							type="password"
+							type={showPassword ? "text" : "password"}
 							name="password"
 							id="password"
 							onChange={handleChangePassword}
 						/>
+
+						{password && (
+							<button
+								className="off-eye"
+								type="button"
+								onClick={handleShwoPassword}>
+								{" "}
+								{!showPassword && <FaRegEyeSlash />}
+								{showPassword && <MdOutlineRemoveRedEye />}
+							</button>
+						)}
+
 						<br />
 					</div>
 
@@ -86,14 +107,14 @@ function Login() {
 					</div>
 					<div>
 						<span>
-							Don't have an account? <a href="/register">Signup here.</a>
+							Don't have an account? <Link to="/signup">Signup here.</Link>
 						</span>
 					</div>
 
 					<div>
-						<a href="#" className="forget-button">
+						<Link className="forget-button" to="/resetemail">
 							Forget Password?
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>

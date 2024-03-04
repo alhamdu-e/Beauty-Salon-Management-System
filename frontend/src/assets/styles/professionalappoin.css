@@ -1,81 +1,62 @@
 .procontainer {
- max-width: 1000px;
- max-height: 1000px;
- margin-top: 30px;
-  margin-left: 300px;
-  padding: 30px;
-  background: linear-gradient(to bottom, rgb(235, 217, 195), #ffffff);
-  border-radius: 10px;
- 
-  box-shadow: 0 2px 5px rgba(44, 43, 43, 0.1);
-  font-family: Arial, sans-serif;
+	width: 62vw;
+	/* margin-top: ; */
 
+	padding: 30px;
+	padding-bottom: 10px;
+	background: linear-gradient(
+		to bottom,
+		rgb(238, 236, 233),
+		rgb(236, 235, 233)
+	);
+	border-radius: 10px;
 
+	box-shadow: 0 0px 4px rgba(53, 49, 49, 0.39);
+
+	margin-bottom: 2rem;
 }
-
+.prof-main-cont {
+	padding-left: 4rem;
+}
 .protitle {
-
-  font-size: 30px;
-  font-weight: bold;
-  margin-bottom: 60px;
-  margin-top: 10px;
-  color: #000000;
+	font-size: 30px;
+	margin-top: 10px;
+	color: #503d3d;
+	margin-bottom: 5rem;
+	margin-top: 4rem;
 }
 
 .prow {
-  padding-left: 12px;
-  padding-right: 50px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 10px;
-  margin-right: 100px;
-  border: 1px solid #3f2020;
-  border-radius: 5px;
-
+	padding-left: 12px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 10px;
+	border: 1px solid #3f20204b;
+	border-radius: 5px;
+	justify-content: space-between;
 }
-.porow{
-  
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 10px;
-
+.porow {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 10px;
+	justify-content: space-between;
 }
 
 .plabel {
- 
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #3f2020;
-  width: 150px;
-
+	font-size: 18px;
+	color: #645353;
+	font-weight: 600;
+	width: 150px;
 }
 
-.pinfo { 
-  padding-left: 10px;
-
-  margin-bottom: 40px;
-  font-size: 16px;
-  color: #473333;
-  width: 150px;
+.pinfo {
+	padding-left: 10px;
+	font-size: 16px;
+	color: #473333;
+	width: 150px;
 }
-
-
-
-.plabel-customer {
-  display: flex;
-  align-items: center;
-}
-
-.procontainer:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 10px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+.name {
+	text-transform: capitalize;
 }

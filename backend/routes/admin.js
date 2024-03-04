@@ -19,6 +19,7 @@ const generatePassword = () => {
 };
 
 // function for excuting query
+
 const executeQuery = (sql, params = [], res, successMessage) => {
 	db.query(sql, params, (err, result) => {
 		if (err) {

@@ -52,8 +52,8 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	background-color: rgba(211, 204, 204, 0.055);
 	width: 100vw;
+	background-color: rgba(211, 204, 204, 0.055);
 	height: 100vh;
 }
 .popup {

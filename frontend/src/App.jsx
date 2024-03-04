@@ -10,6 +10,8 @@ import About from "./components/pages/About";
 import Services from "./components/Services";
 import Makeup from "./components/pages/Makeup";
 import Professionalappoin from "./components/pages/Professionalappoin";
+import EmailForResetPassword from "./components/pages/EmailForResetPassword";
+import ResetPassword from "./components/pages/resetPassword";
 
 function App() {
 	const [serviceHour, setServiceHour] = useState("");
@@ -17,14 +19,6 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				{/* <Login /> */}
-				{/* <Signup /> */}
-				{/* <Service /> */}
-				{/* <Appointment /> */}
-				{/* <Home /> */}
-				{/* <Admin /> */}
-				{/* <Professionalappoin /> */}
-
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/signup" element={<Signup />} />
@@ -38,6 +32,9 @@ function App() {
 				<Route path="/cart" element={<Cart />} />
 				<Route path="/about" element={<About />} />
 				<Route path="/professionalappoin" element={<Professionalappoin />} />
+
+				<Route path="/resetemail" element={<EmailForResetPassword />} />
+				<Route path="/resetpassword" element={<ResetPassword />} />
 				<Route
 					path="/makeup"
 					element={

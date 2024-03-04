@@ -1,108 +1,58 @@
 import React from "react";
 import Header from "../Header";
 import "../../assets/styles/professionalappoin.css";
+import { useEffect, useState } from "react";
 
 const Professionalappoin = () => {
-  const appointments = [
-    {
-      date: '2024-03-01',
-      StartTime: '10:00 AM',
-      EndTime: '12:00 AM',
-      customerName: 'John Doe',
-      phoneNumber: '123-456-7890',
-    },
-    {
-      date: '2024-03-02',
-      StartTime: '10:00 AM',
-      EndTime: '12:00 AM',    
-      customerName: 'Jane Smith',
-      phoneNumber: '987-654-3210',
-    },
-    {
-      date: '2024-03-02',
-      StartTime: '10:00 AM',
-      EndTime: '12:00 AM',
-      customerName: 'Jane Smith',
-      phoneNumber: '987-654-3210',
-    },
-    {
-      date: '2024-03-02',
-      StartTime: '10:00 AM',
-      EndTime: '12:00 AM',
-      customerName: 'Jane Smith',
-      phoneNumber: '987-654-3210',
-    },
-    
-    {
-      date: '2024-03-02',
-      StartTime: '10:00 AM',
-      EndTime: '12:00 AM',
-      customerName: 'Jane Smith',
-      phoneNumber: '987-654-3210',
-    },
-    {
-      date: '2024-03-02',
-      StartTime: '10:00 AM',
-      EndTime: '12:00 AM',
-      customerName: 'Jane Smith',
-      phoneNumber: '987-654-3210',
-    },
-    {
-      date: '2024-03-02',
-      StartTime: '10:00 AM',
-      EndTime: '12:00 AM',
-      customerName: 'Jane Smith',
-      phoneNumber: '987-654-3210',
-    },
-    {
-      date: '2024-03-02',
-      StartTime: '10:00 AM',
-      EndTime: '12:00 AM',
-      customerName: 'Jane Smith',
-      phoneNumber: '987-654-3210',
-    },
-    // Add more appointments here
-  ];
+	const [appointment, setAppointment] = useState([]);
 
-  return (
-    <div>
-     
-      <div className="procontainer">
-        <h2 className="protitle">Appointment Details</h2>
-        {appointments.map((appointment, index) => (
-          <div className="proinfo" key={index}>
-            <div className="prow">
-              <div className="plabel plabel-customer">Customer</div>
+	useEffect(() => {
+		const profesionaID = localStorage.getItem("userId");
+		console.log(profesionaID);
+		fetch(`http://127.0.0.1:5000/profesionalAppointed/${profesionaID}`, {
+			method: "Get",
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				setAppointment(data);
+			});
+	}, []);
 
+	return (
+		<div className="prof-main-cont">
+			<div>
+				<h2 className="protitle">Appointments </h2>
+			</div>
+			{appointment.map((appointment) => (
+				<div className="procontainer">
+					<div className="proinfo">
+						<div className="prow">
+							<div className="plabel customer ">Customer Name</div>
 
-              <div className="plabel">Phone </div>
+							<div className="plabel">Service Name</div>
 
+							<div className="plabel">Date</div>
 
-              <div className="plabel">Date</div>
+							<div className="plabel">Start Time</div>
+							<div className="plabel">EndTime</div>
+						</div>
+						<div className="porow">
+							<div className="pinfo name">
+								{appointment.userFname + " " + appointment.userLname}
+							</div>
 
+							<div className="pinfo name">{appointment.servicename}</div>
 
-              <div className="plabel">StartTime</div>
-              <div className="plabel">EndTime</div>
+							<div className="pinfo">{appointment.appointmentDate}</div>
 
-
-            </div>
-            <div className="porow">
-            <div className="pinfo">{appointment.customerName}</div>
-
-            <div className="pinfo">{appointment.phoneNumber}</div>
-
-            <div className="pinfo">{appointment.date}</div>
-
-            <div className="pinfo">{appointment.StartTime}</div>
-            <div className="pinfo">{appointment.EndTime}</div>
-
-            </div>
-           
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+							<div className="pinfo">{appointment.startTime}</div>
+							<div className="pinfo">{appointment.endTime}</div>
+						</div>
+					</div>
+				</div>
+			))}
+		</div>
+	);
 };
 
 export default Professionalappoin;
