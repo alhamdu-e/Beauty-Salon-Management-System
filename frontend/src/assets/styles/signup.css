@@ -1,3 +1,10 @@
+.login-container{
+	background-color:
+		rgb(235, 214, 184);
+		
+}
+
+
 .signupform {
 	grid-template-columns: 1fr 1fr;
 	row-gap: 2rem;
@@ -43,13 +50,14 @@ label {
 	background-color: pink;
 }
 .signup {
-	background-color: rgb(255, 222, 172);
-
-	display: grid;
+	background-color: rgb(235, 214, 184);
+	display: flex;
+	justify-content: center; /* Center horizontally */
+	align-items:; /* Center vertically */
 	grid-template-columns: 40fr 60fr;
-	padding: 10rem;
+	padding: 1rem;
 	padding-bottom: 0;
-}
+  }
 
 .signupform input:focus {
 	outline: solid 5px rgba(238, 128, 49, 0.582);

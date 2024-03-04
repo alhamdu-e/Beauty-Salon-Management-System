@@ -71,9 +71,7 @@ function Singup() {
 		<form onSubmit={handleSubmit}>
 			<div className="login-container">
 				<div className="signup">
-					<div className="imaggg">
-						{/* <img src="./images/G8.jpg" alt="" /> */}
-					</div>
+					
 					<div className="signupform container">
 						<div>
 							<label htmlFor="firstname">First Name</label>
