@@ -10,43 +10,9 @@ function AddEmployee(props) {
   const [age, setAge] = useState("");
   const [phone, setPhone] = useState("");
   const [adress, setAdress] = useState("");
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
-  const [gender, setGender] = useState("");
-  const [profesion, setProfesion] = useState("");
-  const [email, setEmail] = useState("");
-  const [age, setAge] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
-  const [adress, setAdress] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleChangeFirstName = (event) => {
-    setFname(event.target.value);
-  };
-  const handleChangeGender = (event) => {
-    setGender(event.target.value);
-  };
-  const handleChangeProfesion = (event) => {
-    setProfesion(event.target.value);
-  };
-  const handleChangeLastName = (event) => {
-    setLname(event.target.value);
-  };
-  const handleChangeEmail = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handleChangePhone = (event) => {
-    setPhone(event.target.value);
-  };
-  const handleChangeAddress = (event) => {
-    setAdress(event.target.value);
-  };
-  const handleChangeAge = (event) => {
-    setAge(event.target.value);
-  };
   const handleChangeFirstName = (event) => {
     setFname(event.target.value);
   };
@@ -81,49 +47,42 @@ function AddEmployee(props) {
   const validateForm = () => {
     let errors = {};
 
-    // Validate First Name
     if (!fname) {
       errors.fname = "First Name is required";
     } else if (!/^[a-zA-Z]+$/.test(fname)) {
       errors.fname = "First Name should only contain letters";
     }
 
-    // Validate Last Name
     if (!lname) {
       errors.lname = "Last Name is required";
     } else if (!/^[a-zA-Z]+$/.test(lname)) {
       errors.lname = "Last Name should only contain letters";
     }
 
-    // Validate Email
     if (!email) {
       errors.email = "Email is required";
     } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
       errors.email = "Email is invalid";
     }
 
-    // Validate Phone
     if (!phone) {
       errors.phone = "Phone is required";
     } else if (!/^\d{10}$/.test(phone)) {
       errors.phone = "Phone should be a 10-digit number";
     }
 
-    // Validate Age
     if (!age) {
       errors.age = "Age is required";
     } else if (age < 20 || age > 45) {
       errors.age = "Age should be between 20 and 45";
     }
 
-    // Validate Password
     if (!password) {
       errors.password = "Password is required";
     } else if (password.length < 8) {
       errors.password = "Password should be at least 8 characters long";
     }
 
-    // Validate Confirm Password
     if (!confirmPassword) {
       errors.confirmPassword = "Confirm Password is required";
     } else if (password !== confirmPassword) {
@@ -133,14 +92,12 @@ function AddEmployee(props) {
       errors.gender = "Gender is required";
     }
 
-    // Validate Profession
     if (!profesion) {
       errors.profession = "Profession is required";
     }
 
     setErrors(errors);
 
-    // Return true if there are no errors
     return Object.keys(errors).length === 0;
   };
 
