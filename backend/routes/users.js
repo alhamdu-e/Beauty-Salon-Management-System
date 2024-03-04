@@ -173,8 +173,8 @@ router.get("/resetemail", (req, res) => {
 		<h2 style="font-size: 24px;color:#f2f2f2"> Click The Link to reset the password</h2>
 		<a href="http://localhost:3000/resetpassword/${btoa(
 			expirationTime.getTime()
-		)}" target="_blank"> Reset Password </a>
-		<p> the Link will expire after 3 minutes<p/>
+		)}" target="_blank" style="background-color:#ad3700;padding:12px;text-decoration:none;border-radius:12px;color:#f2f2f2"> Reset Password </a>
+		<p style="color:#f2f2f2;margin-top:20px;"> The Link will expire after 1 hour<p/>
 	</div>`;
 
 	db.query(sql, [email], (err, result) => {
@@ -193,10 +193,10 @@ router.get("/resetemail", (req, res) => {
 				if (result.length > 0) {
 					res.status(200).json({ email: email });
 					sendEmail(email, callback, content);
+				} else {
+					res.status(404).json({ userNotFound: true });
 				}
 			});
-
-			res.status(404).json({ userNotFound: true });
 		}
 	});
 });

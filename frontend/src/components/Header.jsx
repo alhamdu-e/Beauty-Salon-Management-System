@@ -62,13 +62,14 @@ function Header(props) {
 								</Link>
 							</li>
 						)}
-						{token && userType === "user" && (
-							<li>
-								<Link className="navigation-link join" onClick={logout}>
-									Logout
-								</Link>
-							</li>
-						)}
+						{(token && userType === "user") ||
+							(token && userType === "profesional" && (
+								<li>
+									<Link className="navigation-link join" onClick={logout}>
+										Logout
+									</Link>
+								</li>
+							))}
 					</ul>
 				</nav>
 			</div>
