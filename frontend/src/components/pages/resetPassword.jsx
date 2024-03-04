@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../assets/styles/resetPassword.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 function ResetPassword() {
+	const { expiration } = useParams();
+
 	const [password, setPassword] = useState("");
 	const userEmail = localStorage.getItem("email");
-	console.log(userEmail, "love");
+	const [isExpired, setIsExpired] = useState(false);
+
+	const currentTimeStamp = Date.now();
+	useEffect(() => {
+		if (currentTimeStamp > parseInt(atob(expiration))) {
+			setIsExpired(true);
+		}
+	}, [expiration]);
 
 	const handleChangeEmail = (e) => {
 		setPassword(e.target.value);
@@ -12,9 +21,8 @@ function ResetPassword() {
 
 	const handlesubmit = async (event) => {
 		event.preventDefault();
-		console.log("hi");
+
 		try {
-			console.log("hil");
 			const response = await fetch("http://127.0.0.1:5000/resetPassword", {
 				method: "post",
 				body: JSON.stringify({ password, userEmail }),
@@ -28,6 +36,18 @@ function ResetPassword() {
 			console.log("error", error);
 		}
 	};
+	if (isExpired) {
+		return (
+			<div>
+				<h1 className="linkexpired">Link Expired</h1>
+				<p className="linkexpired mmm">
+					<Link to="/resetemail" className="mmm">
+						Try Again
+					</Link>
+				</p>
+			</div>
+		);
+	}
 	return (
 		<div className="resetPassword-container">
 			<p className="password-reset-p ">Password Does't Match! 👋👋👋</p>

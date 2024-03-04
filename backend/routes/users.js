@@ -157,6 +157,8 @@ router.get("/resetemail", (req, res) => {
 	const sql = "SELECT * FROM users where email =? ";
 	const sql1 = "SELECT * FROM profesional where email =? ";
 	const email = req.query.email;
+	const expirationTime = new Date();
+	expirationTime.setHours(expirationTime.getHours() + 1);
 
 	const callback = function (error, data, response) {
 		if (error) {
@@ -169,7 +171,10 @@ router.get("/resetemail", (req, res) => {
 	};
 	const content = `<div style="background-color:#0a1b0b;width:500px;margin:auto;text-align:center; border-radius:12px; padding:20px">
 		<h2 style="font-size: 24px;color:#f2f2f2"> Click The Link to reset the password</h2>
-		<a href="http://localhost:3000/resetpassword" target="_blank"> Reset Password </a>
+		<a href="http://localhost:3000/resetpassword/${btoa(
+			expirationTime.getTime()
+		)}" target="_blank"> Reset Password </a>
+		<p> the Link will expire after 3 minutes<p/>
 	</div>`;
 
 	db.query(sql, [email], (err, result) => {

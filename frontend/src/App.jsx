@@ -34,7 +34,7 @@ function App() {
 				<Route path="/professionalappoin" element={<Professionalappoin />} />
 
 				<Route path="/resetemail" element={<EmailForResetPassword />} />
-				<Route path="/resetpassword" element={<ResetPassword />} />
+				<Route path="/resetpassword/:expiration" element={<ResetPassword />} />
 				<Route
 					path="/makeup"
 					element={
