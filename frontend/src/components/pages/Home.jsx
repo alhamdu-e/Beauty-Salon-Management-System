@@ -5,17 +5,18 @@ import Services from "../Services";
 import Gallery from "../Gallery";
 import Calltoaction from "../Calltoaction";
 import Footer from "../Footer";
+import { useRef } from "react";
+import Products from "../Product";
 
 function Home() {
+  const service = useRef(null);
   return (
     <div>
-      <Header />
+      <Header service={service} />
       <Hero />
-
-      <Services />
+      <Services service={service} />
       <Product />
       <Gallery />
-
       <Calltoaction />
       <Footer />
     </div>

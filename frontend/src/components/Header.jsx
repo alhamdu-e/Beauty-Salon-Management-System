@@ -1,5 +1,28 @@
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "../assets/styles/header.css";
-function Header() {
+import { useAuth } from "../context/Autcontext";
+
+function Header(props) {
+	const [token, setToken] = useState(localStorage.getItem("token"));
+	const [userType, setUserType] = useState(localStorage.getItem("userType"));
+
+	const logout = () => {
+		localStorage.removeItem("token");
+		localStorage.removeItem("userType");
+		setToken(null);
+		setUserType(null);
+	};
+
+	const services = () => {
+		if (props.service.current) {
+			window.scrollTo({
+				top: props.service.current.offsetTop,
+				behavior: "smooth",
+			});
+		}
+	};
+
 	return (
 		<header>
 			<div className="header-container">
@@ -15,32 +38,42 @@ function Header() {
 						</li>
 
 						<li>
-							<a href="#" className="navigation-link">
+							<a href="#" className="navigation-link" onClick={services}>
 								Service
 							</a>
 						</li>
 
-						<li>
+						{/* <li>
 							<a href="#" className="navigation-link">
 								Product
 							</a>
-						</li>
+						</li> */}
 
 						<li>
-							<a href="#" className="navigation-link">
+							<Link to="/about" className="navigation-link">
 								About
-							</a>
+							</Link>
 						</li>
 
-						<li>
-							<a href="#" className="navigation-link join">
-								Join Us
-							</a>
-						</li>
+						{!token && (
+							<li>
+								<Link to="/login" className="navigation-link join">
+									Login
+								</Link>
+							</li>
+						)}
+						{token && userType === "user" && (
+							<li>
+								<Link className="navigation-link join" onClick={logout}>
+									Logout
+								</Link>
+							</li>
+						)}
 					</ul>
 				</nav>
 			</div>
 		</header>
 	);
 }
+
 export default Header;

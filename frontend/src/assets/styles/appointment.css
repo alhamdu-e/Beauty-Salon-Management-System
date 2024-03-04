@@ -107,3 +107,37 @@
 .th:hover {
 	background-color: #cac3c3 !important;
 }
+.appointment-popup-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(68, 59, 59, 0.301) !important;
+	width: 100vw;
+	height: 100vh;
+}
+.appointment-popup {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #ffffff !important;
+	color: rgb(77, 62, 62);
+	padding: 6rem 8rem;
+	border-radius: 12px;
+	text-align: center;
+	width: 500px;
+}
+.appointment-popup p {
+	font-size: 1.8rem;
+	margin-top: 4rem;
+	line-height: 1.4;
+}
+
+.appointment-check-mark {
+	font-size: 2.8rem;
+	font-weight: 700;
+	background-color: #862102 !important;
+	padding: 1rem 1.7rem;
+	border-radius: 50%;
+	color: #ebdbfe;
+}

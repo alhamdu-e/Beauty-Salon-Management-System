@@ -8,12 +8,45 @@ function AddEmployee(props) {
   const [profesion, setProfesion] = useState("");
   const [email, setEmail] = useState("");
   const [age, setAge] = useState("");
+  const [phone, setPhone] = useState("");
+  const [adress, setAdress] = useState("");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [gender, setGender] = useState("");
+  const [profesion, setProfesion] = useState("");
+  const [email, setEmail] = useState("");
+  const [age, setAge] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [adress, setAdress] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
 
+  const handleChangeFirstName = (event) => {
+    setFname(event.target.value);
+  };
+  const handleChangeGender = (event) => {
+    setGender(event.target.value);
+  };
+  const handleChangeProfesion = (event) => {
+    setProfesion(event.target.value);
+  };
+  const handleChangeLastName = (event) => {
+    setLname(event.target.value);
+  };
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleChangePhone = (event) => {
+    setPhone(event.target.value);
+  };
+  const handleChangeAddress = (event) => {
+    setAdress(event.target.value);
+  };
+  const handleChangeAge = (event) => {
+    setAge(event.target.value);
+  };
   const handleChangeFirstName = (event) => {
     setFname(event.target.value);
   };

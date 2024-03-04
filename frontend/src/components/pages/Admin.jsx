@@ -15,6 +15,8 @@ import EditProduct from "../admin/editProduct";
 import EditService from "../admin/editService";
 import EditEmployee from "../admin/editEmployee";
 import { RiDashboard3Fill } from "react-icons/ri";
+import "../../assets/styles/Admin/viewAppointment.css";
+import ViewAppointment from "../admin/viewAppointment";
 
 function Admin() {
 	const [isEmployee, setEmployee] = useState(true);
@@ -31,6 +33,7 @@ function Admin() {
 	const [showEditEmployee, setShowEditEmployee] = useState(false);
 	const [showPopup, setShowPopup] = useState(false);
 	const [popupMessage, setPopupMessage] = useState("");
+
 	const handleEmployee = (e) => {
 		e.preventDefault();
 		setEmployee(true);
@@ -269,8 +272,9 @@ function Admin() {
 						</div>
 					</div>
 				</div>
+				<ViewAppointment />
 
-				{showEmploye && (
+				{/* {showEmploye && (
 					<>
 						<Manageemployee
 							isEmployee={isEmployee}
@@ -281,8 +285,8 @@ function Admin() {
 							handleShowPopup={handleShowPopup}
 						/>
 					</>
-				)}
-
+				)} */}
+				{/* 
 				{showProduct && (
 					<>
 						<ManageProduct
@@ -331,10 +335,10 @@ function Admin() {
 					<>
 						<EditEmployee />
 					</>
-				)}
+				)} */}
 			</div>
 
-			{showPopup && (
+			{/* {showPopup && (
 				<>
 					<div className="popup-container" onClick={handleShowPopup}>
 						<div className="popup">
@@ -343,7 +347,7 @@ function Admin() {
 						</div>
 					</div>
 				</>
-			)}
+			)} */}
 		</div>
 	);
 }
