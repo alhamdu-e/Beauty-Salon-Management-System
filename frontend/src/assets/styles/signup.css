@@ -1,42 +1,52 @@
-.login-container{
-	background-color:
-		rgb(235, 214, 184);
-		
-}
-
-
-.signupform {
+body {
+	background-image: url("girlimg.jpg");
+	background-size: cover;
+	background-position: center;
+  }
+  
+  .signlogin-container {
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+  }
+  
+  .signupform {
+	display: grid;
 	grid-template-columns: 1fr 1fr;
 	row-gap: 2rem;
 	column-gap: 5rem;
-
 	padding: 40px;
 	border-radius: 12px;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
-	border: solid #ccc 1px;
+	border: solid #ccc 0px;
 	row-gap: 8px;
 	background-color: white;
-}
-
-.signupform input {
+  }
+  
+  .signupform input {
 	width: 100%;
 	padding: 1.2rem;
 	font-size: 1.8rem;
 	border: none;
 	background-color: #f3eeee;
 	border-radius: 9px;
-}
-.signupform input::placeholder {
+  }
+  
+  .signupform input::placeholder {
 	font-size: 16px;
 	color: #aa9c9c;
-}
-label {
+  }
+  
+  label {
 	display: block;
 	margin-bottom: 1.2rem;
 	font-size: 1.6rem;
-}
-.signupform-a {
+  }
+  
+  .signupform-a {
 	font-size: 2rem;
 	border: solid black 1px;
 	width: 50%;
@@ -48,17 +58,18 @@ label {
 	border: none;
 	display: block;
 	background-color: pink;
-}
-.signup {
-	background-color: rgb(235, 214, 184);
+  }
+  
+  .signupform input:focus {
+	outline: solid 5px rgba(238, 128, 49, 0.582);
+  }
+  
+  .signup {
+	background-color: rgb(255, 255, 255);
 	display: flex;
-	justify-content: center; /* Center horizontally */
-	align-items:; /* Center vertically */
+	justify-content: center;
+	align-items: center;
 	grid-template-columns: 40fr 60fr;
 	padding: 1rem;
 	padding-bottom: 0;
   }
-
-.signupform input:focus {
-	outline: solid 5px rgba(238, 128, 49, 0.582);
-}
