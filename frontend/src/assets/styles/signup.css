@@ -63,6 +63,7 @@ label {
 		),
 		url("../../../public/images/G8.jpg");
 	background-size: cover;
+	border-radius: 12px;
 }
 .signupform input:focus {
 	outline: solid 5px rgba(238, 128, 49, 0.582);

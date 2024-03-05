@@ -126,6 +126,13 @@ router.get("/profesionalAppointed/:id", (req, res) => {
 	executeQuery(sql, [id], res);
 });
 
+router.get("/profesionalData/:id", (req, res) => {
+	let id = req.params.id;
+
+	const sql = "select * FROM profesional where id =?";
+	executeQuery(sql, [id], res);
+});
+
 router.get("/profesional/available", (req, res) => {
 	const sql = "select * FROM profesional";
 	executeQuery(sql, [], res);

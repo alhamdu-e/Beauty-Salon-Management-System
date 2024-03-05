@@ -162,7 +162,14 @@ router.put(
 				return;
 			}
 			if (result.affectedRows > 0) {
-				console.log("product Updated");
+				const sql = "select address from profesional where id  = ?";
+				db.query(sql, [profesionaID], (err, result) => {
+					if (err) {
+						console.log(err);
+					} else {
+						res.status(200).json(result);
+					}
+				});
 			}
 		});
 	}
