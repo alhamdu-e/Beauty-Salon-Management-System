@@ -1,19 +1,15 @@
 .procontainer {
 	width: 62vw;
 	/* margin-top: ; */
-
 	padding: 30px;
 	padding-bottom: 10px;
-	background: linear-gradient(
-		to bottom,
-		rgb(238, 236, 233),
-		rgb(236, 235, 233)
-	);
+
 	border-radius: 10px;
 
 	box-shadow: 0 0px 4px rgba(53, 49, 49, 0.39);
 
 	margin-bottom: 2rem;
+	background-color: #e9e0e0;
 }
 .prof-main-cont {
 	padding-left: 4rem;
@@ -23,7 +19,7 @@
 	margin-top: 10px;
 	color: #503d3d;
 	margin-bottom: 5rem;
-	margin-top: 4rem;
+	margin-top: 13rem;
 }
 
 .prow {
@@ -59,4 +55,53 @@
 }
 .name {
 	text-transform: capitalize;
+}
+.imgg {
+	width: 90px !important;
+	border-radius: 50%;
+	margin-top: 3.5rem;
+	margin-right: 19rem;
+	cursor: pointer;
+}
+.p {
+	font-size: 1.3rem;
+	margin-bottom: 40px;
+}
+.dddd {
+	display: flex;
+	/* background-color: #e9e0e0; */
+}
+.profileshow {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.178);
+	width: 100vw;
+	height: 100vh;
+}
+.prof-cont {
+	width: 400px;
+	margin: auto;
+	margin-top: 100px;
+	background-color: #ffffff;
+	height: 450px;
+	text-align: center;
+	border-radius: 20px;
+	padding-top: 20px;
+}
+.updateprofile {
+	width: 80%;
+	height: 80%;
+	border-radius: 20px;
+	object-fit: contain;
+}
+.update-button {
+	display: block;
+	margin: auto;
+	margin-top: 20px;
+	padding: 1.2rem;
+	border-radius: 12px;
+	border: none;
+	color: #f2f2f2;
+	background-color: green;
 }

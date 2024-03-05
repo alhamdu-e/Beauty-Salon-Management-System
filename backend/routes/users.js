@@ -16,6 +16,7 @@ const executeQuery = (sql, params = [], res) => {
 		} else {
 			console.log(result);
 			res.status(200).json(result);
+			// res.status(400);
 		}
 	});
 };
@@ -127,7 +128,7 @@ router.get("/profesionalAppointed/:id", (req, res) => {
 
 router.get("/profesional/available", (req, res) => {
 	const sql = "select * FROM profesional";
-	executeQuery(sql, res);
+	executeQuery(sql, [], res);
 });
 router.post("/appointment", (req, res) => {
 	console.log("hi");
