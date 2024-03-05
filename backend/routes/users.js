@@ -165,16 +165,14 @@ router.get("/resetemail", (req, res) => {
 	const sql = "SELECT * FROM users where email =? ";
 	const sql1 = "SELECT * FROM profesional where email =? ";
 	const email = req.query.email;
+	console.log(email);
 	const expirationTime = new Date();
 	expirationTime.setHours(expirationTime.getHours() + 1);
 
 	const callback = function (error, data, response) {
 		if (error) {
-			console.log(error);
-			res.status(500);
 			return;
 		} else {
-			res.status(200);
 		}
 	};
 	const content = `<div style="background-color:#0a1b0b;width:500px;margin:auto;text-align:center; border-radius:12px; padding:20px">
@@ -188,15 +186,17 @@ router.get("/resetemail", (req, res) => {
 	db.query(sql, [email], (err, result) => {
 		if (err) {
 			console.log(err);
+			return;
 		}
 		if (result.length > 0) {
 			res.status(200).json({ email: email });
-
 			sendEmail(email, callback, content);
+			return;
 		} else {
 			db.query(sql1, [email], (err, result) => {
 				if (err) {
 					console.log(err);
+					return;
 				}
 				if (result.length > 0) {
 					res.status(200).json({ email: email });
@@ -219,6 +219,7 @@ router.post("/resetPassword", (req, res) => {
 
 	db.query(sqlRetriveUserData, [userEmail], (err, result) => {
 		if (err) {
+			console.log(err);
 			res.status(500).json({ passwordUpdate: false });
 			return;
 		}
@@ -237,6 +238,7 @@ router.post("/resetPassword", (req, res) => {
 				}
 			});
 		} else {
+			console.log(result);
 			db.query(sqlRetriveProfesionalData, [userEmail], (err, result) => {
 				if (err) {
 					res.status(500).json({ passwordUpdate: false });
@@ -253,6 +255,7 @@ router.post("/resetPassword", (req, res) => {
 							}
 							if (result.affectedRows > 0) {
 								res.status(200).json({ passwordUpdate: true });
+								return;
 							}
 						}
 					);
