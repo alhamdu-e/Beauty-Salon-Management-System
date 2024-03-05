@@ -294,7 +294,29 @@ function Admin() {
 						</div>
 					</div>
 				</div>
-				{showAppointment && <ViewAppointment />}
+				<div>
+					<div className="ff">
+						<h1>13</h1>
+						<h3>customer</h3>
+					</div>
+					<div className="ff">
+						<h1>13</h1>
+						<h3>employee</h3>
+					</div>
+					<div className="ff">
+						<h1>13</h1>
+						<h3>Appointment</h3>
+					</div>
+					<div className="ff">
+						<h1>13</h1>
+						<h3>Product</h3>
+					</div>
+					<div className="ff">
+						<h1>13</h1>
+						<h3>service</h3>
+					</div>
+				</div>
+				{/* {showAppointment && <ViewAppointment />}
 
 				{showEmploye && (
 					<>
@@ -357,10 +379,10 @@ function Admin() {
 					<>
 						<EditEmployee />
 					</>
-				)}
+				)} */}
 			</div>
 
-			{showPopup && (
+			{/* {showPopup && (
 				<>
 					<div className="popup-container" onClick={handleShowPopup}>
 						<div className="popup">
@@ -369,7 +391,7 @@ function Admin() {
 						</div>
 					</div>
 				</>
-			)}
+			)} */}
 		</div>
 	);
 }

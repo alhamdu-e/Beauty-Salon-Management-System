@@ -7,7 +7,7 @@ const sendEmail = require("../sendEmail.js");
 const crypto = require("crypto");
 
 const secreteKey = "my secret key";
-
+// ************************ function that Excute Query ********************************
 const executeQuery = (sql, params = [], res) => {
 	db.query(sql, params, (err, result) => {
 		if (err) {
@@ -20,6 +20,15 @@ const executeQuery = (sql, params = [], res) => {
 		}
 	});
 };
+
+// ************************ retrive all user for admin page ********************************
+
+router.get("/customer", (req, res) => {
+	const sql = "SELECT * FROM users";
+	executeQuery(sql, [], res);
+});
+
+// ************************ signup or user regisration ********************************
 
 router.post("/signup", (req, res) => {
 	const { fname, lname, email, password, age, phone, adress } = req.body;
@@ -54,6 +63,9 @@ router.post("/signup", (req, res) => {
 		}
 	);
 });
+
+// ************************ Login or user authentication ********************************
+
 router.post("/login", (req, res) => {
 	const { email, password } = req.body;
 	const token = jwt.sign({}, secreteKey);
@@ -118,48 +130,7 @@ router.post("/login", (req, res) => {
 // 	// 	}
 // 	// });
 // });
-router.get("/profesionalAppointed/:id", (req, res) => {
-	let id = req.params.id;
-
-	const sql =
-		"SELECT appointments.*, service.servicename, users.fname AS userFname,users.lname AS userLname FROM appointments INNER JOIN users ON appointments.customerId = users.id  INNER JOIN service ON appointments.serviceId = service.id where appointments.professionalId = ? ";
-	executeQuery(sql, [id], res);
-});
-
-router.get("/profesionalData/:id", (req, res) => {
-	let id = req.params.id;
-
-	const sql = "select * FROM profesional where id =?";
-	executeQuery(sql, [id], res);
-});
-
-router.get("/profesional/available", (req, res) => {
-	const sql = "select * FROM profesional";
-	executeQuery(sql, [], res);
-});
-router.post("/appointment", (req, res) => {
-	console.log("hi");
-	const {
-		selectedProfessionalId,
-		userId,
-		date,
-		startTime,
-		endTime,
-		serviceId,
-	} = req.body;
-	console.log(serviceId);
-	const sql =
-		"insert into appointments (customerId,professionalId,appointmentDate,startTime,endTime,serviceId) values (?,?,?,?,?,?)";
-	const param = [
-		userId,
-		selectedProfessionalId,
-		date,
-		startTime,
-		endTime,
-		serviceId,
-	];
-	executeQuery(sql, param, res);
-});
+// ************************ check the availablity of email to reset passsword ********************************
 
 router.get("/resetemail", (req, res) => {
 	const sql = "SELECT * FROM users where email =? ";
@@ -201,13 +172,15 @@ router.get("/resetemail", (req, res) => {
 				if (result.length > 0) {
 					res.status(200).json({ email: email });
 					sendEmail(email, callback, content);
-				} else {
-					res.status(404).json({ userNotFound: true });
 				}
 			});
+
+			res.status(404).json({ userNotFound: true });
 		}
 	});
 });
+
+// ************************ reset  password  ********************************
 
 router.post("/resetPassword", (req, res) => {
 	const { password, userEmail } = req.body;

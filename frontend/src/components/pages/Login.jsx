@@ -65,6 +65,7 @@ function Login() {
 				<div className="loginform container">
 					<div>
 						<h3 className="login-h3">Login to GlowCity</h3>
+						<Link to="/appointment">gfgg</Link>
 					</div>
 					<div>
 						<label htmlFor="username">Email</label>

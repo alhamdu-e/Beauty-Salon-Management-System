@@ -32,20 +32,10 @@ const executeQuery = (sql, params = [], res, successMessage) => {
 	});
 };
 // ******** rouets for retriving user information ****************
-router.get("/customer", (req, res) => {
-	const sql = "SELECT * FROM users";
-	executeQuery(sql, [], res, "ALL CUSTOMER RETIVED");
-});
 
 // ************************************ Employee API *********************************
 router.get("/employee", (req, res) => {
 	const sql = "SELECT * FROM profesional";
-	executeQuery(sql, [], res, "ALL employee RETRIVED");
-});
-
-router.get("/appointmentinformation", (req, res) => {
-	const sql =
-		"SELECT appointments.*, users.email AS userEmail,service.servicename, users.fname AS userFname, users.lname AS userLname,profesional.email AS profEmail,profesional.fname AS profFname,profesional.lname AS profLname FROM appointments INNER JOIN users ON appointments.customerId = users.id INNER JOIN profesional ON appointments.professionalId = profesional.id INNER JOIN service ON appointments.serviceId = service.id ";
 	executeQuery(sql, [], res, "ALL employee RETRIVED");
 });
 
@@ -147,33 +137,6 @@ router.put("/editProduct", upload.single("productImage"), (req, res) => {
 
 	executeQuery(sql, values, res, "product edited successfully");
 });
-
-router.put(
-	"/updatprofesionalphoto",
-	upload.single("profesionaImage"),
-	(req, res) => {
-		const { profesionaID } = req.body;
-		const fileName = req.file.filename;
-		const imagePath = "http://127.0.0.1:5000/images/" + fileName;
-		const sql = "update profesional set address = ? where id = ?";
-		db.query(sql, [imagePath, profesionaID], (err, result) => {
-			if (err) {
-				console.log(err);
-				return;
-			}
-			if (result.affectedRows > 0) {
-				const sql = "select address from profesional where id  = ?";
-				db.query(sql, [profesionaID], (err, result) => {
-					if (err) {
-						console.log(err);
-					} else {
-						res.status(200).json(result);
-					}
-				});
-			}
-		});
-	}
-);
 
 router.get("/product/:id", (req, res) => {
 	const product = req.params.id;
