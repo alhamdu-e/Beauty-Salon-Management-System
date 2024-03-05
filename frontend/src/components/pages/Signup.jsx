@@ -68,7 +68,9 @@ function Singup() {
 		}
 	};
 	return (
+		
 		<form onSubmit={handleSubmit}>
+			<div className="fullsign">
 			<div className="signlogin-container">
 				
 				<div className="signup">
@@ -164,7 +166,9 @@ function Singup() {
 					</div>
 				</div>
 			</div>
+			</div>
 		</form>
+		
 	);
 }
 export default Singup;
