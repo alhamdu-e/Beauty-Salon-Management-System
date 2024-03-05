@@ -50,7 +50,7 @@ function EmailForResetPassword() {
 			{!isUser && (
 				<p
 					className={
-						visiblity ? "password-reset-p" : "password-reset-p hidden"
+						visiblity ? "password-reset-p red" : "password-reset-p hidden"
 					}>
 					Email Not Found!
 				</p>
@@ -58,7 +58,9 @@ function EmailForResetPassword() {
 			<form onSubmit={handlesubmit}>
 				<div className="resetEmail-container-div">
 					<h3 className="reset-h3">Foregt Password</h3>
-					<label htmlFor="">Enter Your Email to Reset Password</label>
+					<label htmlFor="" className="label">
+						Enter Your Email to Reset Password
+					</label>
 					<input
 						type="text"
 						onChange={handleChangeEmail}

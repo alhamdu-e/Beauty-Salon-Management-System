@@ -45,7 +45,6 @@ function Login() {
 					}
 					if (data.userType == "profesional") {
 						localStorage.setItem("userId", data.profesionalResult[0].id);
-						console.log("profesional");
 						navigate("/Professionalappoin");
 					}
 				}
