@@ -12,6 +12,15 @@
 	height: 100vh;
   }
   
+  .signup-title {
+	margin-top: 0rem;
+	margin-bottom: 0rem;
+	margin-left: 60rem;
+	font-size: 4rem;
+	text-align:justify ;
+	color: #5f2121;
+  }
+
   .signupform {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
