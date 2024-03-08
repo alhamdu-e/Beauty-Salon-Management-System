@@ -9,9 +9,10 @@ const Professionalappoin = () => {
 	const submitButton = useRef(null);
 	const [appointment, setAppointment] = useState([]);
 	const [img, setImg] = useState("");
+	const [updatedPhoto, setUpdatedPhoto] = useState("");
 
 	const [profesionaImage, setProfesionaImage] = useState("");
-
+	const [profesionalData, setProfesionalData] = useState([]);
 	const openFile = () => {
 		fileInputRef.current.click();
 	};
@@ -27,11 +28,13 @@ const Professionalappoin = () => {
 
 		// Handle file upload immediately after selecting the file
 		const reader = new FileReader();
-		reader.readAsDataURL(file);
-		reader.onloadend = () => {
-			setImg(reader.result);
-			setShowProfileUpdate(true);
-		};
+		if (file) {
+			reader.readAsDataURL(file);
+			reader.onloadend = () => {
+				setImg(reader.result);
+				setShowProfileUpdate(true);
+			};
+		}
 	};
 
 	useEffect(() => {
@@ -42,6 +45,15 @@ const Professionalappoin = () => {
 			.then((response) => response.json())
 			.then((data) => {
 				setAppointment(data);
+			});
+
+		fetch(`http://127.0.0.1:5000/profesionalData/${profesionaID}`, {
+			method: "Get",
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				setProfesionalData(data);
+				setUpdatedPhoto(data[0].address);
 			});
 	}, []);
 
@@ -65,7 +77,7 @@ const Professionalappoin = () => {
 			if (response.ok) {
 				console.log("Product edited successfully");
 				const responseData = await response.json();
-				console.log(responseData.message);
+				setUpdatedPhoto(responseData[0].address);
 			} else {
 				console.log("Failed to edit product:", response.statusText);
 			}
@@ -78,13 +90,12 @@ const Professionalappoin = () => {
 		<div className="prof-main-cont">
 			<div className="dddd">
 				<div>
-					<img
-						src="./images/G8.jpg"
-						alt=""
-						className="imgg"
-						onClick={openFile}
-					/>
-					<p className="p">Alhamdu Bedewe</p>
+					<img src={updatedPhoto} alt="" className="imgg" onClick={openFile} />
+					{profesionalData.length > 0 && (
+						<p className="p">
+							{profesionalData[0].fname + " " + profesionalData[0].lname}
+						</p>
+					)}
 				</div>
 				<h2 className="protitle">Appointments</h2>
 				<form encType="multipart/form-data" onSubmit={handleSubmit}>

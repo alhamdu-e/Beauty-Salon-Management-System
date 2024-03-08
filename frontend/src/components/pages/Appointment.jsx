@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import "../../assets/styles/appointment.css";
 import Header from "../Header";
 import { useAuth } from "../../context/Autcontext";
-
+import { Link } from "react-router-dom";
 function Appointment(props) {
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [selectedStartTime, setSelectedStartTime] = useState(null);
@@ -753,6 +753,7 @@ function Appointment(props) {
 									</p>
 									<p className="srrv-name">
 										<span className="spanpro">Rating(⭐)</span>5
+										<Link to="/login">jfgjdg</Link>
 									</p>
 								</div>
 							</>

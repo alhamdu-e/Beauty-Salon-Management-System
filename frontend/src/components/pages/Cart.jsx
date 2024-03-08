@@ -36,7 +36,7 @@ function Cart() {
                   &#43;
                 </span>
                 <span className="plus">{quantity}</span>
-                <span className="minus" onClick={handleDecrement}>
+                <span className="minuscart" onClick={handleDecrement}>
                   &#8722;
                 </span>
               </div>

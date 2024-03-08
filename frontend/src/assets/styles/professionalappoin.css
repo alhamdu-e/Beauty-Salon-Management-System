@@ -57,12 +57,15 @@
 	text-transform: capitalize;
 }
 .imgg {
-	width: 90px !important;
-	border-radius: 50%;
+	width: 120px !important;
+	height: 120px; /* Set the height equal to width */
+	border-radius: 50%; /* Make it a perfect circle */
 	margin-top: 3.5rem;
 	margin-right: 19rem;
 	cursor: pointer;
+	object-fit: contain;
 }
+
 .p {
 	font-size: 1.3rem;
 	margin-bottom: 40px;

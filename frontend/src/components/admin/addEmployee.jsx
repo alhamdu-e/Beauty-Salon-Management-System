@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../../assets/styles/Admin/addEmployee.css";
+
 function AddEmployee(props) {
 	const [fname, setFname] = useState("");
 	const [lname, setLname] = useState("");
@@ -9,6 +10,7 @@ function AddEmployee(props) {
 	const [age, setAge] = useState("");
 	const [phone, setPhone] = useState("");
 	const [adress, setAdress] = useState("");
+	const [errors, setErrors] = useState({});
 
 	const handleChangeFirstName = (event) => {
 		setFname(event.target.value);
@@ -36,6 +38,52 @@ function AddEmployee(props) {
 		setAge(event.target.value);
 	};
 
+	const validateForm = () => {
+		let errors = {};
+
+		if (!fname) {
+			errors.fname = "First Name is required";
+		} else if (!/^[a-zA-Z]+$/.test(fname)) {
+			errors.fname = "First Name should only contain letters";
+		}
+
+		if (!lname) {
+			errors.lname = "Last Name is required";
+		} else if (!/^[a-zA-Z]+$/.test(lname)) {
+			errors.lname = "Last Name should only contain letters";
+		}
+
+		if (!email) {
+			errors.email = "Email is required";
+		} else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+			errors.email = "Email is invalid";
+		}
+
+		if (!phone) {
+			errors.phone = "Phone is required";
+		} else if (!/^\d{10}$/.test(phone)) {
+			errors.phone = "Phone should be a 10-digit number";
+		}
+
+		if (!age) {
+			errors.age = "Age is required";
+		} else if (age < 20 || age > 45) {
+			errors.age = "Age should be between 20 and 45";
+		}
+
+		if (!gender) {
+			errors.gender = "Gender is required";
+		}
+
+		if (!profesion) {
+			errors.profession = "Profession is required";
+		}
+
+		setErrors(errors);
+
+		return Object.keys(errors).length === 0;
+	};
+
 	const addemployee = {
 		fname,
 		lname,
@@ -46,23 +94,29 @@ function AddEmployee(props) {
 		gender,
 		profesion,
 	};
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		try {
-			const response = await fetch("http://127.0.0.1:5000/addEmployee", {
-				method: "POST",
-				body: JSON.stringify(addemployee),
-				headers: { "Content-Type": "application/json" },
-			});
-			if (response.ok) {
-				console.log("user registered");
-			} else {
-				console.log("user not registered", response.statusText);
+
+		if (validateForm()) {
+			try {
+				const response = await fetch("http://127.0.0.1:5000/addEmployee", {
+					method: "POST",
+					body: JSON.stringify(addemployee),
+					headers: { "Content-Type": "application/json" },
+				});
+
+				if (response.ok) {
+					console.log("user registered");
+				} else {
+					console.log("user not registered", response.statusText);
+				}
+			} catch (error) {
+				console.log(error);
 			}
-		} catch (error) {
-			console.log(error);
 		}
 	};
+
 	return (
 		<div>
 			<div className="conatnerforaddemployee">
@@ -84,8 +138,8 @@ function AddEmployee(props) {
 							placeholder="FirstName"
 							onChange={handleChangeFirstName}
 						/>
+						{errors.fname && <span className="error">{errors.fname}</span>}
 					</div>
-
 					<div>
 						<label htmlFor="lastname">Last Name</label>
 						<input
@@ -95,8 +149,8 @@ function AddEmployee(props) {
 							placeholder="LastName"
 							onChange={handleChangeLastName}
 						/>
+						{errors.lname && <span className="error">{errors.lname}</span>}
 					</div>
-
 					<div>
 						<label htmlFor="age">Age</label>
 						<input
@@ -106,16 +160,18 @@ function AddEmployee(props) {
 							placeholder="your age"
 							onChange={handleChangeAge}
 						/>
+						{errors.age && <span className="error">{errors.age}</span>}
 					</div>
 					<div>
 						<label htmlFor="email">Email</label>
 						<input
-							type="email"
+							type="text"
 							name="email"
 							id="email"
 							placeholder="Email"
 							onChange={handleChangeEmail}
 						/>
+						{errors.email && <span className="error">{errors.email}</span>}
 					</div>
 					<div>
 						<label htmlFor="phone">Phone</label>
@@ -126,8 +182,8 @@ function AddEmployee(props) {
 							placeholder="Phone"
 							onChange={handleChangePhone}
 						/>
+						{errors.phone && <span className="error">{errors.phone}</span>}
 					</div>
-
 					<div>
 						<label htmlFor="adress">Adress</label>
 						<input
@@ -139,10 +195,10 @@ function AddEmployee(props) {
 						/>
 					</div>
 					<div>
-						<label htmlFor="adress">Gender</label>
+						<label htmlFor="gender">Gender</label>
 						<select
-							id="servicecatagory"
-							name="servicecatagory"
+							id="gender"
+							name="gender"
 							className="serviceform-select"
 							onChange={handleChangeGender}>
 							<option selected disabled>
@@ -151,23 +207,27 @@ function AddEmployee(props) {
 							<option value="male">Male</option>
 							<option value="female">Female</option>
 						</select>
+						{errors.gender && <span className="error">{errors.gender}</span>}
 					</div>
+					Ahlam, [3/5/2024 4:28 AM]
 					<div>
-						<label htmlFor="adress">Profesional Type</label>
+						<label htmlFor="profession">Professional Type</label>
 						<select
-							id="servicecatagory"
-							name="servicecatagory"
+							id="profession"
+							name="profession"
 							className="serviceform-select"
 							onChange={handleChangeProfesion}>
 							<option selected disabled>
-								Select Profesional Type
+								Select Professional Type
 							</option>
 							<option value="nail">Nail stylist</option>
 							<option value="hair">Hair stylist</option>
 							<option value="makeup">Makeup stylist</option>
 						</select>
+						{errors.profession && (
+							<span className="error">{errors.profession}</span>
+						)}
 					</div>
-
 					<button className="addemployee-a" type="submit">
 						Add Employee{" "}
 					</button>
@@ -176,4 +236,5 @@ function AddEmployee(props) {
 		</div>
 	);
 }
+
 export default AddEmployee;

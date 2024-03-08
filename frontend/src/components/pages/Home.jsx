@@ -9,18 +9,18 @@ import { useRef } from "react";
 import Products from "../Product";
 
 function Home() {
-	const service = useRef(null);
-	return (
-		<div>
-			<Header service={service} />
-			<Hero />
-			<Services service={service} />
-			<Product />
-			<Gallery />
-			<Calltoaction />
-			<Footer />
-		</div>
-	);
+  const service = useRef(null);
+  return (
+    <div>
+      <Header service={service} />
+      <Hero />
+      <Services service={service} />
+      <Product />
+      <Gallery />
+      <Calltoaction />
+      <Footer />
+    </div>
+  );
 }
 export default Home;
 // This is a comment
