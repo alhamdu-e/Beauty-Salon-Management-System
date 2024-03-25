@@ -33,6 +33,7 @@ function Admin() {
 	const [showEditEmployee, setShowEditEmployee] = useState(false);
 	const [showPopup, setShowPopup] = useState(false);
 	const [popupMessage, setPopupMessage] = useState("");
+	const [showAppointment, setShowAppointment] = useState(false);
 
 	const handleEmployee = (e) => {
 		e.preventDefault();
@@ -47,6 +48,7 @@ function Admin() {
 		setShowEditService(false);
 		setShowEditEmployee(false);
 		setPopupMessage("Employee Deleted successfully");
+		setShowAppointment(false);
 	};
 	const handleCustomer = (e) => {
 		e.preventDefault();
@@ -60,6 +62,7 @@ function Admin() {
 		setShowEditProduct(false);
 		setShowEditService(false);
 		setShowEditEmployee(false);
+		setShowAppointment(false);
 	};
 	const handleProduct = (e) => {
 		e.preventDefault();
@@ -74,6 +77,7 @@ function Admin() {
 		setShowEditService(false);
 		setPopupMessage("Product Deleted successfully");
 		setShowEditEmployee(false);
+		setShowAppointment(false);
 	};
 
 	const handleService = (e) => {
@@ -89,6 +93,7 @@ function Admin() {
 		setShowEditService(false);
 		setPopupMessage("Service Deleted successfully");
 		setShowEditEmployee(false);
+		setShowAppointment(false);
 	};
 	const handleAddEmployee = (e) => {
 		e.preventDefault();
@@ -100,6 +105,7 @@ function Admin() {
 		setShowEditProduct(false);
 		setShowEditService(false);
 		setShowEditEmployee(false);
+		setShowAppointment(false);
 	};
 	const handleAddProduct = (e) => {
 		e.preventDefault();
@@ -111,6 +117,7 @@ function Admin() {
 		setShowEditProduct(false);
 		setShowEditService(false);
 		setShowEditEmployee(false);
+		setShowAppointment(false);
 	};
 	const handleAddService = (e) => {
 		e.preventDefault();
@@ -122,6 +129,7 @@ function Admin() {
 		setShowEditProduct(false);
 		setShowEditService(false);
 		setShowEditEmployee(false);
+		setShowAppointment(false);
 	};
 	const handleShowEditProduct = (e) => {
 		setShowEditProduct(true);
@@ -132,6 +140,7 @@ function Admin() {
 		setShowEmploye(false);
 		setShowEditService(false);
 		setShowEditEmployee(false);
+		setShowAppointment(false);
 	};
 	const handleShowEditService = (e) => {
 		setShowEditService(true);
@@ -142,9 +151,22 @@ function Admin() {
 		setShowProduct(false);
 		setShowEmploye(false);
 		setShowEditEmployee(false);
+		setShowAppointment(false);
 	};
 	const handleShowEditEmployee = (e) => {
 		setShowEditEmployee(true);
+		setShowEditService(false);
+		setShowEditProduct(false);
+		setShowAddService(false);
+		setShowAddProduct(false);
+		setshowAddEmployee(false);
+		setShowProduct(false);
+		setShowEmploye(false);
+		setShowAppointment(false);
+	};
+	const handleShowAppointment = (e) => {
+		setShowAppointment(true);
+		setShowEditEmployee(false);
 		setShowEditService(false);
 		setShowEditProduct(false);
 		setShowAddService(false);
@@ -233,7 +255,7 @@ function Admin() {
 										</a>
 									</li>
 									<li>
-										<a href="#">
+										<a href="#" onClick={handleShowAppointment}>
 											{" "}
 											<FaBookOpen /> View Appointment{" "}
 										</a>
@@ -272,9 +294,9 @@ function Admin() {
 						</div>
 					</div>
 				</div>
-				<ViewAppointment />
+				{showAppointment && <ViewAppointment />}
 
-				{/* {showEmploye && (
+				{showEmploye && (
 					<>
 						<Manageemployee
 							isEmployee={isEmployee}
@@ -285,8 +307,8 @@ function Admin() {
 							handleShowPopup={handleShowPopup}
 						/>
 					</>
-				)} */}
-				{/* 
+				)}
+
 				{showProduct && (
 					<>
 						<ManageProduct
@@ -335,10 +357,10 @@ function Admin() {
 					<>
 						<EditEmployee />
 					</>
-				)} */}
+				)}
 			</div>
 
-			{/* {showPopup && (
+			{showPopup && (
 				<>
 					<div className="popup-container" onClick={handleShowPopup}>
 						<div className="popup">
@@ -347,7 +369,7 @@ function Admin() {
 						</div>
 					</div>
 				</>
-			)} */}
+			)}
 		</div>
 	);
 }

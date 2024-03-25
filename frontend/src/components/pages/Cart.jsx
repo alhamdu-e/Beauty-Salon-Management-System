@@ -20,7 +20,7 @@ function Cart() {
       {" "}
       <Header />
       <div className="whole">
-        <h1 className="carthead"> Service Cart</h1>
+        <h1 className="carthead">Service Cart</h1>
 
         <div className="ll">
           <div className="cartcontainer">

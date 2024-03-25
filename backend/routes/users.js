@@ -16,6 +16,7 @@ const executeQuery = (sql, params = [], res) => {
 		} else {
 			console.log(result);
 			res.status(200).json(result);
+			// res.status(400);
 		}
 	});
 };
@@ -127,7 +128,7 @@ router.get("/profesionalAppointed/:id", (req, res) => {
 
 router.get("/profesional/available", (req, res) => {
 	const sql = "select * FROM profesional";
-	executeQuery(sql, res);
+	executeQuery(sql, [], res);
 });
 router.post("/appointment", (req, res) => {
 	console.log("hi");
@@ -173,8 +174,8 @@ router.get("/resetemail", (req, res) => {
 		<h2 style="font-size: 24px;color:#f2f2f2"> Click The Link to reset the password</h2>
 		<a href="http://localhost:3000/resetpassword/${btoa(
 			expirationTime.getTime()
-		)}" target="_blank"> Reset Password </a>
-		<p> the Link will expire after 3 minutes<p/>
+		)}" target="_blank" style="background-color:#ad3700;padding:12px;text-decoration:none;border-radius:12px;color:#f2f2f2"> Reset Password </a>
+		<p style="color:#f2f2f2;margin-top:20px;"> The Link will expire after 1 hour<p/>
 	</div>`;
 
 	db.query(sql, [email], (err, result) => {

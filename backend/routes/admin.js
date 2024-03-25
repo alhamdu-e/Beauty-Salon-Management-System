@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const db = require("../database/connection.js");
+const crypto = require("crypto");
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -147,6 +148,26 @@ router.put("/editProduct", upload.single("productImage"), (req, res) => {
 
 	executeQuery(sql, values, res, "product edited successfully");
 });
+
+router.put(
+	"/updatprofesionalphoto",
+	upload.single("profesionaImage"),
+	(req, res) => {
+		const { profesionaID } = req.body;
+		const fileName = req.file.filename;
+		const imagePath = "http://127.0.0.1:5000/images/" + fileName;
+		const sql = "update profesional set address = ? where id = ?";
+		db.query(sql, [imagePath, profesionaID], (err, result) => {
+			if (err) {
+				console.log(err);
+				return;
+			}
+			if (result.affectedRows > 0) {
+				console.log("product Updated");
+			}
+		});
+	}
+);
 
 router.get("/product/:id", (req, res) => {
 	const product = req.params.id;

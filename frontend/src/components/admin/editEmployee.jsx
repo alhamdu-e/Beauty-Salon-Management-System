@@ -21,10 +21,8 @@ function EditEmployee(props) {
   const [profesion, setProfesion] = useState("");
   const [email, setEmail] = useState("");
   const [age, setAge] = useState("");
-  const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [adress, setAdress] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [id, setId] = useState("");
   const [errors, setErrors] = useState({});
 
@@ -38,8 +36,6 @@ function EditEmployee(props) {
       setPhone(employeeData[0].phone);
       setAdress(employeeData[0].address);
       setEmail(employeeData[0].email);
-      setPassword(employeeData[0].password);
-      setConfirmPassword(employeeData[0].password);
       setId(employeeData[0].id);
     }
   }, [employeeData]);
@@ -59,12 +55,7 @@ function EditEmployee(props) {
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
-  const handleChangePassword = (event) => {
-    setPassword(event.target.value);
-  };
-  const handleChangeConfirmPassword = (event) => {
-    setConfirmPassword(event.target.value);
-  };
+
   const handleChangePhone = (event) => {
     setPhone(event.target.value);
   };
@@ -78,8 +69,6 @@ function EditEmployee(props) {
   const validateForm = () => {
     let errors = {};
 
-    // Validate First Name
-    // Validate First Name
     if (!fname) {
       errors.fname = "First Name is required";
     } else if (!/^[a-zA-Z]+$/.test(fname)) {
@@ -103,8 +92,8 @@ function EditEmployee(props) {
     // Validate Phone
     if (!phone) {
       errors.phone = "Phone is required";
-    } else if (!/^\d{10}$/.test(phone)) {
-      errors.phone = "Phone should be a 10-digit number";
+    } else if (typeof phone !== "string" || !phone.match(/^(09|07)\d{8}$/)) {
+      errors.phone = "Invalid phone number format";
     }
 
     // Validate Age
@@ -112,20 +101,6 @@ function EditEmployee(props) {
       errors.age = "Age is required";
     } else if (age < 20 || age > 45) {
       errors.age = "Age should be between 20 and 45";
-    }
-
-    // Validate Password
-    if (!password) {
-      errors.password = "Password is required";
-    } else if (password.length < 8) {
-      errors.password = "Password should be at least 8 characters long";
-    }
-
-    // Validate Confirm Password
-    if (!confirmPassword) {
-      errors.confirmPassword = "Confirm Password is required";
-    } else if (password !== confirmPassword) {
-      errors.confirmPassword = "Passwords do not match";
     }
 
     setErrors(errors);
@@ -143,7 +118,6 @@ function EditEmployee(props) {
       phone,
       adress,
       age,
-      password,
       gender,
       profesion,
       id,
@@ -189,9 +163,7 @@ function EditEmployee(props) {
               onChange={handleChangeFirstName}
               value={fname}
             />
-            {errors.firstname && (
-              <span className="error">{errors.firstname}</span>
-            )}
+            {errors.fname && <span className="error">{errors.fname}</span>}
           </div>
 
           <div>
@@ -204,9 +176,7 @@ function EditEmployee(props) {
               onChange={handleChangeLastName}
               value={lname}
             />
-            {errors.lastname && (
-              <span className="error">{errors.lastname}</span>
-            )}
+            {errors.lname && <span className="error">{errors.lname}</span>}
           </div>
 
           <div>
@@ -290,28 +260,6 @@ function EditEmployee(props) {
               <option value="hair">Hair stylist</option>
               <option value="makeup">Makeup stylist</option>
             </select>
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
-              onChange={handleChangePassword}
-              value={password}
-            />
-          </div>
-          <div>
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              id="confirmPassword"
-              placeholder="Confirm Password"
-              onChange={handleChangeConfirmPassword}
-              value={confirmPassword}
-            />
           </div>
           <button className="editemployee-a" type="submit">
             Add Employee{" "}

@@ -1,14 +1,14 @@
 
 .whole{
-background: #fbece0;
+background: #fff;
 margin-left: 6rem;
 margin-right: 6rem;
 border-radius: 10px;
 }
 .carthead{
-    font-size: 25px;
-    margin-left:4rem;
-    margin-bottom: 3.5rem;
+    font-size: 30px;
+    margin-left:33rem;
+    margin-bottom: 4.5rem;
     color: #333;
     
 }
@@ -17,7 +17,8 @@ border-radius: 10px;
   grid-template-columns: 15fr 50fr 35fr;
   margin-left: 3rem;
   margin-right: 3rem;
-  background-color: #fbece0;
+  background-color: #fff;
+  border-width: 20px;
   
 }
 

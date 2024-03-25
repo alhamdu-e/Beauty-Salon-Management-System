@@ -10,7 +10,6 @@ function AddEmployee(props) {
   const [age, setAge] = useState("");
   const [phone, setPhone] = useState("");
   const [adress, setAdress] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
 
   const handleChangeFirstName = (event) => {
@@ -28,12 +27,7 @@ function AddEmployee(props) {
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
-  const handleChangePassword = (event) => {
-    setPassword(event.target.value);
-  };
-  const handleChangeConfirmPassword = (event) => {
-    setConfirmPassword(event.target.value);
-  };
+
   const handleChangePhone = (event) => {
     setPhone(event.target.value);
   };
@@ -56,7 +50,7 @@ function AddEmployee(props) {
     if (!lname) {
       errors.lname = "Last Name is required";
     } else if (!/^[a-zA-Z]+$/.test(lname)) {
-      errors.lname = "Last Name should only contain letters";
+      errors.lname = "Last Name should only contain letters ";
     }
 
     if (!email) {
@@ -67,8 +61,8 @@ function AddEmployee(props) {
 
     if (!phone) {
       errors.phone = "Phone is required";
-    } else if (!/^\d{10}$/.test(phone)) {
-      errors.phone = "Phone should be a 10-digit number";
+    } else if (!phone.match(/^(09|07)\d{8}$/)) {
+      errors.phone = "Invalid phone number format";
     }
 
     if (!age) {
@@ -77,17 +71,6 @@ function AddEmployee(props) {
       errors.age = "Age should be between 20 and 45";
     }
 
-    if (!password) {
-      errors.password = "Password is required";
-    } else if (password.length < 8) {
-      errors.password = "Password should be at least 8 characters long";
-    }
-
-    if (!confirmPassword) {
-      errors.confirmPassword = "Confirm Password is required";
-    } else if (password !== confirmPassword) {
-      errors.confirmPassword = "Passwords do not match";
-    }
     if (!gender) {
       errors.gender = "Gender is required";
     }
@@ -108,7 +91,6 @@ function AddEmployee(props) {
     phone,
     adress,
     age,
-    password,
     gender,
     profesion,
   };
@@ -203,32 +185,7 @@ function AddEmployee(props) {
             />
             {errors.phone && <span className="error">{errors.phone}</span>}
           </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
-              onChange={handleChangePassword}
-            />
-            {errors.password && (
-              <span className="error">{errors.password}</span>
-            )}
-          </div>
-          <div>
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              id="confirmPassword"
-              placeholder="Confirm Password"
-              onChange={handleChangeConfirmPassword}
-            />
-            {errors.confirmPassword && (
-              <span className="error">{errors.confirmPassword}</span>
-            )}
-          </div>
+
           <div>
             <label htmlFor="adress">Adress</label>
             <input

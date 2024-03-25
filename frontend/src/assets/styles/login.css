@@ -87,3 +87,6 @@ span a {
 .off-eye:hover {
 	background-color: #f7c2a9;
 }
+.errors{
+	color:rgb(229, 51, 51);
+}

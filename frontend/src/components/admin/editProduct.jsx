@@ -51,8 +51,8 @@ function EditProduct(props) {
 
     if (!productName.trim()) {
       errors.productName = "Product Name is required";
-    } else if (!/^[a-zA-Z]+$/.test(productName)) {
-      errors.productName = "Product Name should contain only characters";
+    } else if (!isNaN(productName.trim())) {
+      errors.productName = "Product Name cannot be a number";
     }
 
     if (!productDesc.trim()) {
@@ -60,12 +60,22 @@ function EditProduct(props) {
     } else if (productDesc.trim().length < 20) {
       errors.productDesc =
         "Product Description should be at least 20 characters long";
+    } else if (
+      /^\d+$/.test(productDesc.trim()) ||
+      /^\d+\s/.test(productDesc.trim())
+    ) {
+      errors.productDesc =
+        "Product Description should contain a combination of numbers and characters";
     }
 
     if (!productPrice) {
       errors.productPrice = "Product Price is required";
-    } else if (Number(productPrice) < 20) {
-      errors.productPrice = "Product Price must be at least 20";
+    } else if (isNaN(Number(productPrice))) {
+      errors.productPrice = "Product Price must be a number";
+    } else if (!Number.isInteger(Number(productPrice))) {
+      errors.productPrice = "Product Price must be integer";
+    } else if (Number(productPrice) < 200) {
+      errors.productPrice = "Product Price must be at least 200 birr";
     }
 
     if (!productImage) {

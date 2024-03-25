@@ -38,22 +38,26 @@ function AddProduct(props) {
     } else if (productDesc.trim().length < 20) {
       errors.productDesc =
         "Product Description should be at least 20 characters long";
-    } else if (!isNaN(productDesc.trim())) {
-      errors.productDesc = "Product Description cannot be a number";
+    } else if (
+      /^\d+$/.test(productDesc.trim()) ||
+      /^\d+\s/.test(productDesc.trim())
+    ) {
+      errors.productDesc =
+        "Product Description should contain a combination of numbers and characters";
     }
-
     if (!productPrice) {
       errors.productPrice = "Product Price is required";
-    } else if (Number(productPrice) < 100) {
+    } else if (isNaN(Number(productPrice))) {
+      errors.productPrice = "Product Price must be a number";
+    } else if (!Number.isInteger(Number(productPrice))) {
+      errors.productPrice = "Product Price must be integer";
+    } else if (Number(productPrice) < 200) {
       errors.productPrice = "Product Price must be at least 200 birr";
     }
-
     if (!productImage) {
       errors.productImage = "Product Image is required";
     }
-
     setErrors(errors);
-
     return Object.keys(errors).length === 0;
   };
 
