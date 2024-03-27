@@ -1,0 +1,68 @@
+/* billing.css */
+
+.managbilling {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  h2 {
+    margin-top: 40px;
+  }
+  
+  .bildashboard,
+  .bilcustomer-management,
+  .bilpayment-processing,
+  .bilbilling-plans-subscriptions,
+  .bilreporting-analytics,
+  .bilnotifications-alerts,
+  .bilrefunds-credits {
+    margin-top: 40px;
+    border: 1px solid #ccc;
+    padding: 20px;
+  }
+  
+  .bilmetrics {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .bilmetric {
+    text-align: center;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .invoice,
+  .bilplans,
+  .bilreports,
+  .bilnotifications,
+  .bilrefunds {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .invoice,
+  .bilplan,
+  .bilreport,
+  .bilnotification,
+  .bilrefund {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 10px;
+  }

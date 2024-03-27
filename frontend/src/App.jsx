@@ -11,6 +11,7 @@ import Makeup from "./components/pages/Makeup";
 import Professionalappoin from "./components/pages/Professionalappoin";
 import EmailForResetPassword from "./components/pages/EmailForResetPassword";
 import ResetPassword from "./components/pages/resetPassword";
+import Billing from "./components/pages/billing";
 
 function App() {
   const [serviceHour, setServiceHour] = useState("");
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/billing" element={<Billing />} />
         <Route
           path="/appointment"
           element={
