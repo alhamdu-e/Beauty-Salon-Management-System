@@ -3,6 +3,17 @@
 	background-size: cover;
 	background-position: center;
   }
+  .signupu-title {
+	
+	display:contents;
+	justify-content:flex-start;
+	align-items: center;
+	height: 10vh;
+  }
+  .sign-h3 {
+	font-size: 2.6rem;
+	color: #413c3c;
+  }
   
   .signlogin-container {
 	
@@ -14,10 +25,10 @@
   
   .signup-title {
 	margin-top: 0rem;
-	margin-bottom: 0rem;
-	margin-left: 60rem;
+	margin-bottom: 2rem; /* Adjust the margin-bottom value as needed */
+	margin-left: 0rem;
 	font-size: 4rem;
-	text-align:justify ;
+	text-align: justify;
 	color: #5f2121;
   }
 

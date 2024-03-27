@@ -1,4 +1,17 @@
-.loginform {
+.fulllogin {
+	background-image: url("girlimg.jpg");
+	background-size: cover;
+	background-position: center;
+  }
+  
+  .signlogin-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+  }
+  
+  .loginform {
 	grid-template-columns: 1fr;
 	border: solid 1px #ccc;
 	padding: 4rem;
@@ -10,16 +23,18 @@
 	transform: translate(-50%, -50%);
 	width: 40rem;
 	background-color: white;
-}
-.loginform input {
+  }
+  
+  .loginform input {
 	width: 100%;
 	padding: 1.2rem;
 	font-size: 1.8rem;
 	border: none;
 	background-color: #f3eeee;
 	border-radius: 9px;
-}
-.login-button {
+  }
+  
+  .login-button {
 	border: solid 1px black;
 	padding: 10px;
 	width: 100%;
@@ -31,8 +46,9 @@
 	border: none;
 	border-radius: 4rem;
 	transition: all 0.5s;
-}
-.forget-button {
+  }
+  
+  .forget-button {
 	font-size: 1.6rem;
 	background-color: rgb(202, 183, 148);
 	padding: 1.2rem;
@@ -42,38 +58,45 @@
 	text-align: center;
 	color: #242222;
 	transition: all 0.3s;
-}
-.login-container {
+  }
+  
+  .login-container {
 	background: rgb(14, 1, 24);
 	height: 100vh;
-}
-.login-h3 {
+  }
+  
+  .login-h3 {
 	font-size: 2.4rem;
 	color: #413c3c;
-}
-.loginform input:focus {
+  }
+  
+  .loginform input:focus {
 	outline: solid 5px rgba(238, 128, 49, 0.582);
-}
-.loginform span {
+  }
+  
+  .loginform span {
 	font-size: 1.6rem;
 	color: #242222;
-}
-span a {
-	/* background: rgb(185, 49, 15); */
+  }
+  
+  span a {
 	color: rgb(185, 49, 15);
-
 	border-radius: 4rem;
-}
-.login-button:hover {
+  }
+  
+  .login-button:hover {
 	background: rgb(212, 66, 29);
-}
-.forget-button:hover {
+  }
+  
+  .forget-button:hover {
 	outline: 3px solid rgb(236, 114, 83);
-}
-.password-cont {
+  }
+  
+  .password-cont {
 	position: relative;
-}
-.off-eye {
+  }
+  
+  .off-eye {
 	position: absolute;
 	bottom: 8px;
 	right: 10px;
@@ -83,7 +106,8 @@ span a {
 	border: none;
 	background-color: white;
 	transition: all 0.4s;
-}
-.off-eye:hover {
+  }
+  
+  .off-eye:hover {
 	background-color: #f7c2a9;
-}
+  }

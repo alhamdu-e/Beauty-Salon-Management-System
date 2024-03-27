@@ -61,11 +61,18 @@ function Login() {
 
 	return (
 		<form onSubmit={handlesubmit}>
+			   <div className="fulllogin">
+
+
+
+
 			<div className="login-container">
+
+				
 				<div className="loginform container">
 					<div>
 						<h3 className="login-h3">Login to GlowCity</h3>
-						<Link to="/appointment">gfgg</Link>
+						<Link to="/appointment"></Link>
 					</div>
 					<div>
 						<label htmlFor="username">Email</label>
@@ -117,6 +124,7 @@ function Login() {
 						</Link>
 					</div>
 				</div>
+			</div>
 			</div>
 		</form>
 	);

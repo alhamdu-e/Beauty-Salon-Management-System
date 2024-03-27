@@ -67,12 +67,14 @@ function Signup() {
     <form onSubmit={handleSubmit}>
       <div className="fullsign">
 	  
- <h1 className="signup-title">Signup</h1>
+
         <div className="signlogin-container">
 		
           <div className="signup">
-		 
+		  
             <div className="signupform container">
+            <h3 className="sign-h3">Signup</h3>
+
               <div>
                 <label htmlFor="firstname">First Name</label>
                 <input
