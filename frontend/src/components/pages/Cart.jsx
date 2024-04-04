@@ -6,12 +6,11 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 import Header from "../Header";
 import { useUserContext } from "../../context/UserContext";
 import { useCartContext } from "../../context/cartcontext";
-import { Link } from "react-router-dom";
 
 function Cart() {
 	const { userId, userData } = useUserContext();
-	const { cartLength, items, setItems, setCartLength } = useCartContext();
-	// const [quantityy, setQuantity] = useState(0);
+	const { items, setItems } = useCartContext();
+	// const[quantityy, setQuantity] = useState(0);
 	// const [productid, setProductId] = useState(0);
 	const [loading, setLoading] = useState(false);
 	const totalPrice = items.reduce((acc, item) => {
@@ -42,7 +41,6 @@ function Cart() {
 	const deleteCartItem = (productid, cartid) => {
 		const updateditems = items.filter((product) => product.id !== productid);
 		setItems(updateditems);
-		setCartLength(cartLength - 1);
 
 		try {
 			const response = fetch(`http://127.0.0.1:5000/deleteCart/${cartid}`, {
@@ -67,6 +65,7 @@ function Cart() {
 		updatedItems[productIndex].quantity += 1;
 		// setQuantity(updatedItems[productIndex].quantity);
 		setItems(updatedItems);
+		localStorage.setItem("cart", JSON.stringify(updatedItems));
 		const info = {
 			quantityy: updatedItems[productIndex].quantity,
 			productid: productidd,
@@ -82,6 +81,7 @@ function Cart() {
 			updatedItems[productIndex].quantity -= 1;
 			// setQuantity(updatedItems[productIndex].quantity);
 			setItems(updatedItems);
+			localStorage.setItem("cart", JSON.stringify(updatedItems));
 			const info = {
 				quantityy: updatedItems[productIndex].quantity,
 				productid: productidd,
@@ -93,14 +93,22 @@ function Cart() {
 
 	const handlePayment = async () => {
 		setLoading(true);
+		localStorage.setItem("totalPrice", totalPrice);
+		const productName = items.map((item) => ({
+			name: item.productname,
+			quantity: item.quantity,
+		}));
+		localStorage.setItem("productName", JSON.stringify(productName));
+
 		const response = await fetch("http://127.0.0.1:5000/payment", {
 			method: "Post",
 			body: JSON.stringify({
-				fname: userData[0].fname,
-				lname: userData[0].lname,
-				email: userData[0].email,
-				phone: userData[0].phone,
+				fname: userData[0]?.fname,
+				lname: userData[0]?.lname,
+				email: userData[0]?.email,
+				phone: userData[0]?.phone,
 				amount: totalPrice,
+				product: items,
 			}),
 			headers: {
 				"Content-Type": "application/json",
@@ -117,12 +125,12 @@ function Cart() {
 			{" "}
 			<Header />
 			<div className="whole">
-				{cartLength > 0 && (
+				{items.length > 0 && (
 					<>
 						<h1 className="carthead"> Shooping Cart</h1>
 						<p className="numberofitems">
 							{" "}
-							You have {cartLength} items in your cart{" "}
+							You have {items.length} items in your cart{" "}
 						</p>
 						<div className="cartcontainer">
 							<div>
@@ -194,7 +202,7 @@ function Cart() {
 					</div> */}
 					</>
 				)}
-				{cartLength == 0 && <h1 className="carthead">Cart is Empty!</h1>}
+				{items.length === 0 && <h1 className="carthead">Cart is Empty!</h1>}
 				{loading && (
 					<div className="overlay">
 						<div class="loader"></div>

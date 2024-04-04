@@ -50,6 +50,7 @@ function Login() {
 					localStorage.setItem("token", data.isAut);
 					setToken(data.isAut);
 					setUserType(data.userType);
+					localStorage.setItem("userType", data.userType);
 
 					if (data.userType === "admin") {
 						navigate("/admin");
@@ -57,8 +58,10 @@ function Login() {
 					if (data.userType === "user") {
 						setUserId(data.usersResult[0].id);
 						setUserName(data.usersResult[0].fname);
+						localStorage.setItem("userName", data.usersResult[0].fname);
 						setUserData(data.usersResult);
 						localStorage.setItem("userid", data.usersResult[0].id);
+						localStorage.setItem("email", data.usersResult[0].email);
 
 						const handleAddtocart = async () => {
 							const useridd = data.usersResult[0].id;
@@ -72,8 +75,9 @@ function Login() {
 
 							if (response.ok) {
 								const cart = await response.json();
-								setCartLength(cart.length);
-								setItems(cart);
+								localStorage.setItem("cart", JSON.stringify(cart));
+								// setCartLength(cart.length);
+								// setItems(cart);
 							}
 						};
 						handleAddtocart();
