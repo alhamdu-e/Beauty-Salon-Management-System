@@ -21,6 +21,7 @@ function Appointment(props) {
 	const [errTime, setErrTime] = useState(false);
 	const [serviceHour, setServiceHour] = useState(props.serviceHour);
 	const [serviceId, setServiceId] = useState(props.serviceId);
+	const [isTimePassed, setIsTimePassed] = useState(false);
 
 	const [showPopup, setShowPopup] = useState(false);
 
@@ -296,7 +297,114 @@ function Appointment(props) {
 	};
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		const currntHours = parseInt(new Date().getHours());
+		let newStartHour = "";
+		let newEndHour = "";
+		let NewEndMinutes = "";
+		let NewMinutes = "";
+		let timeDifference = false;
+		let startTimeDifference = false;
+		let storedStartHour = "";
+		let storedEndHour = "";
+		let storedMinutes = "";
+		let storedStartMinutes = "";
 
+		if (startTime.length === 8) {
+			newStartHour = parseInt(startTime.substring(0, 2));
+			newEndHour = parseInt(endTime.substring(0, 2));
+			NewMinutes = parseInt(startTime.substring(3, 5));
+			NewEndMinutes = parseInt(endTime.substring(3, 5));
+		}
+		if (startTime.length === 7) {
+			newStartHour = parseInt(startTime.substring(0, 1));
+			newEndHour = parseInt(endTime.substring(0, 2));
+			NewMinutes = parseInt(startTime.substring(2, 4));
+			NewEndMinutes = parseInt(endTime.substring(2, 4));
+		}
+		alert(currntHours + " curren time");
+		alert(newStartHour + " newstart Hours time");
+		if (
+			storedEndHour - storedStartHour === 2 ||
+			storedEndHour - storedStartHour === -10
+		) {
+			timeDifference = true;
+		}
+		if (newEndHour - newStartHour === 2 || newEndHour - newStartHour === -10) {
+			startTimeDifference = true;
+		}
+		// eslint-disable-next-line eqeqeq
+		if (currntHours === 10 && newStartHour === 9) {
+			setIsTimePassed(true);
+		} else if (
+			currntHours === 11 &&
+			(newStartHour === 9 || newStartHour === 10)
+		) {
+			setIsTimePassed(true);
+		} else if (
+			currntHours === 11 &&
+			(newStartHour === 9 || newStartHour === 10)
+		) {
+			setIsTimePassed(true);
+		} else if (
+			currntHours === 12 &&
+			(newStartHour === 9 || newStartHour === 10 || newStartHour === 11)
+		) {
+			setIsTimePassed(true);
+		} else if (
+			currntHours === 1 &&
+			(newStartHour === 9 ||
+				newStartHour === 10 ||
+				newStartHour === 11 ||
+				newStartHour === 12)
+		) {
+			setIsTimePassed(true);
+		} else if (
+			currntHours === 2 &&
+			(newStartHour === 9 ||
+				newStartHour === 10 ||
+				newStartHour === 11 ||
+				newStartHour === 12 ||
+				newStartHour === 1)
+		) {
+			setIsTimePassed(true);
+		} else if (
+			currntHours === 3 &&
+			(newStartHour === 9 ||
+				newStartHour === 10 ||
+				newStartHour === 11 ||
+				newStartHour === 12 ||
+				newStartHour === 1 ||
+				newStartHour === 2)
+		) {
+			setIsTimePassed(true);
+		} else if (
+			currntHours === 4 &&
+			(newStartHour === 9 ||
+				newStartHour === 10 ||
+				newStartHour === 11 ||
+				newStartHour === 12 ||
+				newStartHour === 1 ||
+				newStartHour === 2 ||
+				newStartHour === 3)
+		) {
+			setIsTimePassed(true);
+		} else if (
+			currntHours === 5 &&
+			(newStartHour === 9 ||
+				newStartHour === 10 ||
+				newStartHour === 11 ||
+				newStartHour === 12 ||
+				newStartHour === 1 ||
+				newStartHour === 2 ||
+				newStartHour === 3 ||
+				newStartHour === 4)
+		) {
+			setIsTimePassed(true);
+		}
+		if (isTimePassed) {
+			handleShowPopup();
+			return;
+		}
 		if (!selectedProfessionalId) {
 			setErrProf(true);
 			return;
@@ -325,17 +433,9 @@ function Appointment(props) {
 			const storedAppointmentDate = appointment.appointmentDate;
 			const storedAppointmentStartTime = appointment.startTime;
 			const storedAppointmentEndTime = appointment.endTime;
-			let timeDifference = false;
-			let startTimeDifference = false;
-			let storedStartHour = "";
-			let storedEndHour = "";
-			let storedMinutes = "";
-			let storedStartMinutes = "";
+
 			let storedMeridian = storedAppointmentEndTime.slice(-2);
-			let newStartHour = "";
-			let newEndHour = "";
-			let NewEndMinutes = "";
-			let NewMinutes = "";
+
 			let NewMeridian = startTime.slice(-2);
 			if (storedAppointmentEndTime.length === 8) {
 				storedEndHour = parseInt(storedAppointmentEndTime.substring(0, 2));
@@ -355,37 +455,13 @@ function Appointment(props) {
 					storedAppointmentStartTime.substring(2, 4)
 				);
 			}
-			if (startTime.length === 8) {
-				newStartHour = parseInt(startTime.substring(0, 2));
-				newEndHour = parseInt(endTime.substring(0, 2));
-				NewMinutes = parseInt(startTime.substring(3, 5));
-				NewEndMinutes = parseInt(endTime.substring(3, 5));
-			}
-			if (startTime.length === 7) {
-				newStartHour = parseInt(startTime.substring(0, 1));
-				newEndHour = parseInt(endTime.substring(0, 2));
-				NewMinutes = parseInt(startTime.substring(2, 4));
-				NewEndMinutes = parseInt(endTime.substring(2, 4));
-			}
-			console.log("what is going on");
-			if (
-				storedEndHour - storedStartHour === 2 ||
-				storedEndHour - storedStartHour === -10
-			) {
-				timeDifference = true;
-			}
-			if (
-				newEndHour - newStartHour === 2 ||
-				newEndHour - newStartHour === -10
-			) {
-				startTimeDifference = true;
-			}
-			console.log(newEndHour, newStartHour, timeDifference);
+
 			// Check if the selected time slot overlaps with the current appointment
 			return (
 				(storedAppointmentDate === date &&
 					storedAppointmentStartTime === startTime &&
 					storedAppointmentEndTime === endTime) ||
+				currntHours < newStartHour ||
 				(date === storedAppointmentDate &&
 					storedStartHour === newEndHour &&
 					NewEndMinutes <= storedStartMinutes) ||
@@ -614,7 +690,6 @@ function Appointment(props) {
 			);
 		});
 
-		// If there are overlapping appointments, prevent submission
 		if (overlappingAppointments.length > 0) {
 			handleShowPopup();
 			return;
@@ -781,7 +856,7 @@ function Appointment(props) {
 							</table>
 						</div>
 					)}
-					{appointmetDate.length == 0 && (
+					{appointmetDate.length === 0 && (
 						<h1 className="selectedPro">
 							Selected Profesional have no Schedule
 						</h1>
@@ -792,7 +867,10 @@ function Appointment(props) {
 				<div className="appointment-popup-container" onClick={handleShowPopup}>
 					<div className="appointment-popup">
 						<span className="appointment-check-mark"> &#9888;</span>
-						<p>Your Appointment Overlap With Exiting One.Please Try Again</p>
+						{!isTimePassed && (
+							<p>Your Appointment Overlap With Exiting One.Please Try Again</p>
+						)}
+						{isTimePassed && <p>You Can't Make Appointment For Passed Time</p>}
 					</div>
 				</div>
 			)}

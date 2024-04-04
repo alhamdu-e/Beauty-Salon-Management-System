@@ -4,8 +4,8 @@ import React from "react";
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-	const [userId, setUserId] = useState(0);
-	const [userName, setUserName] = useState("");
+	const [userId, setUserId] = useState(localStorage.getItem("userid"));
+	const [userName, setUserName] = useState(localStorage.getItem("userName"));
 	const [userData, setUserData] = useState([]);
 	return (
 		<UserContext.Provider
