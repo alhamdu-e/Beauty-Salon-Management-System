@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../assets/styles/header.css";
-import { useAuth } from "../context/Autcontext";
-
+import { useAuthContext } from "../context/Autcontext";
+import { useUserContext } from "../context/UserContext";
+import { useCartContext } from "../context/cartcontext";
 function Header(props) {
-	const [token, setToken] = useState(localStorage.getItem("token"));
-	const [userType, setUserType] = useState(localStorage.getItem("userType"));
+	const { token, setToken, setUserType, usertype } = useAuthContext();
+	const { cartLength } = useCartContext();
+	const { userId, userName } = useUserContext();
+	const navigate = useNavigate();
 
 	const logout = () => {
 		localStorage.removeItem("token");
-		localStorage.removeItem("userType");
-		setToken(null);
-		setUserType(null);
+		setToken("");
+		setUserType("");
+		navigate("/", { replace: true });
 	};
 
 	const services = () => {
@@ -32,9 +35,9 @@ function Header(props) {
 				<nav>
 					<ul className="navigation">
 						<li>
-							<a href="#" className="navigation-link">
+							<Link to="/" className="navigation-link">
 								Home
-							</a>
+							</Link>
 						</li>
 
 						<li>
@@ -42,12 +45,6 @@ function Header(props) {
 								Service
 							</a>
 						</li>
-
-						{/* <li>
-							<a href="#" className="navigation-link">
-								Product
-							</a>
-						</li> */}
 
 						<li>
 							<Link to="/about" className="navigation-link">
@@ -62,14 +59,38 @@ function Header(props) {
 								</Link>
 							</li>
 						)}
-						{(token && userType === "user") ||
-							(token && userType === "profesional" && (
+
+						{token && usertype === "user" && (
+							<li>
+								<Link className="navigation-link join" to="/cart">
+									cart {cartLength}
+								</Link>
+							</li>
+						)}
+						{token && usertype === "user" && (
+							<li>
+								<Link
+									className="navigation-link join"
+									to="/customerappointment">
+									appointment
+								</Link>
+							</li>
+						)}
+						{token && usertype && (
+							<>
 								<li>
-									<Link className="navigation-link join" onClick={logout}>
-										Logout
-									</Link>
+									<div class="dropdown">
+										<button class="dropbtn">
+											<p className="userProfile">Hello,{userName}</p>
+											<p className="userProfile">Account &#9660;</p>
+										</button>
+										<div class="dropdown-content">
+											<button onClick={logout}>sign out</button>
+										</div>
+									</div>
 								</li>
-							))}
+							</>
+						)}
 					</ul>
 				</nav>
 			</div>

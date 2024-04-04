@@ -1,15 +1,23 @@
+.fullsign {
+	background-image: url("../../girlimg.jpg");
+	background-size: cover;
+	height: 100vh;
+	padding-top: 6rem;
+	background-attachment: fixed;
+}
+
 .signupform {
+	display: grid;
 	grid-template-columns: 1fr 1fr;
 	row-gap: 2rem;
 	column-gap: 5rem;
-
 	padding: 40px;
 	border-radius: 12px;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
-	border: solid #ccc 1px;
+	border: solid #ccc 0px;
 	row-gap: 8px;
-	background-color: white;
+	/* background-color: white; */
 }
 
 .signupform input {
@@ -20,15 +28,18 @@
 	background-color: #f3eeee;
 	border-radius: 9px;
 }
+
 .signupform input::placeholder {
 	font-size: 16px;
 	color: #aa9c9c;
 }
+
 label {
 	display: block;
 	margin-bottom: 1.2rem;
 	font-size: 1.6rem;
 }
+
 .signupform-a {
 	font-size: 2rem;
 	border: solid black 1px;
@@ -36,35 +47,19 @@ label {
 	text-align: center;
 	padding: 0.8rem;
 	border-radius: 12px;
-	color: rgb(196, 186, 186);
+	color: rgb(0, 0, 0);
 	margin-top: 2rem;
 	border: none;
 	display: block;
-	background-color: rgb(14, 1, 24);
+	background-color: pink;
 }
-.signup {
-	display: grid;
-	grid-template-columns: 40fr 60fr;
-	padding: 10rem;
-	padding-bottom: 0;
-}
-/* img {
-	width: 100%;
-	object-fit: contain;
-	border-top-left-radius: 12px;
-	border-bottom-left-radius: 12px;
-} */
-.imaggg {
-	background-image: linear-gradient(
-			90deg,
-			rgba(18, 0, 36, 0.021) 89%,
-			rgba(2, 0, 36, 0.801) 98%,
-			rgba(18, 0, 36, 0.801) 100%
-		),
-		url("../../../public/images/G8.jpg");
-	background-size: cover;
-	border-radius: 12px;
-}
+
 .signupform input:focus {
 	outline: solid 5px rgba(238, 128, 49, 0.582);
+}
+
+.signup {
+	background-color: rgb(255, 255, 255);
+	width: 800px;
+	margin-left: 400px;
 }

@@ -52,18 +52,18 @@ export default function Makeup(props) {
 										</span>
 									</span>
 								</div>
-								<div className="price2">
+								{/* <div className="price2">
 									<span className="salon-price">
 										Home Price:
 										<span className="duration">
 											{service.servicehomeprice} Birr
 										</span>
 									</span>
-								</div>
+								</div> */}
 								<div className="link-cont">
-									<Link className="home" to="/appointment">
+									{/* <Link className="home" to="/appointment">
 										Book Home
-									</Link>
+									</Link> */}
 									<Link
 										className="salon"
 										to="/appointment"

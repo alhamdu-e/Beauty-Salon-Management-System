@@ -1,61 +1,207 @@
 import "../../assets/styles/cart.css";
 import React, { useState } from "react";
-import { MdOutlineCancel } from "react-icons/md";
+import { FaArrowRight } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
+import { FaPlus, FaMinus } from "react-icons/fa";
 import Header from "../Header";
+import { useUserContext } from "../../context/UserContext";
+import { useCartContext } from "../../context/cartcontext";
+import { Link } from "react-router-dom";
 
 function Cart() {
-  const [quantity, setQuantity] = useState(0);
+	const { userId, userData } = useUserContext();
+	const { cartLength, items, setItems, setCartLength } = useCartContext();
+	// const [quantityy, setQuantity] = useState(0);
+	// const [productid, setProductId] = useState(0);
+	const [loading, setLoading] = useState(false);
+	const totalPrice = items.reduce((acc, item) => {
+		const { productprice } = item;
+		return acc + productprice * item.quantity;
+	}, 0);
+	const totalQuantity = items.reduce((acc, item) => {
+		return acc + item.quantity;
+	}, 0);
+	function updaeQauantity(info) {
+		try {
+			const response = fetch("http://127.0.0.1:5000/editcart", {
+				method: "Put",
+				body: JSON.stringify(info),
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			if (response.ok) {
+				alert("hi");
+			} else {
+				console.log("user not registered", response.statusText);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+	const deleteCartItem = (productid, cartid) => {
+		const updateditems = items.filter((product) => product.id !== productid);
+		setItems(updateditems);
+		setCartLength(cartLength - 1);
 
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
+		try {
+			const response = fetch(`http://127.0.0.1:5000/deleteCart/${cartid}`, {
+				method: "Delete",
+				headers: {
+					"Content-Type": "application/json",
+					// Authorization: `Bearer ${token}`,
+				},
+			});
+			if (response.ok) {
+				alert("hi");
+			} else {
+				console.log("user not registered", response.statusText);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	const handleIncrement = (productIndex, productidd) => {
+		// setProductId(productidd);
+		const updatedItems = [...items];
+		updatedItems[productIndex].quantity += 1;
+		// setQuantity(updatedItems[productIndex].quantity);
+		setItems(updatedItems);
+		const info = {
+			quantityy: updatedItems[productIndex].quantity,
+			productid: productidd,
+			userId,
+		};
+		updaeQauantity(info);
+	};
+	const handleDecrement = async (productIndex, productidd) => {
+		// setProductId(productidd);
 
-  const handleDecrement = () => {
-    if (quantity > 0) {
-      setQuantity(quantity - 1);
-    }
-  };
-  return (
-    <div>
-      {" "}
-      <Header />
-      <div className="whole">
-        <h1 className="carthead"> Service Cart</h1>
+		const updatedItems = [...items];
+		if (updatedItems[productIndex].quantity > 1) {
+			updatedItems[productIndex].quantity -= 1;
+			// setQuantity(updatedItems[productIndex].quantity);
+			setItems(updatedItems);
+			const info = {
+				quantityy: updatedItems[productIndex].quantity,
+				productid: productidd,
+				userId,
+			};
+			updaeQauantity(info);
+		}
+	};
 
-        <div className="ll">
-          <div className="cartcontainer">
-            <div className="cart-image-container">
-              <img src="./images/G7.jpg" alt="" className="cart-image" />
-            </div>
-          </div>
-          <div className="middle">
-            <div className="pad">
-              <p className="cart-title">EyeLash Extension</p>
-              <div className="boxcart">
-                <span className="plus" onClick={handleIncrement}>
-                  &#43;
-                </span>
-                <span className="plus">{quantity}</span>
-                <span className="minuscart" onClick={handleDecrement}>
-                  &#8722;
-                </span>
-              </div>
-              <p className="price">300.00 Birr</p>
-              <MdOutlineCancel className="cancel-icon" />
-            </div>
+	const handlePayment = async () => {
+		setLoading(true);
+		const response = await fetch("http://127.0.0.1:5000/payment", {
+			method: "Post",
+			body: JSON.stringify({
+				fname: userData[0].fname,
+				lname: userData[0].lname,
+				email: userData[0].email,
+				phone: userData[0].phone,
+				amount: totalPrice,
+			}),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+		if (response.ok) {
+			setLoading(false);
+			const paymentData = await response.json();
+			window.open(paymentData.url, "_blank");
+		}
+	};
+	return (
+		<div>
+			{" "}
+			<Header />
+			<div className="whole">
+				{cartLength > 0 && (
+					<>
+						<h1 className="carthead"> Shooping Cart</h1>
+						<p className="numberofitems">
+							{" "}
+							You have {cartLength} items in your cart{" "}
+						</p>
+						<div className="cartcontainer">
+							<div>
+								{items.map((product, index) => (
+									<div className="ll">
+										<div className="cartcontainer">
+											<div className="cart-image-container">
+												<img
+													src={product.productimage}
+													alt=""
+													className="cart-image"
+												/>
+											</div>
+										</div>
+										<div className="middle">
+											<div className="pad">
+												<p className="cart-title">{product.productname}</p>
+												<div className="boxcart">
+													<button
+														className="quantityButton plus"
+														onClick={() =>
+															handleIncrement(
+																index,
+																product.id,
+																product.cart_id
+															)
+														}>
+														<FaPlus />
+													</button>
+													<span className="quantity">{product.quantity}</span>
+													<button
+														className="quantityButton minus"
+														onClick={() => handleDecrement(index, product.id)}>
+														<FaMinus />
+													</button>
+												</div>
+												<p className="price">{product.productprice}</p>
+												<MdDeleteForever
+													className="cancel-icon"
+													onClick={() =>
+														deleteCartItem(product.id, product.cart_id)
+													}
+												/>
+											</div>
+										</div>
+									</div>
+								))}
+							</div>
+							<div className="pricingdetails">
+								<div className="pricingdetails-div">
+									<h1 className="summary-h1">Payment Details</h1>
+									<div className="hrr"></div>
+									<p className="summary-p"> Quantity: {totalQuantity}</p>
+									<p className="summary-p">Total: {totalPrice} ETB</p>
+									{/* <Link to="/login"> */}
+									<button className="checkout" onClick={handlePayment}>
+										Purchuase <FaArrowRight />{" "}
+									</button>
+									{/* </Link> */}
+								</div>
+							</div>
+						</div>
 
-            <hr className="middlehr" />
-          </div>
-
-          <div className="leftside">
-            <p className="checkout">CHECK OUT</p>
-            <p className="totaltitle">Total price</p>
-            <p className="subtotal">1200 Birr</p>
-            <hr className="lefthr" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+						{/* <div className="leftside">
+						<p className="checkout">CHECK OUT</p>
+						<p className="totaltitle">Total price</p>
+						<p className="subtotal">1200 Birr</p>
+						<hr className="lefthr" />
+					</div> */}
+					</>
+				)}
+				{cartLength == 0 && <h1 className="carthead">Cart is Empty!</h1>}
+				{loading && (
+					<div className="overlay">
+						<div class="loader"></div>
+					</div>
+				)}
+			</div>
+		</div>
+	);
 }
 export default Cart;

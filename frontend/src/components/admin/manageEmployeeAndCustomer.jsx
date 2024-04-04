@@ -1,38 +1,72 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../../assets/styles/Admin/managemployee.css";
 import { useEffect, useState } from "react";
+import { useAuthContext } from "../../context/Autcontext";
+import { useServiceProdctContext } from "../../context/productAndServicecomtext";
+
 function Manageemployee(props) {
 	const [customer, setcustomerr] = useState([]);
 	const [employee, setEmployee] = useState([]);
+	const navigate = useNavigate();
+	const { token } = useAuthContext();
+	const { setEmployeee } = useServiceProdctContext();
 	useEffect(() => {
-		fetch("http://127.0.0.1:5000/customer", {
-			method: "GET",
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				setcustomerr(data);
+		async function fetchEmployeeData() {
+			const response = await fetch("http://127.0.0.1:5000/employee", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
 			});
-	}, []);
 
-	useEffect(() => {
-		fetch("http://127.0.0.1:5000/employee", {
-			method: "GET",
-		})
-			.then((response) => response.json())
-			.then((data) => {
+			if (response.ok) {
+				const data = await response.json();
 				setEmployee(data);
+			} else {
+				console.log(response);
+				navigate("/404page", { replace: true });
+			}
+		}
+
+		async function fetchCustomerData() {
+			const response = await fetch("http://127.0.0.1:5000/customer", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
 			});
+
+			if (response.ok) {
+				const data = await response.json();
+
+				setcustomerr(data);
+			} else {
+				navigate("/404page", { replace: true });
+			}
+		}
+
+		fetchEmployeeData();
+		fetchCustomerData();
 	}, []);
 	const handleEditEmployee = async (employeeid) => {
 		const response = await fetch(
 			`http://127.0.0.1:5000/employee/${employeeid}`,
 			{
 				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
 			}
 		);
 		if (response.ok) {
 			const data = await response.json();
 			console.log(data);
-			localStorage.setItem("employeeData", JSON.stringify(data));
+			// localStorage.setItem("employeeData", JSON.stringify(data));
+			setEmployeee(data);
 			console.log("service  data set in local storage:", data);
 		} else {
 			console.error("Failed to fetch product data");
@@ -43,6 +77,10 @@ function Manageemployee(props) {
 			`http://127.0.0.1:5000/employee/${employeeid}`,
 			{
 				method: "Delete",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
 			}
 		);
 		if (response.ok) {
@@ -82,6 +120,7 @@ function Manageemployee(props) {
 						<th>Phone</th>
 						<th>Age</th>
 						<th>Adress</th>
+						<th>image</th>
 
 						{props.isEmployee && (
 							<>
@@ -111,7 +150,9 @@ function Manageemployee(props) {
 								<td>{data.phone}</td>
 								<td>{data.age}</td>
 								<td>{data.address}</td>
-
+								<td>
+									<img src={data.pimage} alt="" className="image-admin" />
+								</td>
 								<td>{data.gender}</td>
 								<td>{data.profession}</td>
 								<td>

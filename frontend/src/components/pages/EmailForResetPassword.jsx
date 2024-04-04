@@ -1,13 +1,10 @@
+import React from "react";
 import { useState } from "react";
+
 import "../../assets/styles/resetEmail.css";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../context/Autcontext";
-import { useEffect } from "react";
 
-function EmailForResetPassword() {
-	const [Email, setEmail] = useState("");
-
-	console.log("hi");
+function EmailForResetPassword({ email, setEmail }) {
 	const [visiblity, setVisiblity] = useState(false);
 	const [isUser, setUser] = useState(true);
 
@@ -17,14 +14,15 @@ function EmailForResetPassword() {
 
 	const handlesubmit = async (e) => {
 		e.preventDefault();
+
 		try {
 			const response = await fetch(
-				`http://127.0.0.1:5000/resetemail?email=${Email}`
+				`http://127.0.0.1:5000/resetemail?email=${email}`
 			);
 
 			if (response.ok) {
 				const data = await response.json();
-				localStorage.setItem("email", data.email);
+				setEmail(data.email);
 				setVisiblity(true);
 				setUser(true);
 			}

@@ -1,3 +1,5 @@
+import React from "react";
+
 import "../../assets/styles/Admin/admin.css";
 import { FaUser } from "react-icons/fa";
 import { useState, useEffect } from "react";
@@ -17,6 +19,7 @@ import EditEmployee from "../admin/editEmployee";
 import { RiDashboard3Fill } from "react-icons/ri";
 import "../../assets/styles/Admin/viewAppointment.css";
 import ViewAppointment from "../admin/viewAppointment";
+import { useServiceProdctContext } from "../../context/productAndServicecomtext";
 
 function Admin() {
 	const [isEmployee, setEmployee] = useState(true);
@@ -34,6 +37,7 @@ function Admin() {
 	const [showPopup, setShowPopup] = useState(false);
 	const [popupMessage, setPopupMessage] = useState("");
 	const [showAppointment, setShowAppointment] = useState(false);
+	const { setServicee, setProductt } = useServiceProdctContext();
 
 	const handleEmployee = (e) => {
 		e.preventDefault();
@@ -106,6 +110,7 @@ function Admin() {
 		setShowEditService(false);
 		setShowEditEmployee(false);
 		setShowAppointment(false);
+		setPopupMessage("Employee Added Successfully");
 	};
 	const handleAddProduct = (e) => {
 		e.preventDefault();
@@ -118,6 +123,7 @@ function Admin() {
 		setShowEditService(false);
 		setShowEditEmployee(false);
 		setShowAppointment(false);
+		setPopupMessage("Product Added Successfully");
 	};
 	const handleAddService = (e) => {
 		e.preventDefault();
@@ -130,6 +136,7 @@ function Admin() {
 		setShowEditService(false);
 		setShowEditEmployee(false);
 		setShowAppointment(false);
+		setPopupMessage("Service Added Successfully");
 	};
 	const handleShowEditProduct = (e) => {
 		setShowEditProduct(true);
@@ -141,6 +148,7 @@ function Admin() {
 		setShowEditService(false);
 		setShowEditEmployee(false);
 		setShowAppointment(false);
+		setPopupMessage("Product Edited Successfully");
 	};
 	const handleShowEditService = (e) => {
 		setShowEditService(true);
@@ -152,6 +160,7 @@ function Admin() {
 		setShowEmploye(false);
 		setShowEditEmployee(false);
 		setShowAppointment(false);
+		setPopupMessage("Service Edited Successfully");
 	};
 	const handleShowEditEmployee = (e) => {
 		setShowEditEmployee(true);
@@ -163,6 +172,7 @@ function Admin() {
 		setShowProduct(false);
 		setShowEmploye(false);
 		setShowAppointment(false);
+		setPopupMessage("Employee Edited Successfully");
 	};
 	const handleShowAppointment = (e) => {
 		setShowAppointment(true);
@@ -189,7 +199,9 @@ function Admin() {
 		if (response.ok) {
 			const data = await response.json();
 			console.log(data);
-			localStorage.setItem("productData", JSON.stringify(data));
+			// localStorage.setItem("productData", JSON.stringify(data));
+			setProductt(data);
+
 			console.log("Product data set in local storage:", data);
 		} else {
 			console.error("Failed to fetch product data");
@@ -203,7 +215,8 @@ function Admin() {
 		if (response.ok) {
 			const data = await response.json();
 			console.log(data);
-			localStorage.setItem("serviceData", JSON.stringify(data));
+			// localStorage.setItem("serviceData", JSON.stringify(data));
+			setServicee(data);
 			console.log("service  data set in local storage:", data);
 		} else {
 			console.error("Failed to fetch product data");
@@ -223,12 +236,6 @@ function Admin() {
 							</div>
 							<div>
 								<ul>
-									<li>
-										<a href="#" onClick={handleProduct}>
-											{" "}
-											<RiDashboard3Fill /> Dashboard
-										</a>
-									</li>
 									<li>
 										<a href="#" onClick={handleProduct}>
 											{" "}
@@ -294,7 +301,15 @@ function Admin() {
 						</div>
 					</div>
 				</div>
-				<div>
+				{/* <div className="ffffff">
+					<div className="ff">
+						<h1>13</h1>
+						<h3>Product</h3>
+					</div>
+					<div className="ff">
+						<h1>13</h1>
+						<h3>service</h3>
+					</div>
 					<div className="ff">
 						<h1>13</h1>
 						<h3>customer</h3>
@@ -307,16 +322,8 @@ function Admin() {
 						<h1>13</h1>
 						<h3>Appointment</h3>
 					</div>
-					<div className="ff">
-						<h1>13</h1>
-						<h3>Product</h3>
-					</div>
-					<div className="ff">
-						<h1>13</h1>
-						<h3>service</h3>
-					</div>
-				</div>
-				{/* {showAppointment && <ViewAppointment />}
+				</div> */}
+				{showAppointment && <ViewAppointment />}
 
 				{showEmploye && (
 					<>
@@ -348,41 +355,58 @@ function Admin() {
 				)}
 				{showAddEmployee && (
 					<>
-						<AddEmployee handleEmployee={handleEmployee} />
+						<AddEmployee
+							handleEmployee={handleEmployee}
+							handleShowPopup={handleShowPopup}
+						/>
 					</>
 				)}
 				{showAddProduct && (
 					<>
-						<AddProduct handleProduct={handleProduct} />
+						<AddProduct
+							handleProduct={handleProduct}
+							handleShowPopup={handleShowPopup}
+						/>
 					</>
 				)}
 
 				{showAddService && (
 					<>
-						<AddService handleService={handleService} />
+						<AddService
+							handleService={handleService}
+							handleShowPopup={handleShowPopup}
+						/>
 					</>
 				)}
 				{showEditProduct && (
 					<>
 						{" "}
-						<EditProduct handleProduct={handleProduct} />{" "}
+						<EditProduct
+							handleProduct={handleProduct}
+							handleShowPopup={handleShowPopup}
+						/>{" "}
 					</>
 				)}
 
 				{showEditService && (
 					<>
 						{" "}
-						<EditService handleService={handleService} />{" "}
+						<EditService
+							handleService={handleService}
+							handleShowPopup={handleShowPopup}
+						/>{" "}
 					</>
 				)}
 				{showEditEmployee && (
 					<>
-						<EditEmployee />
+						<EditEmployee
+							handleEmployee={handleEmployee}
+							handleShowPopup={handleShowPopup}
+						/>
 					</>
-				)} */}
+				)}
 			</div>
-
-			{/* {showPopup && (
+			{showPopup && (
 				<>
 					<div className="popup-container" onClick={handleShowPopup}>
 						<div className="popup">
@@ -391,7 +415,7 @@ function Admin() {
 						</div>
 					</div>
 				</>
-			)} */}
+			)}
 		</div>
 	);
 }

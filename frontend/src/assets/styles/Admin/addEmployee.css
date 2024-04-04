@@ -38,13 +38,15 @@ select {
 	width: 50%;
 	border-radius: 12px;
 	text-align: center;
-	margin-top: 2rem;
+
 	color: #261a2f;
+	border: none;
 }
 .conatnerforaddemployee {
 	background: #261a2f;
 	padding-left: 40px;
+	margin-top: 30px;
 }
-.error{
-	color:rgb(229, 51, 51);
+.error {
+	color: rgb(229, 51, 51);
 }

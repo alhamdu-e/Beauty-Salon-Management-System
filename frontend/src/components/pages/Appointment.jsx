@@ -1,11 +1,13 @@
+import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState, useEffect } from "react";
 import "../../assets/styles/appointment.css";
 import Header from "../Header";
-import { useAuth } from "../../context/Autcontext";
-import { Link } from "react-router-dom";
+import { useUserContext } from "../../context/UserContext";
+
 function Appointment(props) {
+	const { userId } = useUserContext();
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [selectedStartTime, setSelectedStartTime] = useState(null);
 	const [startTime, setStartTime] = useState(null);
@@ -20,11 +22,8 @@ function Appointment(props) {
 	const [serviceHour, setServiceHour] = useState(props.serviceHour);
 	const [serviceId, setServiceId] = useState(props.serviceId);
 
-	console.log(serviceId);
-
 	const [showPopup, setShowPopup] = useState(false);
 
-	const userId = localStorage.getItem("userId");
 	const [appointmetDate, setAppointmentDate] = useState([]);
 
 	const handleShowPopup = (e) => {
@@ -388,230 +387,230 @@ function Appointment(props) {
 					storedAppointmentStartTime === startTime &&
 					storedAppointmentEndTime === endTime) ||
 				(date === storedAppointmentDate &&
-					storedStartHour == newEndHour &&
+					storedStartHour === newEndHour &&
 					NewEndMinutes <= storedStartMinutes) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 10 &&
-					newStartHour == 9) ||
+					storedEndHour === 10 &&
+					newStartHour === 9) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 10 &&
+					storedEndHour === 10 &&
 					NewMinutes < storedMinutes &&
-					newStartHour == 10) ||
+					newStartHour === 10) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 11 &&
-					(newStartHour == 10 || (newStartHour == 9 && NewMinutes > 0))) ||
+					storedEndHour === 11 &&
+					(newStartHour === 10 || (newStartHour === 9 && NewMinutes > 0))) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 11 &&
+					storedEndHour === 11 &&
 					NewMinutes < storedMinutes &&
-					newStartHour == 11) ||
-				(storedEndHour == 12 &&
+					newStartHour === 11) ||
+				(storedEndHour === 12 &&
 					date === storedAppointmentDate &&
-					(newStartHour == 11 || (newStartHour == 10 && NewMinutes > 0))) ||
-				(storedEndHour == 12 &&
+					(newStartHour === 11 || (newStartHour === 10 && NewMinutes > 0))) ||
+				(storedEndHour === 12 &&
 					date === storedAppointmentDate &&
 					NewMinutes < storedMinutes &&
-					newStartHour == 12) ||
-				(storedEndHour == 1 &&
+					newStartHour === 12) ||
+				(storedEndHour === 1 &&
 					date === storedAppointmentDate &&
-					(newStartHour == 12 || (newStartHour == 11 && NewMinutes > 0))) ||
-				(storedEndHour == 1 &&
+					(newStartHour === 12 || (newStartHour === 11 && NewMinutes > 0))) ||
+				(storedEndHour === 1 &&
 					date === storedAppointmentDate &&
-					newStartHour == 1 &&
-					NewMinutes < storedMinutes &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour == 2 &&
-					date === storedAppointmentDate &&
-					(newStartHour == 1 || (newStartHour == 12 && NewMinutes > 0)) &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour == 2 &&
-					date === storedAppointmentDate &&
-					newStartHour == 2 &&
+					newStartHour === 1 &&
 					NewMinutes < storedMinutes &&
 					storedMeridian === NewMeridian) ||
-				(storedEndHour == 3 &&
+				(storedEndHour === 2 &&
 					date === storedAppointmentDate &&
-					(newStartHour == 2 || (newStartHour == 1 && NewMinutes > 0)) &&
+					(newStartHour === 1 || (newStartHour === 12 && NewMinutes > 0)) &&
 					storedMeridian === NewMeridian) ||
-				(storedEndHour == 3 &&
+				(storedEndHour === 2 &&
 					date === storedAppointmentDate &&
-					newStartHour == 3 &&
+					newStartHour === 2 &&
 					NewMinutes < storedMinutes &&
 					storedMeridian === NewMeridian) ||
-				(storedEndHour == 4 &&
+				(storedEndHour === 3 &&
 					date === storedAppointmentDate &&
-					(newStartHour == 3 || (newStartHour == 2 && NewMinutes > 0)) &&
+					(newStartHour === 2 || (newStartHour === 1 && NewMinutes > 0)) &&
 					storedMeridian === NewMeridian) ||
-				(storedEndHour == 4 &&
+				(storedEndHour === 3 &&
 					date === storedAppointmentDate &&
-					newStartHour == 4 &&
+					newStartHour === 3 &&
 					NewMinutes < storedMinutes &&
 					storedMeridian === NewMeridian) ||
-				(storedEndHour == 5 &&
+				(storedEndHour === 4 &&
 					date === storedAppointmentDate &&
-					(newStartHour == 4 || (newStartHour == 3 && NewMinutes > 0)) &&
+					(newStartHour === 3 || (newStartHour === 2 && NewMinutes > 0)) &&
 					storedMeridian === NewMeridian) ||
-				(storedEndHour == 5 &&
+				(storedEndHour === 4 &&
 					date === storedAppointmentDate &&
-					newStartHour == 5 &&
+					newStartHour === 4 &&
 					NewMinutes < storedMinutes &&
 					storedMeridian === NewMeridian) ||
-				(storedEndHour == 6 &&
+				(storedEndHour === 5 &&
 					date === storedAppointmentDate &&
-					(newStartHour == 5 || (newStartHour == 4 && NewMinutes > 0)) &&
+					(newStartHour === 4 || (newStartHour === 3 && NewMinutes > 0)) &&
 					storedMeridian === NewMeridian) ||
-				(storedEndHour == 6 &&
+				(storedEndHour === 5 &&
 					date === storedAppointmentDate &&
-					newStartHour == 6 &&
+					newStartHour === 5 &&
 					NewMinutes < storedMinutes &&
 					storedMeridian === NewMeridian) ||
-				(storedEndHour == 7 &&
+				(storedEndHour === 6 &&
 					date === storedAppointmentDate &&
-					(newStartHour == 6 || (newStartHour == 5 && NewMinutes > 0)) &&
+					(newStartHour === 5 || (newStartHour === 4 && NewMinutes > 0)) &&
 					storedMeridian === NewMeridian) ||
-				(storedEndHour == 7 &&
+				(storedEndHour === 6 &&
 					date === storedAppointmentDate &&
-					newStartHour == 7 &&
+					newStartHour === 6 &&
+					NewMinutes < storedMinutes &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour === 7 &&
+					date === storedAppointmentDate &&
+					(newStartHour === 6 || (newStartHour === 5 && NewMinutes > 0)) &&
+					storedMeridian === NewMeridian) ||
+				(storedEndHour === 7 &&
+					date === storedAppointmentDate &&
+					newStartHour === 7 &&
 					NewMinutes < storedMinutes &&
 					storedMeridian === NewMeridian) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 11 &&
+					storedEndHour === 11 &&
 					timeDifference &&
-					(newStartHour == 9 || newStartHour == 10)) ||
+					(newStartHour === 9 || newStartHour === 10)) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 11 &&
+					storedEndHour === 11 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour == 11) ||
+					newStartHour === 11) ||
 				(date === storedAppointmentDate &&
-					storedEndHour == 12 &&
+					storedEndHour === 12 &&
 					timeDifference &&
-					(newStartHour == 11 || newStartHour == 10)) ||
+					(newStartHour === 11 || newStartHour === 10)) ||
 				(date === storedAppointmentDate &&
-					storedEndHour == 12 &&
+					storedEndHour === 12 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour == 9) ||
+					newStartHour === 9) ||
 				(date === storedAppointmentDate &&
-					storedEndHour == 12 &&
+					storedEndHour === 12 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour == 12) ||
+					newStartHour === 12) ||
 				(date === storedAppointmentDate &&
-					storedEndHour == 1 &&
+					storedEndHour === 1 &&
 					timeDifference &&
-					(newStartHour == 11 || newStartHour == 12)) ||
+					(newStartHour === 11 || newStartHour === 12)) ||
 				(date === storedAppointmentDate &&
-					storedEndHour == 1 &&
+					storedEndHour === 1 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour == 10) ||
+					newStartHour === 10) ||
 				(date === storedAppointmentDate &&
-					storedEndHour == 1 &&
+					storedEndHour === 1 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour == 1) ||
+					newStartHour === 1) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 2 &&
+					storedEndHour === 2 &&
 					timeDifference &&
-					(newStartHour == 1 || newStartHour == 12)) ||
+					(newStartHour === 1 || newStartHour === 12)) ||
 				(date === storedAppointmentDate &&
-					storedEndHour == 2 &&
+					storedEndHour === 2 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour == 11) ||
+					newStartHour === 11) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 2 &&
+					storedEndHour === 2 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour == 2) ||
+					newStartHour === 2) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 3 &&
+					storedEndHour === 3 &&
 					timeDifference &&
-					(newStartHour == 1 || newStartHour == 2)) ||
+					(newStartHour === 1 || newStartHour === 2)) ||
 				(date === storedAppointmentDate &&
-					storedEndHour == 3 &&
+					storedEndHour === 3 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour == 12) ||
+					newStartHour === 12) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 3 &&
+					storedEndHour === 3 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour == 3) ||
+					newStartHour === 3) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 4 &&
+					storedEndHour === 4 &&
 					timeDifference &&
-					(newStartHour == 3 || newStartHour == 2)) ||
+					(newStartHour === 3 || newStartHour === 2)) ||
 				(date === storedAppointmentDate &&
-					storedEndHour == 4 &&
+					storedEndHour === 4 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour == 1) ||
+					newStartHour === 1) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 4 &&
+					storedEndHour === 4 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour == 4) ||
+					newStartHour === 4) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 5 &&
+					storedEndHour === 5 &&
 					timeDifference &&
-					(newStartHour == 3 || newStartHour == 4)) ||
+					(newStartHour === 3 || newStartHour === 4)) ||
 				(date === storedAppointmentDate &&
-					storedEndHour == 5 &&
+					storedEndHour === 5 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour == 2) ||
+					newStartHour === 2) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 5 &&
+					storedEndHour === 5 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour == 5) ||
+					newStartHour === 5) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 6 &&
+					storedEndHour === 6 &&
 					timeDifference &&
-					(newStartHour == 4 || newStartHour == 5)) ||
+					(newStartHour === 4 || newStartHour === 5)) ||
 				(date === storedAppointmentDate &&
-					storedEndHour == 6 &&
+					storedEndHour === 6 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour == 3) ||
+					newStartHour === 3) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 6 &&
+					storedEndHour === 6 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour == 6) ||
+					newStartHour === 6) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 7 &&
+					storedEndHour === 7 &&
 					timeDifference &&
-					(newStartHour == 5 || newStartHour == 6)) ||
+					(newStartHour === 5 || newStartHour === 6)) ||
 				(date === storedAppointmentDate &&
-					storedEndHour == 7 &&
+					storedEndHour === 7 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour == 4) ||
+					newStartHour === 4) ||
 				(date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
-					storedEndHour == 7 &&
+					storedEndHour === 7 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour == 7)
+					newStartHour === 7)
 			);
 		});
 
@@ -753,7 +752,6 @@ function Appointment(props) {
 									</p>
 									<p className="srrv-name">
 										<span className="spanpro">Rating(⭐)</span>5
-										<Link to="/login">jfgjdg</Link>
 									</p>
 								</div>
 							</>

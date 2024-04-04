@@ -1,11 +1,22 @@
+import React from "react";
+
 import "../../assets/styles/Admin/manageproduct.css";
 import { useEffect, useState } from "react";
+import { useAuthContext } from "../../context/Autcontext";
+import { useNavigate } from "react-router-dom";
 function ManageProduct(props) {
 	const [product, setProduct] = useState([]);
 	const [service, setService] = useState([]);
+	const { token } = useAuthContext();
+	const navigate = useNavigate();
+
 	useEffect(() => {
 		fetch("http://127.0.0.1:5000/product", {
 			method: "Get",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
 		})
 			.then((response) => response.json())
 			.then((data) => {
@@ -13,8 +24,18 @@ function ManageProduct(props) {
 			});
 		fetch("http://127.0.0.1:5000/service", {
 			method: "Get",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
 		})
-			.then((response) => response.json())
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				} else {
+					navigate("/404page", { replace: true });
+				}
+			})
 			.then((data) => {
 				setService(data);
 				console.log(service);
@@ -24,6 +45,10 @@ function ManageProduct(props) {
 	const handleDeleteService = async (serviceid) => {
 		const response = await fetch(`http://127.0.0.1:5000/service/${serviceid}`, {
 			method: "Delete",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
 		});
 		if (response.ok) {
 			const data = await response.json();
@@ -35,6 +60,10 @@ function ManageProduct(props) {
 	const handleDeleteProduct = async (productid) => {
 		const response = await fetch(`http://127.0.0.1:5000/product/${productid}`, {
 			method: "Delete",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
 		});
 		if (response.ok) {
 			const data = await response.json();
@@ -45,9 +74,6 @@ function ManageProduct(props) {
 	};
 	return (
 		<div>
-			{/* <div className="welcome-container">
-				<h1 className="welcome">Welcome Alhamdu</h1>
-			</div> */}
 			<div className="employedata-conatiner">
 				{props.isService && (
 					<>
@@ -81,7 +107,7 @@ function ManageProduct(props) {
 								<th colSpan={2}>Action</th>
 							</tr>
 
-							{service.map((service) => (
+							{service?.map((service) => (
 								<tr key={service.id}>
 									<td>{service.servicename}</td>
 

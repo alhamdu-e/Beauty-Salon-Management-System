@@ -1,4 +1,6 @@
 import "../assets/styles/calltoaction.css";
+import React from "react";
+
 function Calltoaction() {
 	return (
 		<div className="call-to-action">

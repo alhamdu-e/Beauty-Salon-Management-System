@@ -1,6 +1,14 @@
+.fullsign {
+	background-image: url("../../girlimg.jpg");
+	background-size: cover;
+	height: 100vh;
+	padding-top: 6rem;
+	background-attachment: fixed;
+}
+
 .loginform {
 	grid-template-columns: 1fr;
-	border: solid 1px #ccc;
+	border: solid 1px #e9e4e471;
 	padding: 4rem;
 	border-radius: 12px;
 	row-gap: 2rem;
@@ -26,8 +34,8 @@
 	display: block;
 	text-align: center;
 	font-size: 2rem;
-	color: rgb(214, 201, 201);
-	background: rgb(185, 49, 15);
+	color: rgb(0, 0, 0);
+	background: rgb(236, 114, 134);
 	border: none;
 	border-radius: 4rem;
 	transition: all 0.5s;
@@ -43,10 +51,7 @@
 	color: #242222;
 	transition: all 0.3s;
 }
-.login-container {
-	background: rgb(14, 1, 24);
-	height: 100vh;
-}
+
 .login-h3 {
 	font-size: 2.4rem;
 	color: #413c3c;
@@ -65,7 +70,7 @@ span a {
 	border-radius: 4rem;
 }
 .login-button:hover {
-	background: rgb(212, 66, 29);
+	background: rgb(224, 154, 166);
 }
 .forget-button:hover {
 	outline: 3px solid rgb(236, 114, 83);

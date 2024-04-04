@@ -12,9 +12,9 @@
 	column-gap: 5rem;
 	padding: 40px;
 	padding-top: 0;
-	border-radius: 12px;
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
+
+	border-bottom-left-radius: 12px;
+	border-bottom-right-radius: 12px;
 	/* border: solid #ccc 1px; */
 	row-gap: 8px;
 	background: #261a2f;
@@ -32,20 +32,24 @@ select {
 	border-radius: 9px;
 }
 .editemployee-a {
-	padding: 1.2rem;
 	background-color: #ebdbfe;
 	font-size: 1.8rem;
-	width: 50%;
+	width: 40%;
 	border-radius: 12px;
 	text-align: center;
-	margin-top: 2rem;
+
 	color: #261a2f;
 	border: none;
+	padding: 0;
+	display: inline-block;
 }
 .conatnereditaddemployee {
 	background: #261a2f;
 	padding-left: 40px;
-	padding-top: 3rem;
+
+	margin-top: 3rem;
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
 }
 .manage-employee-button {
 	border: none;

@@ -1,3 +1,5 @@
+import React from "react";
+
 import Header from "../Header";
 import Hero from "../Hero";
 import Product from "../Product";
@@ -6,21 +8,23 @@ import Gallery from "../Gallery";
 import Calltoaction from "../Calltoaction";
 import Footer from "../Footer";
 import { useRef } from "react";
-import Products from "../Product";
+import { AuthProvider } from "../../context/Autcontext";
 
 function Home() {
-  const service = useRef(null);
-  return (
-    <div>
-      <Header service={service} />
-      <Hero />
-      <Services service={service} />
-      <Product />
-      <Gallery />
-      <Calltoaction />
-      <Footer />
-    </div>
-  );
+	const service = useRef(null);
+	return (
+		<div>
+			<Header service={service} />
+			<Hero />
+			<Services service={service} />
+			<AuthProvider>
+				<Product />
+			</AuthProvider>
+			<Gallery />
+			<Calltoaction />
+			<Footer />
+		</div>
+	);
 }
 export default Home;
 // This is a comment

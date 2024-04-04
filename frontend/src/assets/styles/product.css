@@ -52,7 +52,7 @@ button {
 	margin-top: 30px;
 }
 
-.slick-dots li button:before {
+/* .slick-dots li button:before {
 	font-family: "slick";
 	font-size: 10px;
 	line-height: 20px;
@@ -69,11 +69,11 @@ button {
 
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-}
-.slick-prev:before,
+} */
+/* .slick-prev:before,
 .slick-next:before {
 	opacity: 0.95;
-}
+} */
 .producteachframe {
 	/* background-color: rgb(255, 255, 255); */
 	/* margin-left: 2rem; */

@@ -1,4 +1,6 @@
 import "../assets/styles/gallery.css";
+import React from "react";
+
 function Gallery() {
 	return (
 		<div>

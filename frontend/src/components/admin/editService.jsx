@@ -1,7 +1,13 @@
+import React from "react";
 import "../../assets/styles/Admin/editService.css";
 import { useEffect, useState } from "react";
+import { useAuthContext } from "../../context/Autcontext";
+import { useServiceProdctContext } from "../../context/productAndServicecomtext";
 function EditService(props) {
-	const [serviceData, setServiceData] = useState([]);
+	const { token } = useAuthContext();
+	const { service } = useServiceProdctContext();
+
+	// const [serviceData, setServiceData] = useState([]);
 	const nameRegx = /^[a-z\s]+$/i;
 
 	const numberRegex = /^\d+(\.\d+)?$/;
@@ -12,17 +18,17 @@ function EditService(props) {
 	const [errCat, showErrCat] = useState(false);
 	const [errDur, showErrDur] = useState(false);
 
-	useEffect(() => {
-		// Function to retrieve data from local storage
-		const retrieveServiceDataFromLocalStorage = () => {
-			const storedData = localStorage.getItem("serviceData");
-			if (storedData) {
-				setServiceData(JSON.parse(storedData));
-			}
-		};
-		// Call the function when component mounts
-		retrieveServiceDataFromLocalStorage();
-	}, []);
+	// useEffect(() => {
+	// 	// Function to retrieve data from local storage
+	// 	const retrieveServiceDataFromLocalStorage = () => {
+	// 		const storedData = localStorage.getItem("serviceData");
+	// 		if (storedData) {
+	// 			setServiceData(JSON.parse(storedData));
+	// 		}
+	// 	};
+	// 	// Call the function when component mounts
+	// 	retrieveServiceDataFromLocalStorage();
+	// }, []);
 
 	const [serviceName, setServiceName] = useState("");
 	const [serviceDesc, setServiceDesc] = useState("");
@@ -33,14 +39,14 @@ function EditService(props) {
 
 	useEffect(() => {
 		// Update state with local storage data
-		if (serviceData.length > 0) {
-			setServiceName(serviceData[0].servicename);
-			setServiceDesc(serviceData[0].servicedesc);
-			setServicePrice(serviceData[0].serviceprice);
-			setServiceCatagory(serviceData[0].servicecatagory);
-			setServiceduration(serviceData[0].serviceduration);
+		if (service.length > 0) {
+			setServiceName(service[0].servicename);
+			setServiceDesc(service[0].servicedesc);
+			setServicePrice(service[0].serviceprice);
+			setServiceCatagory(service[0].servicecatagory);
+			setServiceduration(service[0].serviceduration);
 		}
-	}, [serviceData]);
+	}, [service]);
 
 	const handleServiceName = (event) => {
 		setServiceName(event.target.value);
@@ -106,16 +112,18 @@ function EditService(props) {
 
 		formData.append("servicePrice", servicePrice);
 		formData.append("serviceImage", serviceImage);
-		formData.append("serviceId", serviceData[0].id);
+		formData.append("serviceId", service[0].id);
 
 		try {
 			const response = await fetch("http://127.0.0.1:5000/editService", {
 				method: "PUT",
 				body: formData,
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
 			});
 			if (response.ok) {
-				const responseData = await response.json();
-				console.log(responseData);
+				props.handleShowPopup();
 			} else {
 				console.log("Failed to add product:", response.statusText);
 			}
@@ -256,7 +264,7 @@ function EditService(props) {
 							name="servicecatagory"
 							className="serviceform-select"
 							onChange={handleServiceDuration}
-							value={serviceImage}>
+							value={serviceDuration}>
 							<option selected disabled>
 								Select Service duration
 							</option>

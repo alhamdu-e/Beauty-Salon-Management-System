@@ -1,12 +1,69 @@
+import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../assets/styles/product.css";
-
-import React, { useRef } from "react";
-
+import "../assets/styles/detailproduct.css";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../context/UserContext";
+import { useCartContext } from "../context/cartcontext";
+import { useAuthContext } from "../context/Autcontext";
 function Product() {
-	let sliderRef = useRef(null);
+	const { cartLength, items, setItems, setCartLength } = useCartContext();
+	const [product, setProduct] = useState([]);
+	const { userId } = useUserContext();
+	const navigate = useNavigate();
+	// const { usertype } = useAuthContext();
+	// console.log(usertype, "hiii");
+	// const [cart, setCart] = useState(items);
+	// alert(usertype);
+	useEffect(() => {
+		const fetchProduct = async () => {
+			try {
+				const response = await fetch("http://127.0.0.1:5000/product", {
+					method: "Get",
+				});
+				const data = await response.json();
+				console.log(data);
+				setProduct(data);
+			} catch (e) {
+				console.log(e);
+			}
+		};
+		fetchProduct();
+	}, []);
+
+	const handleAddtocart = async () => {
+		if (!userId) {
+			navigate("/login");
+			return false;
+		}
+		const productId = Number(localStorage.getItem("productDetailID"));
+		if (items.length > 0) {
+			const isItemIsOnTheCart = items.filter((p) => p.id == productId);
+			if (isItemIsOnTheCart.length > 0) {
+				alert("item is on the cart");
+				return false;
+			}
+		}
+
+		const response = await fetch(
+			`http://127.0.0.1:5000/addtocart/${productId}`,
+			{
+				method: "POST",
+				body: JSON.stringify({ userId }),
+				headers: { "Content-Type": "application/json" },
+			}
+		);
+
+		if (response.ok) {
+			const cart = await response.json();
+			setItems(cart);
+			setCartLength(cart.length);
+		}
+	};
 	function SampleNextArrow(props) {
 		const { className, style, onClick } = props;
 		return (
@@ -36,7 +93,6 @@ function Product() {
 				style={{
 					...style,
 					display: "block",
-					display: "block",
 					background: "black",
 					width: "40px",
 					height: "40px",
@@ -50,9 +106,8 @@ function Product() {
 		);
 	}
 	const settings = {
-		dots: true,
 		infinite: true,
-		slidesToShow: 5,
+		slidesToShow: 2,
 		slidesToScroll: 1,
 		nextArrow: <SampleNextArrow />,
 		prevArrow: <SamplePrevArrow />,
@@ -64,47 +119,33 @@ function Product() {
 
 	return (
 		<div>
-			<div className="productframe">
-				<p className="productfeature">Products</p>
+			{product?.length > 0 && (
+				<div className="productframe">
+					<p className="productfeature">Products</p>
 
-				<Slider {...settings}>
-					<div className="producteachframe">
-						<img
-							src="./images/extension.jpg"
-							alt=""
-							className="product-image"
-						/>
-						<p className="product-title">Hair Extension</p>
-						<p className="product-price">15000 Birr</p>
-					</div>
-					<div className="producteachframe">
-						<img src="./images/masc.jpg" alt="" className="product-image" />
-						<p className="product-title">Wonder Mascara</p>
-						<p className="product-price">1000 Birr</p>
-					</div>
-					<div className="producteachframe">
-						<img
-							src="./images/foundation.png"
-							alt=""
-							className="product-image"
-						/>
-						<p className="product-title">MAC Foundation</p>
-						<p className="product-price">5000 Birr</p>
-					</div>
-					<div className="producteachframe">
-						<img src="./images/neutro.jpg" alt="" className="product-image" />
-						<p className="product-title">Facial Wash </p>
-						<p className="product-price">3000 Birr</p>
-					</div>
-					<div className="producteachframe">
-						<img src="./images/OIP.jpg" alt="" className="product-image" />
-						<p className="product-title">Makeup Brushes</p>
-						<p className="product-price">1100 Birr</p>
-					</div>
-				</Slider>
-				{/* <button onClick={previous}>Previous</button> */}
-				{/* <button onClick={next}>Next</button> */}
-			</div>
+					<Slider {...settings}>
+						{product.map((product) => (
+							<div className="producteachframe">
+								<img
+									src={product.productimage}
+									alt=""
+									className="product-image"
+								/>
+								<p className="product-title">{product.productname}</p>
+								<p className="product-price">{product.productprice} Birr</p>
+
+								<button
+									onClick={() => {
+										localStorage.setItem("productDetailID", product.id);
+										handleAddtocart();
+									}}>
+									Add to Cart
+								</button>
+							</div>
+						))}
+					</Slider>
+				</div>
+			)}
 		</div>
 	);
 }

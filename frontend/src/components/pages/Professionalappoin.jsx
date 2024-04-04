@@ -2,8 +2,9 @@ import React from "react";
 import Header from "../Header";
 import "../../assets/styles/professionalappoin.css";
 import { useEffect, useState, useRef } from "react";
-
+import { useProfesionalContext } from "../../context/profesionalcontext";
 const Professionalappoin = () => {
+	const { profesionalId } = useProfesionalContext();
 	const [shwoprofileupdate, setShowProfileUpdate] = useState(false);
 	const fileInputRef = useRef(null);
 	const submitButton = useRef(null);
@@ -16,7 +17,7 @@ const Professionalappoin = () => {
 	const openFile = () => {
 		fileInputRef.current.click();
 	};
-	const hhh = () => {
+	const handleUpdateProblem = () => {
 		setShowProfileUpdate(!shwoprofileupdate);
 		submitButton.current.click();
 	};
@@ -24,9 +25,7 @@ const Professionalappoin = () => {
 	const handleProductImage = (event) => {
 		setProfesionaImage(event.target.files[0]);
 		const file = event.target.files[0];
-		// setProductImage(file);
 
-		// Handle file upload immediately after selecting the file
 		const reader = new FileReader();
 		if (file) {
 			reader.readAsDataURL(file);
@@ -38,8 +37,7 @@ const Professionalappoin = () => {
 	};
 
 	useEffect(() => {
-		const profesionaID = localStorage.getItem("userId");
-		fetch(`http://127.0.0.1:5000/profesionalAppointed/${profesionaID}`, {
+		fetch(`http://127.0.0.1:5000/profesionalAppointed/${profesionalId}`, {
 			method: "Get",
 		})
 			.then((response) => response.json())
@@ -47,22 +45,22 @@ const Professionalappoin = () => {
 				setAppointment(data);
 			});
 
-		fetch(`http://127.0.0.1:5000/profesionalData/${profesionaID}`, {
+		fetch(`http://127.0.0.1:5000/profesionalData/${profesionalId}`, {
 			method: "Get",
 		})
 			.then((response) => response.json())
 			.then((data) => {
 				setProfesionalData(data);
-				setUpdatedPhoto(data[0].address);
+				setUpdatedPhoto(data[0].pimage);
 			});
 	}, []);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const profesionaID = localStorage.getItem("userId");
+
 		// Create a new FormData object
 		const formData = new FormData();
-		formData.append("profesionaID", profesionaID);
+		formData.append("profesionaID", profesionalId);
 		formData.append("profesionaImage", profesionaImage);
 
 		try {
@@ -77,7 +75,7 @@ const Professionalappoin = () => {
 			if (response.ok) {
 				console.log("Product edited successfully");
 				const responseData = await response.json();
-				setUpdatedPhoto(responseData[0].address);
+				setUpdatedPhoto(responseData[0].pimage);
 			} else {
 				console.log("Failed to edit product:", response.statusText);
 			}
@@ -137,7 +135,7 @@ const Professionalappoin = () => {
 				<div className="profileshow">
 					<div className="prof-cont">
 						<img src={img} alt="" className="updateprofile" />
-						<button className="update-button" onClick={hhh}>
+						<button className="update-button" onClick={handleUpdateProblem}>
 							Set Profile
 						</button>
 					</div>

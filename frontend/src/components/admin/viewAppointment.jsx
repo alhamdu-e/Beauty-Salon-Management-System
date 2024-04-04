@@ -1,12 +1,24 @@
+import React from "react";
 import { useEffect, useState } from "react";
+import { useAuthContext } from "../../context/Autcontext";
 
 function ViewAppointment() {
+	const { token } = useAuthContext();
+
 	const [appointmentInfo, setAppointmentInfo] = useState([]);
 	useEffect(() => {
 		fetch("http://127.0.0.1:5000/appointmentinformation", {
 			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
 		})
-			.then((response) => response.json())
+			.then((response) => {
+				if (response.ok) {
+					return response.json();
+				}
+			})
 			.then((data) => {
 				console.log(data);
 				setAppointmentInfo(data);
@@ -29,7 +41,7 @@ function ViewAppointment() {
 						</tr>
 					</thead>
 					<tbody>
-						{appointmentInfo.map((data) => (
+						{appointmentInfo?.map((data) => (
 							<tr>
 								<td>{data.appointmentDate}</td>
 								<td>{data.startTime}</td>

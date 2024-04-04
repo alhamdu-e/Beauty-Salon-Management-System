@@ -1,6 +1,8 @@
 import "../assets/styles/footer.css";
 import { FaInstagram, FaFacebook } from "react-icons/fa";
 import { FaTiktok } from "react-icons/fa6";
+import React from "react";
+
 // import Flaticon from "flaticon-react";
 
 function Footer() {
