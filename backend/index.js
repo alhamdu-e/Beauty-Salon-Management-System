@@ -52,10 +52,22 @@ app.get("/product", (req, res) => {
 
 	executeQuery(sql, [], res, "ALL product RETRIVED");
 });
-
+let customerEmail = "";
+let fname = "";
+let lname = "";
+let product = [];
+let amount = "";
+let transactionId = "";
 app.post("/payment", (req, res) => {
 	console.log(req.body);
+	customerEmail = req.body.email;
+	fname = req.body.fname;
+	lname = req.body.lname;
+	product = req.body.product;
+	amount = req.body.amount;
+
 	const randomKey = generateRandomKey(16);
+	transactionId = req.body.fname + "_" + randomKey;
 	const options = {
 		method: "POST",
 		url: "https://api.chapa.co/v1/transaction/initialize",
@@ -70,9 +82,9 @@ app.post("/payment", (req, res) => {
 			first_name: req.body.fname,
 			last_name: req.body.lname,
 			phone_number: "0" + req.body.phone,
-			tx_ref: req.body.fname + "_" + randomKey,
-			callback_url: "https://webhook.site/077164d6-29cb-40df-ba29-8a00e59a7e60",
-			return_url: "http://localhost:3000/",
+			tx_ref: transactionId,
+			callback_url: "http://127.0.0.1:5000/verify",
+			return_url: "http://localhost:3000/fdhfgjgh",
 			title: "Payment for  Purchuasing Product from Glowcity",
 			description: "Glowcity is the best in the City ",
 		}),
@@ -84,6 +96,56 @@ app.post("/payment", (req, res) => {
 		res.status(200).json({ url: data.data.checkout_url });
 	});
 });
+
+app.use("/verify", (req, res) => {
+	const orderQuery =
+		"INSERT INTO orders (customer_email, first_name, last_name, total_amount,transactionRef, status) VALUES (?, ?, ?, ?, ?,?)";
+	const orderValues = [
+		customerEmail,
+		fname,
+		lname,
+		amount,
+		transactionId,
+		"Pending",
+	];
+	db.query(orderQuery, orderValues, (err, results) => {
+		if (err) {
+			console.error("Error inserting order:", err);
+			res.status(500).json({ error: "Failed to insert order" });
+			return;
+		}
+		const orderdID = results.insertId;
+		const orderItemsQuery =
+			"INSERT INTO order_items (order_id, product_name, quantity) VALUES (?, ?, ?)";
+		product.forEach((item) => {
+			const { productname, quantity } = item;
+			const orderItemsValues = [orderdID, productname, quantity];
+			db.query(orderItemsQuery, orderItemsValues, (err) => {
+				if (err) {
+					console.error("Error inserting order item:", err);
+					res.status(500).json({ error: "Failed to insert order item" });
+					return;
+				}
+			});
+			db.query(
+				"delete from cart where cart_id=?",
+				[item.cart_id],
+				(err, res) => {
+					if (err) {
+						console.error("Error deleting Cart item:", err);
+						res.status(500).json({ error: "Failed to insert order item" });
+						return;
+					}
+				}
+			);
+		});
+
+		res
+			.status(200)
+			.json({ message: "Order and order items inserted successfully" });
+	});
+});
+
 app.get("/getCart/:id", (req, res) => {
 	const userId = req.params.id;
 
@@ -94,8 +156,8 @@ app.get("/getCart/:id", (req, res) => {
 			console.log(err);
 			return;
 		}
-		if (result.length > 0) {
-			console.log(result);
+		if (result) {
+			console.log(result, "hhhh");
 			res.status(200).json(result);
 		}
 	});
