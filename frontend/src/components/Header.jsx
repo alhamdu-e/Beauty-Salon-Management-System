@@ -6,12 +6,15 @@ import { useUserContext } from "../context/UserContext";
 import { useCartContext } from "../context/cartcontext";
 function Header(props) {
 	const { token, setToken, setUserType, usertype } = useAuthContext();
-	const { cartLength } = useCartContext();
+	const { items } = useCartContext();
 	const { userId, userName } = useUserContext();
 	const navigate = useNavigate();
 
 	const logout = () => {
 		localStorage.removeItem("token");
+		localStorage.removeItem("userName");
+		localStorage.removeItem("userType");
+		localStorage.removeItem("userid");
 		setToken("");
 		setUserType("");
 		navigate("/", { replace: true });
@@ -63,7 +66,7 @@ function Header(props) {
 						{token && usertype === "user" && (
 							<li>
 								<Link className="navigation-link join" to="/cart">
-									cart {cartLength}
+									cart {items.length}
 								</Link>
 							</li>
 						)}
@@ -76,7 +79,7 @@ function Header(props) {
 								</Link>
 							</li>
 						)}
-						{token && usertype && (
+						{token && (
 							<>
 								<li>
 									<div class="dropdown">
