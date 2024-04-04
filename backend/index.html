@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<form method="POST" action="https://api.chapa.co/v1/hosted/pay">
+			<input
+				type="hidden"
+				name="public_key"
+				value="CHAPUBK_TEST-z9MkHTQyoSMGIdr2PozaFcyEPEJc7ur1" />
+			<input type="hidden" name="tx_ref" value="negade-tx-12345678sss9" />
+			<input type="hidden" name="amount" value="100" />
+			<input type="hidden" name="currency" value="ETB" />
+			<input type="hidden" name="email" value="alhamdu7624@gmail.com" />
+			<input type="hidden" name="first_name" value="Israel" />
+			<input type="hidden" name="last_name" value="Goytom" />
+			<input type="hidden" name="title" value="Let us do this" />
+			<input
+				type="hidden"
+				name="description"
+				value="Paying with Confidence with cha" />
+			<input
+				type="hidden"
+				name="logo"
+				value="https://chapa.link/asset/images/chapa_swirl.svg" />
+			<input
+				type="hidden"
+				name="callback_url"
+				value="https://example.com/callbackurl" />
+			<input
+				type="hidden"
+				name="return_url"
+				value="https://example.com/returnurl" />
+			<input type="hidden" name="meta[title]" value="test" />
+			<button type="submit">Pay Now</button>
+		</form>
+	</body>
+</html>

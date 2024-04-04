@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const db = require("../database/connection.js");
+const crypto = require("crypto");
+const sendEmail = require("../sendEmail.js");
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -26,7 +28,7 @@ const executeQuery = (sql, params = [], res, successMessage) => {
 			console.log(err);
 			res.status(500).json({ message: "Database Erroe" });
 		} else {
-			console.log(successMessage);
+			// console.log(successMessage);
 			res.status(200).json(result);
 		}
 	});
@@ -58,41 +60,101 @@ router.delete("/employee/:id", (req, res) => {
 	});
 });
 
-router.post("/addEmployee", (req, res) => {
+router.delete("/deleteCart/:id", (req, res) => {
+	let id = req.params.id;
+	console.log(id);
+	const sql = "DELETE FROM cart WHERE cart_id =?";
+	db.query(sql, [id], (err, result) => {
+		if (err) {
+			console.log(err);
+		} else {
+			const sql = "select * from cart";
+			db.query(sql, (err, result) => {
+				if (err) {
+					console.log(err, "product");
+				} else {
+					res.status(200).json(result);
+				}
+			});
+		}
+	});
+});
+
+router.post("/addEmployee", upload.single("image"), (req, res) => {
 	const { fname, lname, email, phone, adress, age, gender, profesion } =
 		req.body;
+	const fileName = req.file.filename;
+	const imagePath = "http://127.0.0.1:5000/images/" + fileName;
 	const password = generatePassword();
-	[fname, lname, gender, profesion, email, age, phone, adress, password];
+	const callback = function (error, data, response) {
+		if (error) {
+			console.error(error);
+		} else {
+			console.log("hello");
+		}
+	};
+
+	const content = `<div style="background-color:#0a1b0b;width:500px;margin:auto;text-align:center; border-radius:12px; padding:20px">
+		<h2 style="font-size: 24px;color:#f2f2f2"> Welcome ${fname}</h2>
+		<p style="color:#f2f2f2"">You Have Successfully Registered ✔✔✔</p>
+		<p style="color:#f2f2f2"">Your Password is ${password}</p>
+	</div>`;
+
+	sendEmail(email, callback, content);
 	const sql =
-		"insert into profesional (fname,lname,gender,profession,email,age,phone,address,password) values (?,?,?,?,?,?,?,?,?)";
+		"insert into profesional (fname,lname,gender,profession,email,age,phone,address,password,pimage) values (?,?,?,?,?,?,?,?,?,?)";
 	executeQuery(
 		sql,
-		[fname, lname, gender, profesion, email, age, phone, adress, password],
+		[
+			fname,
+			lname,
+			gender,
+			profesion,
+			email,
+			age,
+			phone,
+			adress,
+			password,
+			imagePath,
+		],
 		res,
 		"ALL employee Added"
 	);
 });
 
-router.put("/editEmployee", (req, res) => {
-	const {
-		fname,
-		lname,
-		email,
-		phone,
-		adress,
-		age,
-		password,
-		gender,
-		profesion,
-		id,
-	} = req.body;
-	const sql = `update profesional set fname=?,lname=?,email=?,phone=?,address=?,age=? ,gender=?,profession=?,password=? where id=?`;
-	executeQuery(
-		sql,
-		[fname, lname, email, phone, adress, age, gender, profesion, password, id],
-		res,
-		"employe edited sucessfully"
-	);
+router.put("/editEmployee", upload.single("image"), (req, res) => {
+	const { fname, lname, email, phone, adress, age, gender, profesion, id } =
+		req.body;
+	let sql = "";
+	let values = [];
+	if (req.file) {
+		const fileName = req.file.filename;
+		const imagePath = "http://127.0.0.1:5000/images/" + fileName;
+		sql = `update profesional set fname=?,lname=?,email=?,phone=?,address=?,age=? ,gender=?,profession=?,pimage =? where id=?`;
+		values = [
+			fname,
+			lname,
+			email,
+			phone,
+			adress,
+			age,
+			gender,
+			profesion,
+			imagePath,
+			id,
+		];
+	} else {
+		sql = `update profesional set fname=?,lname=?,email=?,phone=?,address=?,age=? ,gender=?,profession=? where id=?`;
+		values = [fname, lname, email, phone, adress, age, gender, profesion, id];
+	}
+	executeQuery(sql, values, res, "employe edited sucessfully");
+});
+
+router.put("/editcart", (req, res) => {
+	console.log(req.body);
+	const { quantityy, productid, userId } = req.body;
+	const sql = `update cart set quantity=? where customer_id=? and product_id=?`;
+	executeQuery(sql, [quantityy, userId, productid], res, "Quantity Updated");
 });
 router.get("/employee/:id", (req, res) => {
 	const service = req.params.id;
@@ -114,12 +176,6 @@ router.post("/addProduct", upload.single("productImage"), (req, res) => {
 	executeQuery(sql, params, res, "product added sucessfully");
 });
 
-router.get("/product", (req, res) => {
-	const sql = "select * from product";
-
-	executeQuery(sql, [], res, "ALL product RETRIVED");
-});
-
 router.put("/editProduct", upload.single("productImage"), (req, res) => {
 	const { productName, productDesc, productPrice, productId } = req.body;
 
@@ -138,11 +194,11 @@ router.put("/editProduct", upload.single("productImage"), (req, res) => {
 	executeQuery(sql, values, res, "product edited successfully");
 });
 
-router.get("/product/:id", (req, res) => {
-	const product = req.params.id;
-	const sql = "select * from product where id =?";
-	executeQuery(sql, [product], res, "single product retrived");
-});
+// router.get("/product/:id", (req, res) => {
+// 	const product = req.params.id;
+// 	const sql = "select * from product where id =?";
+// 	executeQuery(sql, [product], res, "single product retrived");
+// });
 
 router.delete("/product/:id", (req, res) => {
 	let id = req.params.id;
@@ -273,6 +329,12 @@ router.delete("/service/:id", (req, res) => {
 			});
 		}
 	});
+});
+// ************************ retrive all user for admin page ********************************
+
+router.get("/customer", (req, res) => {
+	const sql = "SELECT * FROM users";
+	executeQuery(sql, [], res);
 });
 
 module.exports = router;

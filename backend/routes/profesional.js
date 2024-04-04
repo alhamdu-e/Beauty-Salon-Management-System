@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/connection.js");
 const multer = require("multer");
+const jwt = require("jsonwebtoken");
 
 // ************************ handle incoming file ********************************
 
@@ -22,7 +23,6 @@ const executeQuery = (sql, params = [], res) => {
 			console.log(err);
 			res.status(500).json({ message: "Database Erroe" });
 		} else {
-			console.log(result);
 			res.status(200).json(result);
 			// res.status(400);
 		}
@@ -55,6 +55,13 @@ router.get("/profesionalAppointed/:id", (req, res) => {
 	executeQuery(sql, [id], res);
 });
 
+router.get("/customerappointment/:id", (req, res) => {
+	let id = req.params.id;
+	console.log(id);
+	const sql = "SELECT * FROM appointments where customerId = ? ";
+	executeQuery(sql, [id], res);
+});
+
 // ************************ update profesional photo ********************************
 
 router.put(
@@ -64,14 +71,14 @@ router.put(
 		const { profesionaID } = req.body;
 		const fileName = req.file.filename;
 		const imagePath = "http://127.0.0.1:5000/images/" + fileName;
-		const sql = "update profesional set address = ? where id = ?";
+		const sql = "update profesional set pimage = ? where id = ?";
 		db.query(sql, [imagePath, profesionaID], (err, result) => {
 			if (err) {
 				console.log(err);
 				return;
 			}
 			if (result.affectedRows > 0) {
-				const sql = "select address from profesional where id  = ?";
+				const sql = "select pimage from profesional where id  = ?";
 				db.query(sql, [profesionaID], (err, result) => {
 					if (err) {
 						console.log(err);
