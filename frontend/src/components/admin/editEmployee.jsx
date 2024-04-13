@@ -11,7 +11,6 @@ function EditEmployee(props) {
         setemployeeData(JSON.parse(storedData));
       }
     };
-    // Call the function when component mounts
     retrieveEmployeeDataFromLocalStorage();
   }, []);
 

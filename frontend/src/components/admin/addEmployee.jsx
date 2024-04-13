@@ -10,6 +10,7 @@ function AddEmployee(props) {
   const [age, setAge] = useState("");
   const [phone, setPhone] = useState("");
   const [adress, setAdress] = useState("");
+  const [image, setimage] = useState("");
   const [errors, setErrors] = useState({});
 
   const handleChangeFirstName = (event) => {
@@ -36,6 +37,9 @@ function AddEmployee(props) {
   };
   const handleChangeAge = (event) => {
     setAge(event.target.value);
+  };
+  const handleimage = (event) => {
+    setimage(event.target.files[0]);
   };
 
   const validateForm = () => {
@@ -78,41 +82,43 @@ function AddEmployee(props) {
     if (!profesion) {
       errors.profession = "Profession is required";
     }
+    if (!image) {
+      errors.image = "Employee Image is required";
+    }
 
     setErrors(errors);
 
     return Object.keys(errors).length === 0;
   };
 
-  const addemployee = {
-    fname,
-    lname,
-    email,
-    phone,
-    adress,
-    age,
-    gender,
-    profesion,
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (validateForm()) {
+      const formData = new FormData();
+      formData.append("fname", fname);
+      formData.append("lname", lname);
+      formData.append("email", email);
+      formData.append("phone", phone);
+      formData.append("address", adress);
+      formData.append("age", age);
+      formData.append("gender", gender);
+      formData.append("profesion", profesion);
+      formData.append("image", image);
       try {
         const response = await fetch("http://127.0.0.1:5000/addEmployee", {
           method: "POST",
-          body: JSON.stringify(addemployee),
-          headers: { "Content-Type": "application/json" },
+          body: formData,
         });
 
         if (response.ok) {
-          console.log("user registered");
+          const responseData = await response.json();
+          console.log(responseData);
         } else {
-          console.log("user not registered", response.statusText);
+          console.log("Failed to add service:", response.statusText);
         }
       } catch (error) {
-        console.log(error);
+        console.log("Error when adding service:", error);
       }
     }
   };
@@ -128,7 +134,7 @@ function AddEmployee(props) {
           Manage Employee
         </button>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className="addemployee container">
           <div>
             <label htmlFor="firstname">First Name</label>
@@ -195,6 +201,11 @@ function AddEmployee(props) {
               placeholder="Your Adress"
               onChange={handleChangeAddress}
             />
+          </div>
+          <div>
+            <label htmlFor="Image">Employee Image</label>
+            <input type="file" name="image" id="image" onChange={handleimage} />
+            {errors.image && <p className="error">{errors.image}</p>}
           </div>
 
           <div>

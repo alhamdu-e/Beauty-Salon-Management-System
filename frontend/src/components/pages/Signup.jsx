@@ -45,39 +45,47 @@ function Signup() {
   const validateForm = () => {
     let errors = {};
     if (!fname) {
-      errors.fname = "fname is required";
+      errors.fname = "Firstname is required";
     } else if (!fname.match(/^[A-Za-z]+$/)) {
       errors.fname = "First name must contain only characters.";
     }
 
-    if (!lname.match(/^[A-Za-z]+$/)) {
+    if (!lname) {
+      errors.lname = "Lastname is required";
+    } else if (!lname.match(/^[A-Za-z]+$/)) {
       errors.lname = "Last name must contain only characters.";
     }
 
     if (!age) {
-      errors.age = "age is required";
+      errors.age = "Age is required";
     } else if (age < 4 || age > 120) {
       errors.age = "Age must be between 4 and 120.";
     }
     if (!email) {
-      errors.email = "email is required";
+      errors.email = "Email is required";
     } else if (!email.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)) {
       errors.email = "Invalid email format.";
     }
     if (!phone) {
-      errors.email = "phone is required";
+      errors.phone = "Phone is required";
     } else if (!phone.match(/^(09|07)\d{8}$/)) {
       errors.phone = "Invalid phone number format.";
     }
 
-    if (!adress.match(/^(?=.*[A-Za-z])[A-Za-z\d\s,-]+$/)) {
+    if (!adress) {
+      errors.adress = "Address is required";
+    } else if (!adress.match(/^(?=.*[A-Za-z])[A-Za-z\d\s,-]+$/)) {
       errors.adress =
         "Address must contain letters and cannot be only numbers.";
     }
     if (!password) {
-      errors.email = "password is required";
+      errors.password = "Password is required";
     } else if (password.length < 8) {
       errors.password = "Password must be at least 8 characters long.";
+    } else if (!/[A-Z]/.test(password)) {
+      errors.password = "Password must contain at least one uppercase letter.";
+    } else if (!/[!@#$%^&*]/.test(password)) {
+      errors.password = "Password must contain at least one symbol.";
     }
 
     if (password !== confirmPassword) {
@@ -168,12 +176,15 @@ function Signup() {
               <div>
                 <label htmlFor="email">Email</label>
                 <input
-                  type="email"
+                  type="text"
                   name="email"
                   id="email"
                   placeholder="Email"
                   onChange={handleChangeEmail}
                 />
+                {validationErrors.email && (
+                  <span className="error">{validationErrors.email}</span>
+                )}
               </div>
               <div>
                 <label htmlFor="phone">Phone</label>

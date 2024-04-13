@@ -98,7 +98,6 @@ router.post("/login", (req, res) => {
 					return res.status(200).json({ userType: "admin", isAut: token });
 				}
 				const unAuthenicatedUser = false;
-				console.log("User not found");
 				return res.status(404).json(unAuthenicatedUser);
 			});
 		});

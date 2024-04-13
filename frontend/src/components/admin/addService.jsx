@@ -49,9 +49,9 @@ function AddService(props) {
 
     if (!serviceDesc.trim()) {
       errors.serviceDesc = "Service Description is required";
-    } else if (serviceDesc.trim().length < 20) {
+    } else if (serviceDesc.trim().length < 10) {
       errors.serviceDesc =
-        "Service Description should be at least 20 characters long";
+        "Service Description should be at least 10 characters long";
     } else if (
       /^\d+$/.test(serviceDesc.trim()) ||
       /^\d+\s/.test(serviceDesc.trim())
@@ -64,8 +64,9 @@ function AddService(props) {
       errors.servicePrice = "Service Price is required";
     } else if (isNaN(Number(servicePrice))) {
       errors.servicePrice = "Service Price must be a number";
-    } else if (Number(servicePrice) < 200) {
-      errors.servicePrice = "Service Price must be at least 200";
+    } else if (Number(servicePrice) < 200 || Number(servicePrice) < 9999) {
+      errors.servicePrice =
+        "Service Price must be greater than 200 and less than 9999 Birr";
     } else if (!Number.isInteger(Number(servicePrice))) {
       errors.servicePrice = "Service Price must be integer";
     }

@@ -69,16 +69,18 @@ router.delete("/employee/:id", (req, res) => {
 	});
 });
 
-router.post("/addEmployee", (req, res) => {
-	const { fname, lname, email, phone, adress, age, gender, profesion } =
+router.post("/addEmployee",upload.single("image"), (req, res) => {
+	const fileName = req.file.filename;
+	const imagePath = "http://127.0.0.1:5000/images/" + fileName;
+	const { fname, lname, gender, profesion, email, age, phone, adress,image } =
 		req.body;
 	const password = generatePassword();
-	[fname, lname, gender, profesion, email, age, phone, adress, password];
+	[fname, lname, gender, profesion, email, age, phone, adress, password,image];
 	const sql =
-		"insert into profesional (fname,lname,gender,profession,email,age,phone,address,password) values (?,?,?,?,?,?,?,?,?)";
+		"insert into profesional (fname,lname,gender,profession,email,age,phone,address,password,image) values (?,?,?,?,?,?,?,?,?,?)";
 	executeQuery(
 		sql,
-		[fname, lname, gender, profesion, email, age, phone, adress, password],
+		[fname, lname, gender, profesion, email, age, phone, adress, password,image],
 		res,
 		"ALL employee Added"
 	);

@@ -7,6 +7,7 @@ function EditProduct(props) {
   const [productDesc, setProductDesc] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productImage, setProductImage] = useState("");
+  const [productQuantity, setProductQuantity] = useState("");
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -27,6 +28,7 @@ function EditProduct(props) {
       setProductName(productData[0].productname);
       setProductDesc(productData[0].productdesc);
       setProductPrice(productData[0].productprice);
+      setProductQuantity(productData[0].productprice);
     }
   }, [productData]);
 
@@ -45,6 +47,9 @@ function EditProduct(props) {
   const handleProductImage = (event) => {
     setProductImage(event.target.files[0]);
   };
+  const handleProductQuantity = (event) => {
+    setProductQuantity(event.target.value);
+  };
 
   const validateForm = () => {
     const errors = {};
@@ -57,9 +62,9 @@ function EditProduct(props) {
 
     if (!productDesc.trim()) {
       errors.productDesc = "Product Description is required";
-    } else if (productDesc.trim().length < 20) {
+    } else if (productDesc.trim().length < 10) {
       errors.productDesc =
-        "Product Description should be at least 20 characters long";
+        "Product Description should be at least 10 characters long";
     } else if (
       /^\d+$/.test(productDesc.trim()) ||
       /^\d+\s/.test(productDesc.trim())
@@ -74,14 +79,16 @@ function EditProduct(props) {
       errors.productPrice = "Product Price must be a number";
     } else if (!Number.isInteger(Number(productPrice))) {
       errors.productPrice = "Product Price must be integer";
-    } else if (Number(productPrice) < 200) {
-      errors.productPrice = "Product Price must be at least 200 birr";
+    } else if (Number(productPrice) < 200 || Number(productPrice) > 9999) {
+      errors.productPrice =
+        "Product Price must be greater than 200 and less than 9999 Birr";
     }
 
-    if (!productImage) {
-      errors.productImage = "Product Image is required";
+    if (!productQuantity) {
+      errors.productQuantity = "Product Quantity is required";
+    } else if (Number(productQuantity) > 1000) {
+      errors.productQuantity = "Product Quantity must be greater than 1000";
     }
-
     setErrors(errors);
 
     return Object.keys(errors).length === 0;
@@ -100,7 +107,7 @@ function EditProduct(props) {
     formData.append("productPrice", productPrice);
     formData.append("productImage", productImage);
     formData.append("productId", productData[0].id);
-
+    formData.append("productQuantity", productQuantity);
     try {
       const response = await fetch("http://127.0.0.1:5000/editProduct", {
         method: "PUT",
@@ -178,11 +185,26 @@ function EditProduct(props) {
               type="file"
               name="productimage"
               id="productimage"
-              placeholder="Your Address"
+              placeholder="Product Image"
               onChange={handleProductImage}
             />
             {errors.productImage && (
               <p className="error">{errors.productImage}</p>
+            )}
+          </div>
+          <div>
+            <label htmlFor="product-quantity">Product Quantity</label>
+            <input
+              type="number"
+              name="productquantity"
+              id="productquantity"
+              placeholder="Product Quantity"
+              onChange={handleProductQuantity}
+              value={productQuantity}
+              min={1}
+            />
+            {errors.productQuantity && (
+              <p className="error">{errors.productQuantity}</p>
             )}
           </div>
           <div>
