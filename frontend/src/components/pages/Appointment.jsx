@@ -324,6 +324,8 @@ function Appointment(props) {
 	const handleSubmit = async (event) => {
 		localStorage.setItem("localAppoint", JSON.stringify(localAppoint));
 		event.preventDefault();
+		setIsTimePassed(false);
+		setIsTimeToClosed(false);
 		const currntHours = parseInt(new Date().getHours());
 		const curreMinutes = parseInt(new Date().getMinutes());
 		let newStartHour = "";
@@ -1222,7 +1224,10 @@ function Appointment(props) {
 					headers: { "Content-Type": "application/json" },
 				}
 			);
-			// if (response.ok) {
+			if (response.ok) {
+				const paymentData = await response.json();
+				window.open(paymentData.url, "_blank");
+			}
 			// 	fetch(
 			// 		`http://127.0.0.1:5000/profesionalAppointed/${selectedProfessionalId}`,
 			// 		{

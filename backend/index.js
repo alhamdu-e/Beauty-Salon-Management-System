@@ -97,12 +97,11 @@ app.post("/payment", (req, res) => {
 	});
 });
 
-app.post("appointment/payment", (req, res) => {
+app.post("/appointment/payment", (req, res) => {
 	console.log(req.body);
 	customerEmail = req.body.email;
 	fname = req.body.fname;
 	lname = req.body.lname;
-	product = req.body.product;
 	amount = req.body.amount;
 
 	const randomKey = generateRandomKey(16);
@@ -122,7 +121,7 @@ app.post("appointment/payment", (req, res) => {
 			last_name: req.body.lname,
 			phone_number: "0" + req.body.phone,
 			tx_ref: transactionId,
-			callback_url: "http://127.0.0.1:5000/verify",
+			// callback_url: "http://127.0.0.1:5000/verify",
 			return_url: "http://localhost:3000/fdhfgjgh",
 			title: "Payment for  Purchuasing Product from Glowcity",
 			description: "Glowcity is the best in the City ",
@@ -132,6 +131,7 @@ app.post("appointment/payment", (req, res) => {
 	request(options, function (error, response) {
 		if (error) throw new Error(error);
 		const data = JSON.parse(response.body);
+		console.log(data);
 		res.status(200).json({ url: data.data.checkout_url });
 	});
 });
