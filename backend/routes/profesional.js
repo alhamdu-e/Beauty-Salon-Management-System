@@ -101,27 +101,27 @@ router.get("/appointmentinformation", (req, res) => {
 
 // ************************ inserting appointment  information to the database ********************************
 
-router.post("/appointment", (req, res) => {
-	const {
-		selectedProfessionalId,
-		userId,
-		date,
-		startTime,
-		endTime,
-		serviceId,
-	} = req.body;
-	console.log(serviceId);
-	const sql =
-		"insert into appointments (customerId,professionalId,appointmentDate,startTime,endTime,serviceId) values (?,?,?,?,?,?)";
-	const param = [
-		userId,
-		selectedProfessionalId,
-		date,
-		startTime,
-		endTime,
-		serviceId,
-	];
-	executeQuery(sql, param, res);
-});
+// router.post("/appointment", (req, res) => {
+// 	const {
+// 		selectedProfessionalId,
+// 		userId,
+// 		date,
+// 		startTime,
+// 		endTime,
+// 		serviceId,
+// 	} = req.body;
+// 	console.log(serviceId);
+// 	const sql =
+// 		"insert into appointments (customerId,professionalId,appointmentDate,startTime,endTime,serviceId) values (?,?,?,?,?,?)";
+// 	const param = [
+// 		userId,
+// 		selectedProfessionalId,
+// 		date,
+// 		startTime,
+// 		endTime,
+// 		serviceId,
+// 	];
+// 	executeQuery(sql, param, res);
+// });
 
 module.exports = router;

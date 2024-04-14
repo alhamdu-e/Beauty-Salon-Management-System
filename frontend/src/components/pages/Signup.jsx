@@ -1,12 +1,7 @@
 import { useState } from "react";
 import "../../assets/styles/signup.css";
+import { Link, useNavigate } from "react-router-dom";
 function Signup() {
-	// Example in a React component
-	// fetch("http://127.0.0.1:5000/login")
-	//   .then((response) => response.json())
-	//   .then((data) => console.log("Server Response:", data.message))
-	//   .catch((error) => co nsole.error("Error fetching data:", error));
-
 	const [fname, setFname] = useState("");
 	const [lname, setLname] = useState("");
 	const [email, setEmail] = useState("");
@@ -16,6 +11,8 @@ function Signup() {
 	const [adress, setAdress] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [validationErrors, setValidationErrors] = useState({});
+	const [errorMessage, setErrMessage] = useState(false);
+	const navigate = useNavigate();
 
 	const handleChangeFirstName = (event) => {
 		setFname(event.target.value);
@@ -80,14 +77,14 @@ function Signup() {
 		}
 		if (!password) {
 			errors.password = "Password is required";
-		} else if (password.length < 8) {
-			errors.password = "Password must be at least 8 characters long.";
-		} else if (!/[A-Z]/.test(password)) {
-			errors.password = "Password must contain at least one uppercase letter.";
-		} else if (!/[!@#$%^&*]/.test(password)) {
-			errors.password = "Password must contain at least one symbol.";
+			// } else if (password.length < 8) {
+			// 	errors.password = "Password must be at least 8 characters long.";
+			// } else if (!/[A-Z]/.test(password)) {
+			// 	errors.password = "Password must contain at least one uppercase letter.";
+			// } else if (!/[!@#$%^&*]/.test(password)) {
+			// 	errors.password = "Password must contain at least one symbol.";
+			// }
 		}
-
 		if (password !== confirmPassword) {
 			errors.confirmPassword = "Passwords do not match.";
 		}
@@ -118,8 +115,10 @@ function Signup() {
 
 				if (response.ok) {
 					console.log("User registered");
+				} else if (response.status === 400) {
+					setErrMessage(true);
 				} else {
-					console.log("User not registered", response.statusText);
+					navigate("/serverError");
 				}
 			} catch (error) {
 				console.log(error);
@@ -131,6 +130,14 @@ function Signup() {
 			<div className="fullsign">
 				<div className="signlogin-container">
 					<div className="signup">
+						<p
+							className="userExist"
+							style={!errorMessage ? { visibility: "hidden" } : {}}>
+							User Exist!
+							<Link to="/login" className="login-link">
+								Login
+							</Link>
+						</p>
 						<div className="signupform container">
 							<div>
 								<label htmlFor="firstname">First Name</label>

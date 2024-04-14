@@ -7,7 +7,7 @@ import Header from "../Header";
 import { useUserContext } from "../../context/UserContext";
 
 function Appointment(props) {
-	const { userId } = useUserContext();
+	const { userId, userData } = useUserContext();
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [selectedStartTime, setSelectedStartTime] = useState(null);
 	const [startTime, setStartTime] = useState(null);
@@ -22,6 +22,7 @@ function Appointment(props) {
 	const [serviceHour, setServiceHour] = useState(props.serviceHour);
 	const [serviceId, setServiceId] = useState(props.serviceId);
 	const [isTimePassed, setIsTimePassed] = useState(false);
+	const [isTimeToClose, setIsTimeToClosed] = useState(false);
 
 	const [showPopup, setShowPopup] = useState(false);
 
@@ -54,6 +55,10 @@ function Appointment(props) {
 		)
 			.then((response) => response.json())
 			.then((data) => {
+				localStorage.setItem(
+					"selectedProfesionalAppointment",
+					JSON.stringify(data)
+				);
 				setAppointmentDate(data);
 			});
 	}, [selectedProfessionalId]);
@@ -294,10 +299,33 @@ function Appointment(props) {
 		startTime,
 		endTime,
 		serviceId,
+		fname: userData[0]?.fname,
+		lname: userData[0]?.lname,
+		email: userData[0]?.email,
+		phone: userData[0]?.phone,
+		amount: props.servicePrice,
 	};
+
+	const localAppoint = [
+		{
+			id: 260,
+			customerId: 1,
+			professionalId: 13,
+			appointmentDate: date,
+			startTime: startTime,
+			endTime: endTime,
+			serviceId: 25,
+			servicename: "eyelash extension",
+			userFname: "alhamdu",
+			userLname: "bedwe",
+		},
+	];
+
 	const handleSubmit = async (event) => {
+		localStorage.setItem("localAppoint", JSON.stringify(localAppoint));
 		event.preventDefault();
 		const currntHours = parseInt(new Date().getHours());
+		const curreMinutes = parseInt(new Date().getMinutes());
 		let newStartHour = "";
 		let newEndHour = "";
 		let NewEndMinutes = "";
@@ -321,8 +349,9 @@ function Appointment(props) {
 			NewMinutes = parseInt(startTime.substring(2, 4));
 			NewEndMinutes = parseInt(endTime.substring(2, 4));
 		}
-		alert(currntHours + " curren time");
-		alert(newStartHour + " newstart Hours time");
+		alert(currntHours + " currefgsdhn time");
+		alert(NewMinutes + " newstart Hours time");
+
 		if (
 			storedEndHour - storedStartHour === 2 ||
 			storedEndHour - storedStartHour === -10
@@ -333,6 +362,472 @@ function Appointment(props) {
 			startTimeDifference = true;
 		}
 		// eslint-disable-next-line eqeqeq
+
+		//   9 HOUR
+		if (
+			newStartHour === 9 &&
+			NewMinutes === 0 &&
+			curreMinutes > 30 &&
+			currntHours === 8
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 9 &&
+			NewMinutes === 15 &&
+			curreMinutes > 45 &&
+			currntHours === 8
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 9 &&
+			NewMinutes === 30 &&
+			curreMinutes < 30 &&
+			currntHours === 9
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 9 &&
+			NewMinutes === 0 &&
+			curreMinutes < 30 &&
+			currntHours === 9
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		if (
+			newStartHour === 9 &&
+			NewMinutes === 45 &&
+			curreMinutes < 45 &&
+			curreMinutes > 15 &&
+			currntHours === 9
+		) {
+			setIsTimeToClosed(true);
+		}
+		// 10 HOUR
+		if (
+			newStartHour === 10 &&
+			NewMinutes === 0 &&
+			curreMinutes > 30 &&
+			currntHours === 9
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 10 &&
+			NewMinutes === 15 &&
+			curreMinutes > 45 &&
+			currntHours === 9
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 10 &&
+			NewMinutes === 30 &&
+			curreMinutes < 30 &&
+			currntHours === 10
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		if (
+			newStartHour === 10 &&
+			NewMinutes === 0 &&
+			curreMinutes < 30 &&
+			currntHours === 10
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		if (
+			newStartHour === 10 &&
+			NewMinutes === 45 &&
+			curreMinutes < 45 &&
+			curreMinutes > 15 &&
+			currntHours === 10
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		//11 HOUR
+		if (
+			newStartHour === 11 &&
+			NewMinutes === 0 &&
+			curreMinutes > 30 &&
+			currntHours === 10
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (newStartHour === 11 && NewMinutes === 15 && currntHours === 11) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 11 &&
+			NewMinutes === 15 &&
+			curreMinutes > 45 &&
+			currntHours === 10
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 11 &&
+			NewMinutes === 30 &&
+			curreMinutes < 30 &&
+			currntHours === 11
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 11 &&
+			NewMinutes === 0 &&
+			curreMinutes < 30 &&
+			currntHours === 11
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		if (
+			newStartHour === 11 &&
+			NewMinutes === 45 &&
+			curreMinutes < 45 &&
+			curreMinutes > 15 &&
+			currntHours === 11
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		//12 HOUR
+		if (
+			newStartHour === 12 &&
+			NewMinutes === 0 &&
+			curreMinutes > 30 &&
+			currntHours === 11
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 12 &&
+			NewMinutes === 15 &&
+			curreMinutes > 45 &&
+			currntHours === 11
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		if (newStartHour === 12 && NewMinutes === 15 && currntHours === 0) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 12 &&
+			NewMinutes === 30 &&
+			curreMinutes < 30 &&
+			currntHours === 0
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 12 &&
+			NewMinutes === 0 &&
+			curreMinutes < 30 &&
+			currntHours === 0
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		if (
+			newStartHour === 12 &&
+			NewMinutes === 45 &&
+			curreMinutes < 45 &&
+			curreMinutes > 15 &&
+			currntHours === 0
+		) {
+			setIsTimeToClosed(true);
+		}
+		// 1 HOUR
+		if (
+			newStartHour === 1 &&
+			NewMinutes === 0 &&
+			curreMinutes > 30 &&
+			currntHours === 0
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (newStartHour === 1 && NewMinutes === 15 && currntHours === 13) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 1 &&
+			NewMinutes === 15 &&
+			curreMinutes > 45 &&
+			currntHours === 0
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 1 &&
+			NewMinutes === 30 &&
+			curreMinutes < 30 &&
+			currntHours === 13
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 1 &&
+			NewMinutes === 0 &&
+			curreMinutes < 30 &&
+			currntHours === 13
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		if (
+			newStartHour === 1 &&
+			NewMinutes === 45 &&
+			curreMinutes < 45 &&
+			curreMinutes > 15 &&
+			currntHours === 13
+		) {
+			setIsTimeToClosed(true);
+		}
+		// 2 HOUR
+		if (
+			newStartHour === 2 &&
+			NewMinutes === 0 &&
+			curreMinutes > 30 &&
+			currntHours === 13
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (newStartHour === 2 && NewMinutes === 15 && currntHours === 14) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 2 &&
+			NewMinutes === 15 &&
+			curreMinutes > 45 &&
+			currntHours === 13
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 2 &&
+			NewMinutes === 30 &&
+			curreMinutes < 30 &&
+			currntHours === 14
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 2 &&
+			NewMinutes === 0 &&
+			curreMinutes < 30 &&
+			currntHours === 14
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		if (
+			newStartHour === 2 &&
+			NewMinutes === 45 &&
+			curreMinutes < 45 &&
+			curreMinutes > 15 &&
+			currntHours === 14
+		) {
+			setIsTimeToClosed(true);
+		}
+		// 3 HOUR
+		if (
+			newStartHour === 3 &&
+			NewMinutes === 0 &&
+			curreMinutes > 30 &&
+			currntHours === 14
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (newStartHour === 3 && NewMinutes === 15 && currntHours === 15) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 3 &&
+			NewMinutes === 15 &&
+			curreMinutes > 45 &&
+			currntHours === 14
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 3 &&
+			NewMinutes === 30 &&
+			curreMinutes < 30 &&
+			currntHours === 15
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 3 &&
+			NewMinutes === 0 &&
+			curreMinutes < 30 &&
+			currntHours === 15
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		if (
+			newStartHour === 3 &&
+			NewMinutes === 45 &&
+			curreMinutes < 45 &&
+			curreMinutes > 15 &&
+			currntHours === 15
+		) {
+			setIsTimeToClosed(true);
+		}
+		// 4 HOUR
+		if (
+			newStartHour === 4 &&
+			NewMinutes === 0 &&
+			curreMinutes > 30 &&
+			currntHours === 15
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (newStartHour === 4 && NewMinutes === 15 && currntHours === 16) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 4 &&
+			NewMinutes === 15 &&
+			curreMinutes > 45 &&
+			currntHours === 15
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 4 &&
+			NewMinutes === 30 &&
+			curreMinutes < 30 &&
+			currntHours === 16
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 4 &&
+			NewMinutes === 0 &&
+			curreMinutes < 30 &&
+			currntHours === 16
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		if (
+			newStartHour === 4 &&
+			NewMinutes === 45 &&
+			curreMinutes < 45 &&
+			curreMinutes > 15 &&
+			currntHours === 16
+		) {
+			setIsTimeToClosed(true);
+		}
+		// 5 HOUR
+		if (
+			newStartHour === 5 &&
+			NewMinutes === 0 &&
+			curreMinutes > 30 &&
+			currntHours === 16
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (newStartHour === 5 && NewMinutes === 15 && currntHours === 5) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 5 &&
+			NewMinutes === 15 &&
+			curreMinutes > 45 &&
+			currntHours === 16
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 5 &&
+			NewMinutes === 30 &&
+			curreMinutes < 30 &&
+			currntHours === 17
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 5 &&
+			NewMinutes === 0 &&
+			curreMinutes < 30 &&
+			currntHours === 17
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		if (
+			newStartHour === 5 &&
+			NewMinutes === 45 &&
+			curreMinutes < 45 &&
+			curreMinutes > 15 &&
+			currntHours === 17
+		) {
+			setIsTimeToClosed(true);
+		}
+		/// 6 HOUR
+		if (
+			newStartHour === 6 &&
+			NewMinutes === 0 &&
+			curreMinutes > 30 &&
+			currntHours === 17
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (newStartHour === 6 && NewMinutes === 15 && currntHours === 6) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 6 &&
+			NewMinutes === 15 &&
+			curreMinutes > 45 &&
+			currntHours === 17
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 6 &&
+			NewMinutes === 30 &&
+			curreMinutes < 30 &&
+			currntHours === 18
+		) {
+			setIsTimeToClosed(true);
+		}
+		if (
+			newStartHour === 6 &&
+			NewMinutes === 0 &&
+			curreMinutes < 30 &&
+			currntHours === 18
+		) {
+			setIsTimeToClosed(true);
+		}
+
+		if (
+			newStartHour === 6 &&
+			NewMinutes === 45 &&
+			curreMinutes < 45 &&
+			curreMinutes > 15 &&
+			currntHours === 18
+		) {
+			setIsTimeToClosed(true);
+		}
+		alert(isTimeToClose);
+		if (isTimeToClose) {
+			handleShowPopup();
+			return;
+		}
+
+		// Validation for time passed check
 		if (currntHours === 10 && newStartHour === 9) {
 			setIsTimePassed(true);
 		} else if (
@@ -340,26 +835,27 @@ function Appointment(props) {
 			(newStartHour === 9 || newStartHour === 10)
 		) {
 			setIsTimePassed(true);
-		} else if (
-			currntHours === 11 &&
-			(newStartHour === 9 || newStartHour === 10)
-		) {
+		} else if (currntHours === 11 && curreMinutes > 0 && newStartHour === 11) {
 			setIsTimePassed(true);
 		} else if (
-			currntHours === 12 &&
+			currntHours === 0 &&
 			(newStartHour === 9 || newStartHour === 10 || newStartHour === 11)
 		) {
 			setIsTimePassed(true);
+		} else if (currntHours === 0 && curreMinutes > 0 && newStartHour === 12) {
+			setIsTimePassed(true);
 		} else if (
-			currntHours === 1 &&
+			currntHours === 13 &&
 			(newStartHour === 9 ||
 				newStartHour === 10 ||
 				newStartHour === 11 ||
 				newStartHour === 12)
 		) {
 			setIsTimePassed(true);
+		} else if (currntHours === 13 && curreMinutes > 0 && newStartHour === 1) {
+			setIsTimePassed(true);
 		} else if (
-			currntHours === 2 &&
+			currntHours === 14 &&
 			(newStartHour === 9 ||
 				newStartHour === 10 ||
 				newStartHour === 11 ||
@@ -367,8 +863,10 @@ function Appointment(props) {
 				newStartHour === 1)
 		) {
 			setIsTimePassed(true);
+		} else if (currntHours === 14 && curreMinutes > 0 && newStartHour === 2) {
+			setIsTimePassed(true);
 		} else if (
-			currntHours === 3 &&
+			currntHours === 15 &&
 			(newStartHour === 9 ||
 				newStartHour === 10 ||
 				newStartHour === 11 ||
@@ -377,8 +875,10 @@ function Appointment(props) {
 				newStartHour === 2)
 		) {
 			setIsTimePassed(true);
+		} else if (currntHours === 15 && curreMinutes > 0 && newStartHour === 3) {
+			setIsTimePassed(true);
 		} else if (
-			currntHours === 4 &&
+			currntHours === 16 &&
 			(newStartHour === 9 ||
 				newStartHour === 10 ||
 				newStartHour === 11 ||
@@ -388,8 +888,10 @@ function Appointment(props) {
 				newStartHour === 3)
 		) {
 			setIsTimePassed(true);
+		} else if (currntHours === 16 && curreMinutes > 0 && newStartHour === 4) {
+			setIsTimePassed(true);
 		} else if (
-			currntHours === 5 &&
+			currntHours === 17 &&
 			(newStartHour === 9 ||
 				newStartHour === 10 ||
 				newStartHour === 11 ||
@@ -400,7 +902,10 @@ function Appointment(props) {
 				newStartHour === 4)
 		) {
 			setIsTimePassed(true);
+		} else if (currntHours === 17 && curreMinutes > 0 && newStartHour === 5) {
+			setIsTimePassed(true);
 		}
+		alert(isTimePassed);
 		if (isTimePassed) {
 			handleShowPopup();
 			return;
@@ -694,27 +1199,43 @@ function Appointment(props) {
 			handleShowPopup();
 			return;
 		}
-
+		const array = JSON.parse(localStorage.getItem("localAppoint"));
+		if (appointmetDate.length > 0) {
+			alert("Please select hfg");
+			// If appointmentDate is not empty, concatenate array to it
+			const updatedAppointmentDate = [...appointmetDate, ...array];
+			console.log(updatedAppointmentDate);
+			setAppointmentDate(updatedAppointmentDate);
+		}
+		if (appointmetDate.length === 0) {
+			alert("Please select");
+			// If appointmentDate is empty, set it to array
+			setAppointmentDate(array);
+		}
+		console.log(appointmetDate);
 		try {
-			const response = await fetch("http://127.0.0.1:5000/appointment", {
-				method: "POST",
-				body: JSON.stringify(appointData),
-				headers: { "Content-Type": "application/json" },
-			});
-			if (response.ok) {
-				fetch(
-					`http://127.0.0.1:5000/profesionalAppointed/${selectedProfessionalId}`,
-					{
-						method: "GET",
-					}
-				)
-					.then((response) => response.json())
-					.then((data) => {
-						setAppointmentDate(data);
-					});
-			} else {
-				console.log("user not registered", response.statusText);
-			}
+			const response = await fetch(
+				"http://127.0.0.1:5000/appointment/payment",
+				{
+					method: "POST",
+					body: JSON.stringify(appointData),
+					headers: { "Content-Type": "application/json" },
+				}
+			);
+			// if (response.ok) {
+			// 	fetch(
+			// 		`http://127.0.0.1:5000/profesionalAppointed/${selectedProfessionalId}`,
+			// 		{
+			// 			method: "GET",
+			// 		}
+			// 	)
+			// 		.then((response) => response.json())
+			// 		.then((data) => {
+			// 			setAppointmentDate(data);
+			// 		});
+			// } else {
+			// 	console.log("user not registered", response.statusText);
+			// }
 		} catch (error) {
 			console.log(error);
 		}
@@ -735,7 +1256,7 @@ function Appointment(props) {
 								onChange={handleProfessionalChange} // Added onChange handler
 							>
 								<option selected disabled>
-									Select Service duration
+									Selct Profesional
 								</option>
 								{availableProfessional &&
 									availableProfessional.map((professional) => (
@@ -812,7 +1333,7 @@ function Appointment(props) {
 						{selectedProfessional.length > 0 && (
 							<>
 								<img
-									src="./images/G22.jpg"
+									src={selectedProfessional[0].pimage}
 									className="profesional-image"
 									alt=""
 								/>
@@ -867,10 +1388,13 @@ function Appointment(props) {
 				<div className="appointment-popup-container" onClick={handleShowPopup}>
 					<div className="appointment-popup">
 						<span className="appointment-check-mark"> &#9888;</span>
-						{!isTimePassed && (
+						{!isTimePassed && !isTimeToClose && (
 							<p>Your Appointment Overlap With Exiting One.Please Try Again</p>
 						)}
 						{isTimePassed && <p>You Can't Make Appointment For Passed Time</p>}
+						{isTimeToClose && (
+							<p>You Can't Make Appointment The Time is To Close Now.</p>
+						)}
 					</div>
 				</div>
 			)}

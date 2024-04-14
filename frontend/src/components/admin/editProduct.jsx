@@ -171,6 +171,7 @@ function EditProduct(props) {
 							id="productimage"
 							placeholder="Your Address"
 							onChange={handleProductImage}
+							accept="image/*"
 						/>
 						{errors.productImage && (
 							<p className="error">{errors.productImage}</p>

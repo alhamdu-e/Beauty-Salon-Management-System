@@ -40,25 +40,32 @@ router.post("/signup", (req, res) => {
 			console.log("hello");
 		}
 	};
+
 	const content = `<div style="background-color:#0a1b0b;width:500px;margin:auto;text-align:center; border-radius:12px; padding:20px">
-		<h2 style="font-size: 24px;color:#f2f2f2"> Welcome ${fname}</h2>
-		<p style="color:#f2f2f2"">You Have Successfully Registered ✔✔✔</p>
-	</div>`;
+        <h2 style="font-size: 24px;color:#f2f2f2"> Welcome ${fname}</h2>
+        <p style="color:#f2f2f2"">You Have Successfully Registered ✔✔✔</p>
+    </div>`;
 
 	sendEmail(email, callback, content);
 
 	const sql =
 		"insert into users (fname,lname,email,adress,phone,age,password) values (?, ?, ?, ?, ?,?,?)";
-	const sql1 = "insert into account (email,password) values (?, ?)";
+
 	db.query(
 		sql,
 		[fname, lname, email, adress, phone, age, password],
 		(err, result) => {
-			if (!err) {
-				res.send({ status: "User created" });
+			if (err) {
+				if (err.code === "ER_DUP_ENTRY") {
+					console.log("dupliate");
+					res.status(400).send({ error: "Duplicate entry for email" });
+				} else {
+					console.log("dupliate");
+					console.error(err);
+					res.status(500).send({ error: "Internal server error" });
+				}
 			} else {
-				console.log(err);
-				res.status(400);
+				res.send({ status: "User created" });
 			}
 		}
 	);

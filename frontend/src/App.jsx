@@ -22,6 +22,7 @@ import PayementForm from "./components/pages/PaymentForm";
 
 function App() {
 	const [serviceHour, setServiceHour] = useState("");
+	const [servicePrice, setServicePrice] = useState("");
 	const [serviceId, setServiceID] = useState("");
 	const { token, userType } = useAuthContext();
 	const [email, setEmail] = useState("");
@@ -63,7 +64,11 @@ function App() {
 					<Route
 						path="/appointment"
 						element={
-							<Appointment serviceHour={serviceHour} serviceId={serviceId} />
+							<Appointment
+								serviceHour={serviceHour}
+								serviceId={serviceId}
+								servicePrice={servicePrice}
+							/>
 						}
 					/>
 					<Route path="/cart" element={<Cart />} />
@@ -91,6 +96,7 @@ function App() {
 							<Makeup
 								setServiceHour={setServiceHour}
 								setServiceID={setServiceID}
+								setServicePrice={setServicePrice}
 							/>
 						}
 					/>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../../assets/styles/Admin/addEmployee.css";
+import { useNavigate } from "react-router-dom";
 
 function AddEmployee(props) {
 	const [fname, setFname] = useState("");
@@ -12,6 +13,9 @@ function AddEmployee(props) {
 	const [adress, setAdress] = useState("");
 	const [image, setimage] = useState("");
 	const [errors, setErrors] = useState({});
+
+	const [errM, setErr] = useState(false);
+	const navigate = useNavigate();
 
 	const handleChangeFirstName = (event) => {
 		setFname(event.target.value);
@@ -112,10 +116,12 @@ function AddEmployee(props) {
 				});
 
 				if (response.ok) {
-					const responseData = await response.json();
-					console.log(responseData);
+					setErr(false);
+					props.handleShowPopup();
+				} else if (response.status === 400) {
+					setErr(true);
 				} else {
-					console.log("Failed to add service:", response.statusText);
+					navigate("/servererror");
 				}
 			} catch (error) {
 				console.log("Error when adding service:", error);
@@ -125,9 +131,12 @@ function AddEmployee(props) {
 	return (
 		<div>
 			<div className="conatnerforaddemployee">
-				<button className="add">&#43;</button>
+				<p className="userExist" style={!errM ? { visibility: "hidden" } : {}}>
+					File Type Not Supported!
+				</p>
+				<button className="add bn">&#43;</button>
 				<button
-					className="manage-employe-button"
+					className="manage-employe-button bn"
 					onClick={props.handleEmployee}>
 					Manage Employee
 				</button>
@@ -202,7 +211,13 @@ function AddEmployee(props) {
 					</div>
 					<div>
 						<label htmlFor="Image">Employee Image</label>
-						<input type="file" name="image" id="image" onChange={handleimage} />
+						<input
+							type="file"
+							name="image"
+							id="image"
+							onChange={handleimage}
+							accept="image/*"
+						/>
 						{errors.image && <p className="error">{errors.image}</p>}
 					</div>
 
