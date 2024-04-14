@@ -62,6 +62,7 @@ function Product() {
 			const cart = await response.json();
 			setItems(cart);
 			setCartLength(cart.length);
+			localStorage.setItem("cart", JSON.stringify(cart));
 		}
 	};
 	function SampleNextArrow(props) {

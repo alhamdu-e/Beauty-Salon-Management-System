@@ -13,7 +13,20 @@ const storage = multer.diskStorage({
 		return cb(null, file.originalname);
 	},
 });
-const upload = multer({ storage: storage });
+
+const fileFilter = (req, file, cb) => {
+	if (
+		file.mimetype === "image/png" ||
+		file.mimetype === "image/jpg" ||
+		file.mimetype === "image/jpeg"
+	) {
+		cb(null, true);
+	} else {
+		cb(null, false);
+	}
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 const generatePassword = () => {
 	const buffer = crypto.randomBytes(4);
@@ -81,6 +94,11 @@ router.delete("/deleteCart/:id", (req, res) => {
 });
 
 router.post("/addEmployee", upload.single("image"), (req, res) => {
+	if (!req.file) {
+		res.status(400);
+
+		return;
+	}
 	const { fname, lname, email, phone, adress, age, gender, profesion } =
 		req.body;
 	const fileName = req.file.filename;
@@ -167,6 +185,11 @@ router.get("/employee/:id", (req, res) => {
 
 router.post("/addProduct", upload.single("productImage"), (req, res) => {
 	const { productName, productDesc, productPrice } = req.body;
+	if (!req.file) {
+		res.status(400);
+
+		return;
+	}
 	const fileName = req.file.filename;
 	const imagePath = "http://127.0.0.1:5000/images/" + fileName;
 
@@ -270,6 +293,10 @@ router.put("/editService", upload.single("serviceImage"), (req, res) => {
 });
 
 router.post("/addService", upload.single("serviceImage"), (req, res) => {
+	if (!req.file) {
+		res.status(400);
+		return;
+	}
 	const {
 		serviceName,
 		serviceDesc,

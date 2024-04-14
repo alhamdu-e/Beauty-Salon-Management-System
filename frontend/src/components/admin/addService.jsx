@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import "../../assets/styles/Admin/addService.css";
 import { useAuthContext } from "../../context/Autcontext";
-import { json } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function AddService(props) {
 	const { token } = useAuthContext();
@@ -14,6 +14,8 @@ function AddService(props) {
 	const [serviceCatagory, setServiceCatagory] = useState("");
 	const [serviceDuration, setServiceDuration] = useState("");
 	const [errors, setErrors] = useState({});
+	const [errM, setErr] = useState(false);
+	const navigate = useNavigate();
 
 	const handleServiceName = (event) => {
 		setServiceName(event.target.value);
@@ -94,9 +96,12 @@ function AddService(props) {
 					body: formData,
 				});
 				if (response.ok) {
+					setErr(false);
 					props.handleShowPopup();
+				} else if (response.status === 400) {
+					setErr(true);
 				} else {
-					console.log("Failed to add service:", response.statusText);
+					navigate("/servererror");
 				}
 			} catch (error) {
 				console.log("Error when adding service:", error);
@@ -107,8 +112,13 @@ function AddService(props) {
 	return (
 		<div>
 			<div className="conatnerforaddservice">
-				<button className="add">&#43;</button>
-				<button className="manage-employe-button" onClick={props.handleService}>
+				<p className="userExist" style={!errM ? { visibility: "hidden" } : {}}>
+					File Type Not Supported!
+				</p>
+				<button className="add bn">&#43;</button>
+				<button
+					className="manage-employe-button bn"
+					onClick={props.handleService}>
 					Manage Service
 				</button>
 			</div>
@@ -217,6 +227,7 @@ function AddService(props) {
 							name="serviceimage"
 							id="serviceimage"
 							onChange={handleServiceImage}
+							accept="image/*"
 						/>
 						{errors.serviceImage && (
 							<p className="error">{errors.serviceImage}</p>

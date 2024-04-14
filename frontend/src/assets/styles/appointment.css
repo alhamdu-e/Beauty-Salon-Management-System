@@ -68,7 +68,7 @@
 
 .image-cont {
 	display: grid;
-	grid-template-columns: 33fr 60fr;
+	grid-template-columns: 20fr 80fr;
 }
 
 .spanpro {

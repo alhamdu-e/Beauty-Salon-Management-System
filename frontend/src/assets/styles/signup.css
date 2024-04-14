@@ -63,3 +63,12 @@ label {
 	width: 800px;
 	margin-left: 400px;
 }
+.userExist {
+	font-size: 2.4rem;
+	margin: auto;
+	width: fit-content;
+	color: red;
+}
+.login-link {
+	color: rgb(77, 67, 67);
+}

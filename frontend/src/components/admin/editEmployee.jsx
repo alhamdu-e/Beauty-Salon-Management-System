@@ -288,7 +288,13 @@ function EditEmployee(props) {
 					</div>
 					<div>
 						<label htmlFor="Image">Employee Image</label>
-						<input type="file" name="image" id="image" onChange={handleimage} />
+						<input
+							type="file"
+							name="image"
+							id="image"
+							onChange={handleimage}
+							accept="image/*"
+						/>
 						{errors.image && <p className="error">{errors.image}</p>}
 					</div>
 

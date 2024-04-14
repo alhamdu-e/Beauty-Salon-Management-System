@@ -97,6 +97,45 @@ app.post("/payment", (req, res) => {
 	});
 });
 
+app.post("appointment/payment", (req, res) => {
+	console.log(req.body);
+	customerEmail = req.body.email;
+	fname = req.body.fname;
+	lname = req.body.lname;
+	product = req.body.product;
+	amount = req.body.amount;
+
+	const randomKey = generateRandomKey(16);
+	transactionId = req.body.fname + "_" + randomKey;
+	const options = {
+		method: "POST",
+		url: "https://api.chapa.co/v1/transaction/initialize",
+		headers: {
+			Authorization: "Bearer CHASECK_TEST-zHKZRqbDbugj6X4dAVxF7AOFzYI8UKqm",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			amount: req.body.amount,
+			currency: "ETB",
+			email: req.body.email,
+			first_name: req.body.fname,
+			last_name: req.body.lname,
+			phone_number: "0" + req.body.phone,
+			tx_ref: transactionId,
+			callback_url: "http://127.0.0.1:5000/verify",
+			return_url: "http://localhost:3000/fdhfgjgh",
+			title: "Payment for  Purchuasing Product from Glowcity",
+			description: "Glowcity is the best in the City ",
+		}),
+	};
+
+	request(options, function (error, response) {
+		if (error) throw new Error(error);
+		const data = JSON.parse(response.body);
+		res.status(200).json({ url: data.data.checkout_url });
+	});
+});
+
 app.use("/verify", (req, res) => {
 	const orderQuery =
 		"INSERT INTO orders (customer_email, first_name, last_name, total_amount,transactionRef, status) VALUES (?, ?, ?, ?, ?,?)";

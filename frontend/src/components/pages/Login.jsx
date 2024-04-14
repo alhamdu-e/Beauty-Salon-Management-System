@@ -86,7 +86,7 @@ function Login() {
 					}
 					if (data.userType === "profesional") {
 						setProfesionaId(data.profesionalResult[0].id);
-						setUserName(data.usersResult[0].fname);
+						setUserName(data.profesionalResult[0].fname);
 						navigate("/Professionalappoin");
 					}
 				}

@@ -2,6 +2,7 @@ import React from "react";
 import "../../assets/styles/Admin/addProduct.css";
 import { useState } from "react";
 import { useAuthContext } from "../../context/Autcontext";
+import { useNavigate } from "react-router-dom";
 function AddProduct(props) {
 	const { token } = useAuthContext();
 
@@ -10,7 +11,8 @@ function AddProduct(props) {
 	const [productPrice, setProductPrice] = useState("");
 	const [productImage, setProductImage] = useState("");
 	const [errors, setErrors] = useState({});
-
+	const [errM, setErr] = useState(false);
+	const navigate = useNavigate();
 	const handleProductName = (event) => {
 		setProductName(event.target.value);
 	};
@@ -86,9 +88,12 @@ function AddProduct(props) {
 			});
 
 			if (response.ok) {
+				setErr(false);
 				props.handleShowPopup();
+			} else if (response.status === 400) {
+				setErr(true);
 			} else {
-				console.log("Failed to add product:", response.statusText);
+				navigate("/servererror");
 			}
 		} catch (error) {
 			console.error("Error adding product:", error);
@@ -98,8 +103,13 @@ function AddProduct(props) {
 	return (
 		<div>
 			<div className="conatnerforaddproduct">
-				<button className="add">&#43;</button>
-				<button className="manage-employe-button" onClick={props.handleProduct}>
+				<p className="userExist" style={!errM ? { visibility: "hidden" } : {}}>
+					File Type Not Supported!
+				</p>
+				<button className="add bn">&#43;</button>
+				<button
+					className="manage-employe-button bn"
+					onClick={props.handleProduct}>
 					Manage Product
 				</button>
 			</div>
@@ -155,6 +165,7 @@ function AddProduct(props) {
 							id="productimage"
 							placeholder="Your Adress"
 							onChange={handleProductImage}
+							accept="image/*"
 						/>
 						{errors.productImage && (
 							<p className="error">{errors.productImage}</p>

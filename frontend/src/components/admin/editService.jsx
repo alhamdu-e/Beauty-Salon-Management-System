@@ -255,6 +255,7 @@ function EditService(props) {
 							name="serviceimage"
 							id="serviceimage"
 							onChange={handleServiceImage}
+							accept="image/*"
 						/>
 					</div>
 					<div>

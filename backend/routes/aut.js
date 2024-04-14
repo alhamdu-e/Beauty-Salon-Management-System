@@ -38,7 +38,6 @@ const executeQuery = (sql, params = [], res) => {
 
 router.post("/signup", (req, res) => {
 	const { fname, lname, email, password, age, phone, adress } = req.body;
-	console.log(email);
 
 	const callback = function (error, data, response) {
 		if (error) {
@@ -47,25 +46,32 @@ router.post("/signup", (req, res) => {
 			console.log("hello");
 		}
 	};
+
 	const content = `<div style="background-color:#0a1b0b;width:500px;margin:auto;text-align:center; border-radius:12px; padding:20px">
-		<h2 style="font-size: 24px;color:#f2f2f2"> Welcome ${fname}</h2>
-		<p style="color:#f2f2f2"">You Have Successfully Registered ✔✔✔</p>
-	</div>`;
+        <h2 style="font-size: 24px;color:#f2f2f2"> Welcome ${fname}</h2>
+        <p style="color:#f2f2f2"">You Have Successfully Registered ✔✔✔</p>
+    </div>`;
 
 	sendEmail(email, callback, content);
 
 	const sql =
 		"insert into users (fname,lname,email,adress,phone,age,password) values (?, ?, ?, ?, ?,?,?)";
-	const sql1 = "insert into account (email,password) values (?, ?)";
+
 	db.query(
 		sql,
 		[fname, lname, email, adress, phone, age, password],
 		(err, result) => {
-			if (!err) {
-				res.send({ status: "User created" });
+			if (err) {
+				if (err.code === "ER_DUP_ENTRY") {
+					console.log("dupliated");
+					res.status(400).json({ error: "User Exist!!!" });
+				} else {
+					console.log("dupliate");
+					console.error(err);
+					res.status(500).json({ error: "Internal server error" });
+				}
 			} else {
-				console.log(err);
-				res.status(400);
+				res.send({ status: "User created" });
 			}
 		}
 	);

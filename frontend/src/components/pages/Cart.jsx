@@ -41,7 +41,7 @@ function Cart() {
 	const deleteCartItem = (productid, cartid) => {
 		const updateditems = items.filter((product) => product.id !== productid);
 		setItems(updateditems);
-
+		localStorage.setItem("cart", JSON.stringify(updateditems));
 		try {
 			const response = fetch(`http://127.0.0.1:5000/deleteCart/${cartid}`, {
 				method: "Delete",
