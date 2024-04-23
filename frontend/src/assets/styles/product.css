@@ -79,3 +79,20 @@ button {
 	/* margin-left: 2rem; */
 	/* margin-right: 2rem; */
 }
+.itemisAlready {
+	margin-bottom: 23px;
+	margin-top: 0px !important;
+	text-transform: capitalize;
+}
+.ok {
+	font-size: 16px !important;
+	background-color: rgb(26, 24, 24) !important;
+	cursor: pointer;
+}
+.addToCart {
+	padding: 8px;
+	background-color: #01740a;
+	color: #fdfcfd;
+	border: none;
+	border-radius: 8px;
+}

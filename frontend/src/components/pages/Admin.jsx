@@ -20,6 +20,7 @@ import { RiDashboard3Fill } from "react-icons/ri";
 import "../../assets/styles/Admin/viewAppointment.css";
 import ViewAppointment from "../admin/viewAppointment";
 import { useServiceProdctContext } from "../../context/productAndServicecomtext";
+import Order from "../admin/order";
 
 function Admin() {
 	const [isEmployee, setEmployee] = useState(true);
@@ -38,6 +39,7 @@ function Admin() {
 	const [popupMessage, setPopupMessage] = useState("");
 	const [showAppointment, setShowAppointment] = useState(false);
 	const { setServicee, setProductt } = useServiceProdctContext();
+	const [showOrder, setShowOrder] = useState(false);
 
 	const handleEmployee = (e) => {
 		e.preventDefault();
@@ -53,6 +55,23 @@ function Admin() {
 		setShowEditEmployee(false);
 		setPopupMessage("Employee Deleted successfully");
 		setShowAppointment(false);
+		setShowOrder(false);
+	};
+	const handleOrder = (e) => {
+		e.preventDefault();
+		setEmployee(false);
+		setCustomer(false);
+		setShowEmploye(false);
+		setShowProduct(false);
+		setshowAddEmployee(false);
+		setShowAddProduct(false);
+		setShowAddService(false);
+		setShowEditProduct(false);
+		setShowEditService(false);
+		setShowEditEmployee(false);
+		// setPopupMessage("Employee Deleted successfully");
+		setShowAppointment(false);
+		setShowOrder(true);
 	};
 	const handleCustomer = (e) => {
 		e.preventDefault();
@@ -67,6 +86,7 @@ function Admin() {
 		setShowEditService(false);
 		setShowEditEmployee(false);
 		setShowAppointment(false);
+		setShowOrder(false);
 	};
 	const handleProduct = (e) => {
 		e.preventDefault();
@@ -82,6 +102,7 @@ function Admin() {
 		setPopupMessage("Product Deleted successfully");
 		setShowEditEmployee(false);
 		setShowAppointment(false);
+		setShowOrder(false);
 	};
 
 	const handleService = (e) => {
@@ -98,6 +119,7 @@ function Admin() {
 		setPopupMessage("Service Deleted successfully");
 		setShowEditEmployee(false);
 		setShowAppointment(false);
+		setShowOrder(false);
 	};
 	const handleAddEmployee = (e) => {
 		e.preventDefault();
@@ -111,6 +133,7 @@ function Admin() {
 		setShowEditEmployee(false);
 		setShowAppointment(false);
 		setPopupMessage("Employee Added Successfully");
+		setShowOrder(false);
 	};
 	const handleAddProduct = (e) => {
 		e.preventDefault();
@@ -124,6 +147,7 @@ function Admin() {
 		setShowEditEmployee(false);
 		setShowAppointment(false);
 		setPopupMessage("Product Added Successfully");
+		setShowOrder(false);
 	};
 	const handleAddService = (e) => {
 		e.preventDefault();
@@ -137,6 +161,7 @@ function Admin() {
 		setShowEditEmployee(false);
 		setShowAppointment(false);
 		setPopupMessage("Service Added Successfully");
+		setShowOrder(false);
 	};
 	const handleShowEditProduct = (e) => {
 		setShowEditProduct(true);
@@ -149,6 +174,7 @@ function Admin() {
 		setShowEditEmployee(false);
 		setShowAppointment(false);
 		setPopupMessage("Product Edited Successfully");
+		setShowOrder(false);
 	};
 	const handleShowEditService = (e) => {
 		setShowEditService(true);
@@ -161,6 +187,7 @@ function Admin() {
 		setShowEditEmployee(false);
 		setShowAppointment(false);
 		setPopupMessage("Service Edited Successfully");
+		setShowOrder(false);
 	};
 	const handleShowEditEmployee = (e) => {
 		setShowEditEmployee(true);
@@ -173,6 +200,7 @@ function Admin() {
 		setShowEmploye(false);
 		setShowAppointment(false);
 		setPopupMessage("Employee Edited Successfully");
+		setShowOrder(false);
 	};
 	const handleShowAppointment = (e) => {
 		setShowAppointment(true);
@@ -184,6 +212,7 @@ function Admin() {
 		setshowAddEmployee(false);
 		setShowProduct(false);
 		setShowEmploye(false);
+		setShowOrder(false);
 	};
 	const handleShowPopup = (e) => {
 		setShowPopup(!showPopup);
@@ -256,6 +285,12 @@ function Admin() {
 										</a>
 									</li>
 									<li>
+										<a href="#" onClick={handleOrder}>
+											{" "}
+											<FaUser /> Orders
+										</a>
+									</li>
+									<li>
 										<a href="#" onClick={handleCustomer}>
 											{" "}
 											<FaUser /> View Customer
@@ -324,6 +359,7 @@ function Admin() {
 					</div>
 				</div> */}
 				{showAppointment && <ViewAppointment />}
+				{showOrder && <Order />}
 
 				{showEmploye && (
 					<>

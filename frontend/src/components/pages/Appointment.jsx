@@ -23,6 +23,7 @@ function Appointment(props) {
 	const [serviceId, setServiceId] = useState(props.serviceId);
 	const [isTimePassed, setIsTimePassed] = useState(false);
 	const [isTimeToClose, setIsTimeToClosed] = useState(false);
+	const [isOverlap, setIsOverlap] = useState(false);
 
 	const [showPopup, setShowPopup] = useState(false);
 
@@ -299,10 +300,10 @@ function Appointment(props) {
 		startTime,
 		endTime,
 		serviceId,
-		fname: userData[0]?.fname,
-		lname: userData[0]?.lname,
-		email: userData[0]?.email,
-		phone: userData[0]?.phone,
+		fname: localStorage.getItem("userName"),
+		lname: localStorage.getItem("userLName"),
+		email: localStorage.getItem("email"),
+		phone: localStorage.getItem("phone"),
 		amount: props.servicePrice,
 	};
 
@@ -326,6 +327,7 @@ function Appointment(props) {
 		event.preventDefault();
 		setIsTimePassed(false);
 		setIsTimeToClosed(false);
+		setIsOverlap(false);
 		const currntHours = parseInt(new Date().getHours());
 		const curreMinutes = parseInt(new Date().getMinutes());
 		let newStartHour = "";
@@ -352,7 +354,7 @@ function Appointment(props) {
 			NewEndMinutes = parseInt(endTime.substring(2, 4));
 		}
 		alert(currntHours + " currefgsdhn time");
-		alert(NewMinutes + " newstart Hours time");
+		alert(newStartHour + " newstart Hours time");
 
 		if (
 			storedEndHour - storedStartHour === 2 ||
@@ -372,6 +374,7 @@ function Appointment(props) {
 			curreMinutes > 30 &&
 			currntHours === 8
 		) {
+			alert("hi");
 			setIsTimeToClosed(true);
 		}
 		if (
@@ -415,6 +418,7 @@ function Appointment(props) {
 			curreMinutes > 30 &&
 			currntHours === 9
 		) {
+			alert("what is going on");
 			setIsTimeToClosed(true);
 		}
 		if (
@@ -828,87 +832,193 @@ function Appointment(props) {
 			handleShowPopup();
 			return;
 		}
+		// if (!isTimePassed) {
+		// 	// Validation for time passed check
+		// 	if (currntHours === 10 && newStartHour === 9) {
+		// 		setIsTimePassed(true);
+		// 	} else if (
+		// 		currntHours === 11 &&
+		// 		(newStartHour === 9 || newStartHour === 10)
+		// 	) {
+		// 		setIsTimePassed(true);
+		// 	} else if (
+		// 		currntHours === 11 &&
+		// 		curreMinutes > 0 &&
+		// 		newStartHour === 11
+		// 	) {
+		// 		setIsTimePassed(true);
+		// 	} else if (
+		// 		currntHours === 0 &&
+		// 		(newStartHour === 9 || newStartHour === 10 || newStartHour === 11)
+		// 	) {
+		// 		setIsTimePassed(true);
+		// 	} else if (currntHours === 0 && curreMinutes > 0 && newStartHour === 12) {
+		// 		setIsTimePassed(true);
+		// 	} else if (
+		// 		currntHours === 13 &&
+		// 		(newStartHour === 9 ||
+		// 			newStartHour === 10 ||
+		// 			newStartHour === 11 ||
+		// 			newStartHour === 12)
+		// 	) {
+		// 		setIsTimePassed(true);
+		// 	} else if (currntHours === 13 && curreMinutes > 0 && newStartHour === 1) {
+		// 		setIsTimePassed(true);
+		// 	} else if (
+		// 		currntHours === 14 &&
+		// 		(newStartHour === 9 ||
+		// 			newStartHour === 10 ||
+		// 			newStartHour === 11 ||
+		// 			newStartHour === 12 ||
+		// 			newStartHour === 1)
+		// 	) {
+		// 		setIsTimePassed(true);
+		// 	} else if (currntHours === 14 && curreMinutes > 0 && newStartHour === 2) {
+		// 		setIsTimePassed(true);
+		// 	} else if (
+		// 		currntHours === 15 &&
+		// 		(newStartHour === 9 ||
+		// 			newStartHour === 10 ||
+		// 			newStartHour === 11 ||
+		// 			newStartHour === 12 ||
+		// 			newStartHour === 1 ||
+		// 			newStartHour === 2)
+		// 	) {
+		// 		setIsTimePassed(true);
+		// 	} else if (currntHours === 15 && curreMinutes > 0 && newStartHour === 3) {
+		// 		setIsTimePassed(true);
+		// 	} else if (
+		// 		currntHours === 16 &&
+		// 		(newStartHour === 9 ||
+		// 			newStartHour === 10 ||
+		// 			newStartHour === 11 ||
+		// 			newStartHour === 12 ||
+		// 			newStartHour === 1 ||
+		// 			newStartHour === 2 ||
+		// 			newStartHour === 3)
+		// 	) {
+		// 		setIsTimePassed(true);
+		// 	} else if (currntHours === 16 && curreMinutes > 0 && newStartHour === 4) {
+		// 		setIsTimePassed(true);
+		// 	} else if (
+		// 		currntHours === 17 &&
+		// 		(newStartHour === 9 ||
+		// 			newStartHour === 10 ||
+		// 			newStartHour === 11 ||
+		// 			newStartHour === 12 ||
+		// 			newStartHour === 1 ||
+		// 			newStartHour === 2 ||
+		// 			newStartHour === 3 ||
+		// 			newStartHour === 4)
+		// 	) {
+		// 		setIsTimePassed(true);
+		// 	} else if (
+		// 		currntHours === 19 &&
+		// 		(newStartHour === 9 ||
+		// 			newStartHour === 10 ||
+		// 			newStartHour === 11 ||
+		// 			newStartHour === 12 ||
+		// 			newStartHour === 1 ||
+		// 			newStartHour === 2 ||
+		// 			newStartHour === 3 ||
+		// 			newStartHour === 4)
+		// 	) {
+		// 		alert("hdghjhf");
+		// 		setIsTimePassed(true);
+		// 		alert(isTimePassed);
+		// 	} else if (currntHours === 17 && curreMinutes > 0 && newStartHour === 5) {
+		// 		setIsTimePassed(true);
+		// 	}
+		// }
+		const validateTime = () => {
+			// Validation for time passed check
+			if (currntHours === 10 && newStartHour === 9) {
+				return true;
+			} else if (
+				currntHours === 11 &&
+				(newStartHour === 9 || newStartHour === 10)
+			) {
+				return true;
+			} else if (
+				currntHours === 11 &&
+				curreMinutes > 0 &&
+				newStartHour === 11
+			) {
+				return true;
+			} else if (
+				currntHours === 0 &&
+				(newStartHour === 9 || newStartHour === 10 || newStartHour === 11)
+			) {
+				return true;
+			} else if (currntHours === 0 && curreMinutes > 0 && newStartHour === 12) {
+				return true;
+			} else if (
+				currntHours === 13 &&
+				(newStartHour === 9 ||
+					newStartHour === 10 ||
+					newStartHour === 11 ||
+					newStartHour === 12)
+			) {
+				return true;
+			} else if (currntHours === 13 && curreMinutes > 0 && newStartHour === 1) {
+				return true;
+			} else if (
+				currntHours === 14 &&
+				(newStartHour === 9 ||
+					newStartHour === 10 ||
+					newStartHour === 11 ||
+					newStartHour === 12 ||
+					newStartHour === 1)
+			) {
+				return true;
+			} else if (currntHours === 14 && curreMinutes > 0 && newStartHour === 2) {
+				return true;
+			} else if (
+				currntHours === 15 &&
+				(newStartHour === 9 ||
+					newStartHour === 10 ||
+					newStartHour === 11 ||
+					newStartHour === 12 ||
+					newStartHour === 1 ||
+					newStartHour === 2)
+			) {
+				return true;
+			} else if (currntHours === 15 && curreMinutes > 0 && newStartHour === 3) {
+				return true;
+			} else if (
+				currntHours === 16 &&
+				(newStartHour === 9 ||
+					newStartHour === 10 ||
+					newStartHour === 11 ||
+					newStartHour === 12 ||
+					newStartHour === 1 ||
+					newStartHour === 2 ||
+					newStartHour === 3)
+			) {
+				return true;
+			} else if (currntHours === 16 && curreMinutes > 0 && newStartHour === 4) {
+				return true;
+			} else if (
+				currntHours === 17 &&
+				(newStartHour === 9 ||
+					newStartHour === 10 ||
+					newStartHour === 11 ||
+					newStartHour === 12 ||
+					newStartHour === 1 ||
+					newStartHour === 2 ||
+					newStartHour === 3 ||
+					newStartHour === 4)
+			) {
+				return true;
+			} else if (currntHours === 17 && curreMinutes > 0 && newStartHour === 5) {
+				return true;
+			} else {
+				return false;
+			}
+		};
 
-		// Validation for time passed check
-		if (currntHours === 10 && newStartHour === 9) {
+		if (validateTime()) {
 			setIsTimePassed(true);
-		} else if (
-			currntHours === 11 &&
-			(newStartHour === 9 || newStartHour === 10)
-		) {
-			setIsTimePassed(true);
-		} else if (currntHours === 11 && curreMinutes > 0 && newStartHour === 11) {
-			setIsTimePassed(true);
-		} else if (
-			currntHours === 0 &&
-			(newStartHour === 9 || newStartHour === 10 || newStartHour === 11)
-		) {
-			setIsTimePassed(true);
-		} else if (currntHours === 0 && curreMinutes > 0 && newStartHour === 12) {
-			setIsTimePassed(true);
-		} else if (
-			currntHours === 13 &&
-			(newStartHour === 9 ||
-				newStartHour === 10 ||
-				newStartHour === 11 ||
-				newStartHour === 12)
-		) {
-			setIsTimePassed(true);
-		} else if (currntHours === 13 && curreMinutes > 0 && newStartHour === 1) {
-			setIsTimePassed(true);
-		} else if (
-			currntHours === 14 &&
-			(newStartHour === 9 ||
-				newStartHour === 10 ||
-				newStartHour === 11 ||
-				newStartHour === 12 ||
-				newStartHour === 1)
-		) {
-			setIsTimePassed(true);
-		} else if (currntHours === 14 && curreMinutes > 0 && newStartHour === 2) {
-			setIsTimePassed(true);
-		} else if (
-			currntHours === 15 &&
-			(newStartHour === 9 ||
-				newStartHour === 10 ||
-				newStartHour === 11 ||
-				newStartHour === 12 ||
-				newStartHour === 1 ||
-				newStartHour === 2)
-		) {
-			setIsTimePassed(true);
-		} else if (currntHours === 15 && curreMinutes > 0 && newStartHour === 3) {
-			setIsTimePassed(true);
-		} else if (
-			currntHours === 16 &&
-			(newStartHour === 9 ||
-				newStartHour === 10 ||
-				newStartHour === 11 ||
-				newStartHour === 12 ||
-				newStartHour === 1 ||
-				newStartHour === 2 ||
-				newStartHour === 3)
-		) {
-			setIsTimePassed(true);
-		} else if (currntHours === 16 && curreMinutes > 0 && newStartHour === 4) {
-			setIsTimePassed(true);
-		} else if (
-			currntHours === 17 &&
-			(newStartHour === 9 ||
-				newStartHour === 10 ||
-				newStartHour === 11 ||
-				newStartHour === 12 ||
-				newStartHour === 1 ||
-				newStartHour === 2 ||
-				newStartHour === 3 ||
-				newStartHour === 4)
-		) {
-			setIsTimePassed(true);
-		} else if (currntHours === 17 && curreMinutes > 0 && newStartHour === 5) {
-			setIsTimePassed(true);
-		}
-		alert(isTimePassed);
-		if (isTimePassed) {
 			handleShowPopup();
 			return;
 		}
@@ -1198,6 +1308,7 @@ function Appointment(props) {
 		});
 
 		if (overlappingAppointments.length > 0) {
+			setIsOverlap(true);
 			handleShowPopup();
 			return;
 		}
@@ -1393,7 +1504,7 @@ function Appointment(props) {
 				<div className="appointment-popup-container" onClick={handleShowPopup}>
 					<div className="appointment-popup">
 						<span className="appointment-check-mark"> &#9888;</span>
-						{!isTimePassed && !isTimeToClose && (
+						{isOverlap && (
 							<p>Your Appointment Overlap With Exiting One.Please Try Again</p>
 						)}
 						{isTimePassed && <p>You Can't Make Appointment For Passed Time</p>}

@@ -19,6 +19,7 @@ function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
+	const [isUserExist, setUserExist] = useState(false);
 	const handleChangeEmail = (event) => {
 		setEmail(event.target.value);
 	};
@@ -59,9 +60,11 @@ function Login() {
 						setUserId(data.usersResult[0].id);
 						setUserName(data.usersResult[0].fname);
 						localStorage.setItem("userName", data.usersResult[0].fname);
+						localStorage.setItem("userLName", data.usersResult[0].lname);
 						setUserData(data.usersResult);
 						localStorage.setItem("userid", data.usersResult[0].id);
 						localStorage.setItem("email", data.usersResult[0].email);
+						localStorage.setItem("phone", data.usersResult[0].phone);
 
 						const handleAddtocart = async () => {
 							const useridd = data.usersResult[0].id;
@@ -89,12 +92,11 @@ function Login() {
 						setUserName(data.profesionalResult[0].fname);
 						navigate("/Professionalappoin");
 					}
-				}
-				if (!data) {
-					navigate("/signup");
+				} else if (response.status === 404) {
+					setUserExist(true);
 				}
 			} else {
-				navigate("/signup");
+				navigate("/servererror");
 			}
 		} catch (error) {
 			console.log("error", error);
@@ -104,6 +106,17 @@ function Login() {
 	return (
 		<form onSubmit={handleSubmit}>
 			<div className="fullsign">
+				<h3
+					style={{
+						visibility: isUserExist ? "visible" : "hidden", // Corrected syntax
+						width: "300px",
+						margin: "auto",
+						color: "red",
+						fontSize: "2rem",
+					}}>
+					Incorrect Password or Email!
+				</h3>
+
 				<div className="login-container">
 					<div className="loginform container">
 						<div>

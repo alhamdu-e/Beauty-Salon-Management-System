@@ -15,6 +15,10 @@ function Header(props) {
 		localStorage.removeItem("userName");
 		localStorage.removeItem("userType");
 		localStorage.removeItem("userid");
+		localStorage.removeItem("userName");
+		localStorage.removeItem("userLName");
+		localStorage.removeItem("email");
+		localStorage.removeItem("phone");
 		setToken("");
 		setUserType("");
 		navigate("/", { replace: true });
@@ -66,7 +70,7 @@ function Header(props) {
 						{token && usertype === "user" && (
 							<li>
 								<Link className="navigation-link join" to="/cart">
-									cart {items.length}
+									cart {items?.length ?? 0}
 								</Link>
 							</li>
 						)}

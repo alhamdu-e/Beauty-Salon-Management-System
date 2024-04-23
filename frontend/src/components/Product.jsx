@@ -14,11 +14,21 @@ function Product() {
 	const { cartLength, items, setItems, setCartLength } = useCartContext();
 	const [product, setProduct] = useState([]);
 	const { userId } = useUserContext();
+	const [showPopup, setShowPopup] = useState(false);
 	const navigate = useNavigate();
 	// const { usertype } = useAuthContext();
 	// console.log(usertype, "hiii");
 	// const [cart, setCart] = useState(items);
 	// alert(usertype);
+
+	const handleShowPopup = (e) => {
+		setShowPopup(!showPopup);
+	};
+
+	if (showPopup) {
+		setTimeout(handleShowPopup, 3000);
+	}
+
 	useEffect(() => {
 		const fetchProduct = async () => {
 			try {
@@ -41,10 +51,10 @@ function Product() {
 			return false;
 		}
 		const productId = Number(localStorage.getItem("productDetailID"));
-		if (items.length > 0) {
+		if (items?.length > 0) {
 			const isItemIsOnTheCart = items.filter((p) => p.id == productId);
 			if (isItemIsOnTheCart.length > 0) {
-				alert("item is on the cart");
+				handleShowPopup();
 				return false;
 			}
 		}
@@ -139,12 +149,26 @@ function Product() {
 									onClick={() => {
 										localStorage.setItem("productDetailID", product.id);
 										handleAddtocart();
-									}}>
+									}}
+									className="addToCart">
 									Add to Cart
 								</button>
 							</div>
 						))}
 					</Slider>
+				</div>
+			)}
+			{showPopup && (
+				<div
+					className="popup-container"
+					onClick={handleShowPopup}
+					style={{ zIndex: 100 }}>
+					<div className="popup">
+						<p className="itemisAlready"> item is already on the cart</p>
+						<span className="check-mark ok" onClick={handleShowPopup}>
+							ok
+						</span>
+					</div>
 				</div>
 			)}
 		</div>

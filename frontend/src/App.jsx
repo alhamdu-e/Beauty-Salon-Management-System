@@ -19,6 +19,8 @@ import ErrorPage from "./components/pages/404";
 import { CartProvider } from "./context/cartcontext";
 import CustomerAppointment from "./components/CustomerAppointment";
 import PayementForm from "./components/pages/PaymentForm";
+import Rating from "./components/pages/profesionalRating";
+import Confirmation from "./components/pages/confirmationForPayment";
 
 function App() {
 	const [serviceHour, setServiceHour] = useState("");
@@ -57,8 +59,9 @@ function App() {
 						path="/customerappointment"
 						element={<CustomerAppointment />}
 					/>
+					<Route path="/paymentconfirmarion" element={<Confirmation />} />
 					<Route path="/paymenform" element={<PayementForm />} />
-
+					<Route path="/rating" element={<Rating />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/admin" element={<Admin />} />
 					<Route

@@ -13,6 +13,7 @@ function AddEmployee(props) {
 	const [adress, setAdress] = useState("");
 	const [image, setimage] = useState("");
 	const [errors, setErrors] = useState({});
+	const [databaseMesssage, setDatabaseMessage] = useState("");
 
 	const [errM, setErr] = useState(false);
 	const navigate = useNavigate();
@@ -114,11 +115,15 @@ function AddEmployee(props) {
 					method: "POST",
 					body: formData,
 				});
-
+				console.log(response);
 				if (response.ok) {
 					setErr(false);
 					props.handleShowPopup();
 				} else if (response.status === 400) {
+					setDatabaseMessage("Employee Exist!");
+					setErr(true);
+				} else if (response.status === 403) {
+					setDatabaseMessage("File Type Not Supported!");
 					setErr(true);
 				} else {
 					navigate("/servererror");
@@ -132,7 +137,7 @@ function AddEmployee(props) {
 		<div>
 			<div className="conatnerforaddemployee">
 				<p className="userExist" style={!errM ? { visibility: "hidden" } : {}}>
-					File Type Not Supported!
+					{databaseMesssage}
 				</p>
 				<button className="add bn">&#43;</button>
 				<button

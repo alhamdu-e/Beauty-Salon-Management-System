@@ -1,0 +1,73 @@
+.container-confirm {
+	width: fit-content;
+	margin: auto;
+	padding-top: 70px;
+	padding-left: 100px;
+
+	padding-bottom: 50px;
+	padding-right: 50px;
+}
+.sucessconfirm {
+	font-size: 22px;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	color: rgb(68, 155, 68);
+}
+.detailconfirm {
+	font-size: 16px;
+	color: rgb(63, 61, 61);
+}
+.check-mark {
+	/* font-size: 48px; */
+	margin-bottom: 40px !important;
+	transform: scale(1.4);
+	margin-left: 110px;
+	/* scale: ; */
+}
+
+.confirmhr {
+	top: 58%;
+	left: 450px;
+	border: solid 1px rgb(210, 205, 205);
+	width: 400px;
+}
+
+.confirmprice {
+	font-size: 14px;
+	margin-top: 35px;
+	color: rgb(66, 66, 66);
+}
+
+.confirmtotal {
+	font-size: 14px;
+	margin-top: 10px;
+	color: rgb(66, 66, 66);
+}
+
+.confirmdate {
+	font-size: 14px;
+	margin-top: 10px;
+	color: rgb(66, 66, 66);
+}
+.content-confirm {
+	background-color: rgb(243, 232, 232);
+	padding: 40px;
+	border-radius: 20px;
+}
+.gohome {
+	margin-top: 20px;
+	display: inline-block;
+	padding: 12px;
+	background-color: green;
+	margin-left: 100px;
+	color: rgb(248, 247, 247);
+	font-size: 1.4rem;
+	border-radius: 8px;
+	transition: all 0.3s;
+}
+.gohome:hover {
+	background-color: rgb(3, 54, 3);
+}
+.bold {
+	font-weight: 600;
+}

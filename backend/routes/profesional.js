@@ -91,6 +91,19 @@ router.put(
 	}
 );
 
+router.put("/chengeappointmentStatus", (req, res) => {
+	const appointmentId = req.body.id;
+	const status = req.body.status;
+	let sql = "";
+	if (status === "Completed" || status === "completed") {
+		sql = "update appointments set status ='In Progress' where id  = ?";
+	}
+	if (status === "In Progress") {
+		sql = "update appointments set status ='Completed' where id  = ?";
+	}
+
+	executeQuery(sql, [appointmentId], res, "status Changed");
+});
 // ************************Retrive all apoointment for  admin page ********************************
 
 router.get("/appointmentinformation", (req, res) => {

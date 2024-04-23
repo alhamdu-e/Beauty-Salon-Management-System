@@ -54,6 +54,12 @@ router.get("/employee", (req, res) => {
 	executeQuery(sql, [], res, "ALL employee RETRIVED");
 });
 
+router.get("/orders", (req, res) => {
+	const sql =
+		"SELECT oi.order_id, GROUP_CONCAT(oi.product_name) AS products, GROUP_CONCAT(oi.quantity) AS total_quantity, o.customer_email, o.first_name, o.last_name, o.total_amount, o.status, o.transactionRef FROM order_items AS oi  JOIN orders AS o ON oi.order_id = o.order_id GROUP BY oi.order_id, o.customer_email, o.first_name, o.last_name, o.total_amount, o.status, o.transactionRef;";
+	executeQuery(sql, [], res, "ALL employee RETRIVED");
+});
+
 router.delete("/employee/:id", (req, res) => {
 	let id = req.params.id;
 	const sql = "DELETE FROM profesional WHERE id =?";
@@ -95,8 +101,7 @@ router.delete("/deleteCart/:id", (req, res) => {
 
 router.post("/addEmployee", upload.single("image"), (req, res) => {
 	if (!req.file) {
-		res.status(400);
-
+		res.status(403).json({ error: "User Exist!!!" });
 		return;
 	}
 	const { fname, lname, email, phone, adress, age, gender, profesion } =
@@ -121,7 +126,8 @@ router.post("/addEmployee", upload.single("image"), (req, res) => {
 	sendEmail(email, callback, content);
 	const sql =
 		"insert into profesional (fname,lname,gender,profession,email,age,phone,address,password,pimage) values (?,?,?,?,?,?,?,?,?,?)";
-	executeQuery(
+
+	db.query(
 		sql,
 		[
 			fname,
@@ -135,8 +141,20 @@ router.post("/addEmployee", upload.single("image"), (req, res) => {
 			password,
 			imagePath,
 		],
-		res,
-		"ALL employee Added"
+		(err, result) => {
+			if (err) {
+				if (err.code === "ER_DUP_ENTRY") {
+					console.log("dupliated");
+					res.status(400).json({ error: "User Exist!!!" });
+				} else {
+					console.log("dupliate");
+					console.error(err);
+					res.status(500).json({ error: "Internal server error" });
+				}
+			} else {
+				res.send({ status: "Employee Created" });
+			}
+		}
 	);
 });
 
