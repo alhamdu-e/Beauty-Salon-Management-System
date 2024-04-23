@@ -120,10 +120,10 @@ function Manageemployee(props) {
 						<th>Phone</th>
 						<th>Age</th>
 						<th>Adress</th>
-						<th>image</th>
 
 						{props.isEmployee && (
 							<>
+								<th>image</th>
 								<th>Gender</th>
 								<th>Prfoession</th>
 								<th colSpan={2}>Action</th>

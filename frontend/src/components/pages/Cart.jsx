@@ -13,11 +13,11 @@ function Cart() {
 	// const[quantityy, setQuantity] = useState(0);
 	// const [productid, setProductId] = useState(0);
 	const [loading, setLoading] = useState(false);
-	const totalPrice = items.reduce((acc, item) => {
+	const totalPrice = (items ?? []).reduce((acc, item) => {
 		const { productprice } = item;
 		return acc + productprice * item.quantity;
 	}, 0);
-	const totalQuantity = items.reduce((acc, item) => {
+	const totalQuantity = (items ?? []).reduce((acc, item) => {
 		return acc + item.quantity;
 	}, 0);
 	function updaeQauantity(info) {
@@ -94,6 +94,7 @@ function Cart() {
 	const handlePayment = async () => {
 		setLoading(true);
 		localStorage.setItem("totalPrice", totalPrice);
+		localStorage.setItem("totalQuantity", totalQuantity);
 		const productName = items.map((item) => ({
 			name: item.productname,
 			quantity: item.quantity,
@@ -103,10 +104,10 @@ function Cart() {
 		const response = await fetch("http://127.0.0.1:5000/payment", {
 			method: "Post",
 			body: JSON.stringify({
-				fname: userData[0]?.fname,
-				lname: userData[0]?.lname,
-				email: userData[0]?.email,
-				phone: userData[0]?.phone,
+				fname: localStorage.getItem("userName"),
+				lname: localStorage.getItem("userLName"),
+				email: localStorage.getItem("email"),
+				phone: localStorage.getItem("phone"),
 				amount: totalPrice,
 				product: items,
 			}),
@@ -117,7 +118,8 @@ function Cart() {
 		if (response.ok) {
 			setLoading(false);
 			const paymentData = await response.json();
-			window.open(paymentData.url, "_blank");
+			window.location.replace(paymentData.url);
+			localStorage.setItem("ref", paymentData.ref);
 		}
 	};
 	return (
@@ -125,12 +127,12 @@ function Cart() {
 			{" "}
 			<Header />
 			<div className="whole">
-				{items.length > 0 && (
+				{items?.length > 0 && (
 					<>
 						<h1 className="carthead"> Shooping Cart</h1>
 						<p className="numberofitems">
 							{" "}
-							You have {items.length} items in your cart{" "}
+							You have {items.length ?? 0} items in your cart{" "}
 						</p>
 						<div className="cartcontainer">
 							<div>
@@ -202,7 +204,9 @@ function Cart() {
 					</div> */}
 					</>
 				)}
-				{items.length === 0 && <h1 className="carthead">Cart is Empty!</h1>}
+				{(items === null || items === undefined || items.length === 0) && (
+					<h1 className="carthead">Cart is Empty!</h1>
+				)}
 				{loading && (
 					<div className="overlay">
 						<div class="loader"></div>

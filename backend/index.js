@@ -7,6 +7,7 @@ const csrf = require("csurf");
 const app = express();
 const jwt = require("jsonwebtoken");
 const request = require("request");
+const sendEmail = require("./sendEmail.js");
 
 const adminRoutes = require("./routes/admin.js");
 const ProfesionalRoutes = require("./routes/profesional.js");
@@ -58,15 +59,20 @@ let lname = "";
 let product = [];
 let amount = "";
 let transactionId = "";
+let selectedProfessionalId = "";
+let userId = "";
+let date = "";
+let startTime = "";
+let endTime = "";
+let serviceId = "";
 app.post("/payment", (req, res) => {
-	console.log(req.body);
 	customerEmail = req.body.email;
 	fname = req.body.fname;
 	lname = req.body.lname;
 	product = req.body.product;
 	amount = req.body.amount;
 
-	const randomKey = generateRandomKey(16);
+	const randomKey = generateRandomKey(3);
 	transactionId = req.body.fname + "_" + randomKey;
 	const options = {
 		method: "POST",
@@ -84,7 +90,7 @@ app.post("/payment", (req, res) => {
 			phone_number: "0" + req.body.phone,
 			tx_ref: transactionId,
 			callback_url: "http://127.0.0.1:5000/verify",
-			return_url: "http://localhost:3000/fdhfgjgh",
+			return_url: "http://localhost:3000/paymentconfirmarion",
 			title: "Payment for  Purchuasing Product from Glowcity",
 			description: "Glowcity is the best in the City ",
 		}),
@@ -93,7 +99,8 @@ app.post("/payment", (req, res) => {
 	request(options, function (error, response) {
 		if (error) throw new Error(error);
 		const data = JSON.parse(response.body);
-		res.status(200).json({ url: data.data.checkout_url });
+		console.log(data);
+		res.status(200).json({ url: data.data.checkout_url, ref: transactionId });
 	});
 });
 
@@ -103,8 +110,14 @@ app.post("/appointment/payment", (req, res) => {
 	fname = req.body.fname;
 	lname = req.body.lname;
 	amount = req.body.amount;
+	selectedProfessionalId = req.body.selectedProfessionalId;
+	userId = req.body.userId;
+	date = req.body.date;
+	startTime = req.body.startTime;
+	endTime = req.body.endTime;
+	serviceId = req.body.serviceId;
 
-	const randomKey = generateRandomKey(16);
+	const randomKey = generateRandomKey(3);
 	transactionId = req.body.fname + "_" + randomKey;
 	const options = {
 		method: "POST",
@@ -121,8 +134,8 @@ app.post("/appointment/payment", (req, res) => {
 			last_name: req.body.lname,
 			phone_number: "0" + req.body.phone,
 			tx_ref: transactionId,
-			// callback_url: "http://127.0.0.1:5000/verify",
-			return_url: "http://localhost:3000/fdhfgjgh",
+			callback_url: "http://127.0.0.1:5000/verifyappoint",
+			return_url: "http://localhost:3000/paymentconfirmarion",
 			title: "Payment for  Purchuasing Product from Glowcity",
 			description: "Glowcity is the best in the City ",
 		}),
@@ -136,7 +149,38 @@ app.post("/appointment/payment", (req, res) => {
 	});
 });
 
+app.use("/verifyappoint", (req, res) => {
+	console.log(serviceId);
+	const sql =
+		"insert into appointments (customerId,professionalId,appointmentDate,startTime,endTime,serviceId,status) values (?,?,?,?,?,?,?)";
+	const param = [
+		userId,
+		selectedProfessionalId,
+		date,
+		startTime,
+		endTime,
+		serviceId,
+		"In Progress",
+	];
+	executeQuery(sql, param, res);
+});
+
 app.use("/verify", (req, res) => {
+	const callback = function (error, data, response) {
+		if (error) {
+			console.error(error);
+		} else {
+			console.log("hello");
+		}
+	};
+
+	const content = `<div style="background-color:#0a1b0b;width:500px;margin:auto;text-align:center; border-radius:12px; padding:20px">
+		<h2 style="font-size: 24px;color:#f2f2f2"> Your Order is Completed</h2>
+		<p style="color:#f2f2f2"">Don't share the order id with Another Person.Thanks for Choosing Us! </p>
+		<p style="color:#f2f2f2"">Your Oreder id is: ${transactionId}</p>
+	</div>`;
+
+	sendEmail(customerEmail, callback, content);
 	const orderQuery =
 		"INSERT INTO orders (customer_email, first_name, last_name, total_amount,transactionRef, status) VALUES (?, ?, ?, ?, ?,?)";
 	const orderValues = [

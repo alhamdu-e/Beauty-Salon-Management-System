@@ -1,5 +1,5 @@
 .procontainer {
-	width: 62vw;
+	width: 85vw;
 	/* margin-top: ; */
 	padding: 30px;
 	padding-bottom: 10px;
@@ -24,20 +24,16 @@
 
 .prow {
 	padding-left: 12px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 	margin-bottom: 10px;
 	border: 1px solid #3f20204b;
 	border-radius: 5px;
-	justify-content: space-between;
 }
 .porow {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 	margin-bottom: 10px;
-	justify-content: space-between;
 }
 
 .plabel {
@@ -107,4 +103,14 @@
 	border: none;
 	color: #f2f2f2;
 	background-color: green;
+}
+.changeStatusbtn {
+	margin: 0;
+	display: inline;
+	border: none;
+	padding: 0.8rem;
+	background-color: rgb(1, 75, 1);
+	margin-top: 10px;
+	border-radius: 6px;
+	color: #f2f2f2;
 }

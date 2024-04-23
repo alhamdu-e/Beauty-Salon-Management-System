@@ -2,16 +2,16 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/Autcontext";
 
-function ViewAppointment() {
+function Order() {
 	const { token } = useAuthContext();
 
-	const [appointmentInfo, setAppointmentInfo] = useState([]);
+	const [orderInfo, setOrderInfo] = useState([]);
 	useEffect(() => {
-		fetch("http://127.0.0.1:5000/appointmentinformation", {
+		fetch("http://127.0.0.1:5000/orders", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
+				// Authorization: `Bearer ${token}`,
 			},
 		})
 			.then((response) => {
@@ -21,7 +21,7 @@ function ViewAppointment() {
 			})
 			.then((data) => {
 				console.log(data);
-				setAppointmentInfo(data);
+				setOrderInfo(data);
 			});
 	}, []);
 
@@ -31,25 +31,25 @@ function ViewAppointment() {
 				<table>
 					<thead>
 						<tr>
-							<th>Appointment Date</th>
-							<th>Start Time</th>
-							<th>End time</th>
-							<th>profesional Name</th>
-							<th>customer Name</th>
-							<th>Service Name</th>
+							<th>Name</th>
+							<th>Email</th>
+							<th>products</th>
+							<th>Quantity</th>
+							<th>Total Amount</th>
+							<th>order_Refrence</th>
 							<th>Status</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						{appointmentInfo?.map((data) => (
+						{orderInfo?.map((data) => (
 							<tr>
-								<td>{data.appointmentDate}</td>
-								<td>{data.startTime}</td>
-								<td>{data.endTime}</td>
-								<td>{data.profFname + " " + data.profLname}</td>
-								<td>{data.userFname + " " + data.userLname}</td>
-								<td>{data.servicename}</td>
+								<td>{data.first_name + " " + data.last_name}</td>
+								<td>{data.customer_email}</td>
+								<td>{data.products}</td>
+								<td>{data.total_quantity}</td>
+								<td>{data.total_amount}</td>
+								<td>{data.transactionRef}</td>
 								<td>{data.status}</td>
 
 								<td>
@@ -64,4 +64,4 @@ function ViewAppointment() {
 	);
 }
 
-export default ViewAppointment;
+export default Order;

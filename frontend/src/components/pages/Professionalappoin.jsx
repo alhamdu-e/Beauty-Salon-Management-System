@@ -3,6 +3,7 @@ import Header from "../Header";
 import "../../assets/styles/professionalappoin.css";
 import { useEffect, useState, useRef } from "react";
 import { useProfesionalContext } from "../../context/profesionalcontext";
+import { json } from "react-router-dom";
 const Professionalappoin = () => {
 	const { profesionalId } = useProfesionalContext();
 	const [shwoprofileupdate, setShowProfileUpdate] = useState(false);
@@ -42,6 +43,7 @@ const Professionalappoin = () => {
 		})
 			.then((response) => response.json())
 			.then((data) => {
+				console.log(data);
 				setAppointment(data);
 			});
 
@@ -54,6 +56,27 @@ const Professionalappoin = () => {
 				setUpdatedPhoto(data[0].pimage);
 			});
 	}, []);
+
+	const handleChangeStatus = async (id, status) => {
+		console.log(id);
+		const response = await fetch(
+			"http://127.0.0.1:5000/chengeappointmentStatus",
+			{
+				method: "PUT",
+				body: JSON.stringify({ id, status }),
+				headers: { "Content-Type": "application/json" },
+			}
+		);
+		if (response.ok) {
+			fetch(`http://127.0.0.1:5000/profesionalAppointed/${profesionalId}`, {
+				method: "Get",
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					setAppointment(data);
+				});
+		}
+	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -118,6 +141,7 @@ const Professionalappoin = () => {
 							<div className="plabel">Date</div>
 							<div className="plabel">Start Time</div>
 							<div className="plabel">EndTime</div>
+							<div className="plabel">Status</div>
 						</div>
 						<div className="porow">
 							<div className="pinfo name">
@@ -127,6 +151,16 @@ const Professionalappoin = () => {
 							<div className="pinfo">{appointment.appointmentDate}</div>
 							<div className="pinfo">{appointment.startTime}</div>
 							<div className="pinfo">{appointment.endTime}</div>
+							<div className="pinfo">
+								{appointment.status}{" "}
+								<button
+									className="changeStatusbtn"
+									onClick={() =>
+										handleChangeStatus(appointment.id, appointment.status)
+									}>
+									Change Status
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
