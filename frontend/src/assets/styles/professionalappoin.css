@@ -19,7 +19,7 @@
 	margin-top: 10px;
 	color: #503d3d;
 	margin-bottom: 5rem;
-	margin-top: 13rem;
+	margin-top: 4rem;
 }
 
 .prow {
@@ -53,18 +53,28 @@
 	text-transform: capitalize;
 }
 .imgg {
-	width: 120px !important;
-	height: 120px; /* Set the height equal to width */
-	border-radius: 50%; /* Make it a perfect circle */
+	width: 150px !important;
+	height: 100px; /* Set the height equal to width */
+	border-radius: 1px; /* Make it a perfect circle */
 	margin-top: 3.5rem;
-	margin-right: 19rem;
 	cursor: pointer;
 	object-fit: contain;
+	border-radius: 50%;
+}
+.profimage {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	margin-right: -70px;
+	transform: translateX(40px);
 }
 
 .p {
 	font-size: 1.3rem;
 	margin-bottom: 40px;
+	text-transform: capitalize;
+	margin-top: 10px;
+	margin-left: 20px;
 }
 .dddd {
 	display: flex;

@@ -25,6 +25,8 @@ export default function Makeup(props) {
 	const handleServicePrice = (servicePrice) => {
 		props.setServicePrice(servicePrice);
 	};
+	const userType = localStorage.getItem("userType");
+
 	return (
 		<div>
 			<Header />
@@ -67,16 +69,39 @@ export default function Makeup(props) {
 									{/* <Link className="home" to="/appointment">
 										Book Home
 									</Link> */}
-									<Link
-										className="salon"
-										to="/appointment"
-										onClick={() => {
-											handleservicehour(service.serviceduration);
-											handleServiceID(service.id);
-											handleServicePrice(service.serviceprice);
-										}}>
-										Book Salon
-									</Link>
+
+									{userType === "profesional" && (
+										<button
+											style={{
+												margin: "0px",
+												border: "none",
+												cursor: "not-allowed",
+											}}
+											disabled
+											className="salon">
+											Book Salon
+										</button>
+									)}
+									{userType !== "profesional" && (
+										<button
+											style={{
+												margin: "0px",
+												border: "none",
+												cursor: "not-allowed",
+											}}
+											disabled>
+											<Link
+												className="salon"
+												to="/appointment"
+												onClick={() => {
+													handleservicehour(service.serviceduration);
+													handleServiceID(service.id);
+													handleServicePrice(service.serviceprice);
+												}}>
+												Book Salon
+											</Link>
+										</button>
+									)}
 								</div>
 							</div>
 						</div>

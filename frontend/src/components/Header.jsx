@@ -48,9 +48,9 @@ function Header(props) {
 						</li>
 
 						<li>
-							<a href="#" className="navigation-link" onClick={services}>
+							<Link to="/makeup" className="navigation-link">
 								Service
-							</a>
+							</Link>
 						</li>
 
 						<li>
@@ -83,6 +83,14 @@ function Header(props) {
 								</Link>
 							</li>
 						)}
+						{token && usertype === "profesional" && (
+							<li>
+								<Link className="navigation-link join" to="/Professionalappoin">
+									Dasheboard
+								</Link>
+							</li>
+						)}
+
 						{token && (
 							<>
 								<li>

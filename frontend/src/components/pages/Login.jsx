@@ -54,7 +54,7 @@ function Login() {
 					localStorage.setItem("userType", data.userType);
 
 					if (data.userType === "admin") {
-						navigate("/admin");
+						navigate("/admin", { replace: true });
 					}
 					if (data.userType === "user") {
 						setUserId(data.usersResult[0].id);
@@ -85,12 +85,19 @@ function Login() {
 						};
 						handleAddtocart();
 
-						navigate("/");
+						navigate("/", { replace: true });
 					}
 					if (data.userType === "profesional") {
 						setProfesionaId(data.profesionalResult[0].id);
 						setUserName(data.profesionalResult[0].fname);
-						navigate("/Professionalappoin");
+						localStorage.setItem("userName", data.profesionalResult[0].fname);
+						localStorage.setItem(
+							"profesionalName",
+							data.profesionalResult[0].fname
+						);
+						localStorage.setItem("profesionalId", data.profesionalResult[0].id);
+
+						navigate("/Professionalappoin", { replace: true });
 					}
 				} else if (response.status === 404) {
 					setUserExist(true);

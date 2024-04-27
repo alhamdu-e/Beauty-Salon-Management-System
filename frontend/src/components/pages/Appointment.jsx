@@ -24,10 +24,12 @@ function Appointment(props) {
 	const [isTimePassed, setIsTimePassed] = useState(false);
 	const [isTimeToClose, setIsTimeToClosed] = useState(false);
 	const [isOverlap, setIsOverlap] = useState(false);
+	const [ratings, setRating] = useState([]);
 
 	const [showPopup, setShowPopup] = useState(false);
 
 	const [appointmetDate, setAppointmentDate] = useState([]);
+	let averageRating = 0;
 
 	const handleShowPopup = (e) => {
 		setShowPopup(!showPopup);
@@ -61,6 +63,16 @@ function Appointment(props) {
 					JSON.stringify(data)
 				);
 				setAppointmentDate(data);
+				console.log(data);
+			});
+
+		fetch(`http://127.0.0.1:5000/profesionalRating/${selectedProfessionalId}`, {
+			method: "GET",
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				setRating(data.result);
+				console.log(data);
 			});
 	}, [selectedProfessionalId]);
 
@@ -1356,6 +1368,13 @@ function Appointment(props) {
 			console.log(error);
 		}
 	};
+	const totalRating = ratings.reduce(
+		(sum, rating) => sum + parseInt(rating.rating),
+		0
+	);
+
+	// Calculate the average rating
+	averageRating = totalRating / ratings.length;
 	return (
 		<div className="main-cont-for-appointment">
 			<Header />
@@ -1456,15 +1475,31 @@ function Appointment(props) {
 								<div className="service-prof-cont">
 									<p className="srrv-name">
 										<span className="spanpro">Name: </span>
-										{selectedProfessional[0].fname}
+										{selectedProfessional[0].fname +
+											" " +
+											selectedProfessional[0].lname}
 									</p>
 									<p className="srrv-name">
 										<span className="spanpro">Email: </span>
 										{selectedProfessional[0].email}
 									</p>
-									<p className="srrv-name">
-										<span className="spanpro">Rating(⭐)</span>5
-									</p>
+									{averageRating == 0 && (
+										<p className="srrv-name">
+											<span className="spanpro">Not Rated(⭐)</span>
+										</p>
+									)}
+									{averageRating > 0 && (
+										<p className="srrv-name">
+											<span className="spanpro">
+												Rating(⭐):{averageRating}
+											</span>
+										</p>
+									)}
+									{isNaN(averageRating) && (
+										<p className="srrv-name">
+											<span className="spanpro">Not Rated(⭐)</span>
+										</p>
+									)}
 								</div>
 							</>
 						)}
