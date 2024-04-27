@@ -54,6 +54,18 @@ router.get("/profesionalAppointed/:id", (req, res) => {
 		"SELECT appointments.*, service.servicename, users.fname AS userFname,users.lname AS userLname FROM appointments INNER JOIN users ON appointments.customerId = users.id  INNER JOIN service ON appointments.serviceId = service.id where appointments.professionalId = ? ";
 	executeQuery(sql, [id], res);
 });
+router.get("/profesionalRating/:id", (req, res) => {
+	let id = req.params.id;
+	console.log("hiiiii");
+	const sql = "SELECT * from ratings_feedback where profesionalId = ? ";
+	db.query(sql, [id], (err, result) => {
+		if (err) {
+			console.log(err);
+		} else {
+			res.json({ result });
+		}
+	});
+});
 
 router.get("/customerappointment/:id", (req, res) => {
 	let id = req.params.id;
@@ -64,6 +76,16 @@ router.get("/customerappointment/:id", (req, res) => {
 
 // ************************ update profesional photo ********************************
 
+router.post("/rating", (req, res) => {
+	console.log(req.body);
+	const sql =
+		"insert into ratings_feedback (profesionalId,rating,feedback) values (?,?,?) ";
+	executeQuery(
+		sql,
+		[req.body.profesionalId, req.body.rating, req.body.feedback],
+		res
+	);
+});
 router.put(
 	"/updatprofesionalphoto",
 	upload.single("profesionaImage"),

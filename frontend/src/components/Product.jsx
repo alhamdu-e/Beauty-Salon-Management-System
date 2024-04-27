@@ -21,6 +21,7 @@ function Product() {
 	// const [cart, setCart] = useState(items);
 	// alert(usertype);
 
+	const userType = localStorage.getItem("userType");
 	const handleShowPopup = (e) => {
 		setShowPopup(!showPopup);
 	};
@@ -145,14 +146,29 @@ function Product() {
 								<p className="product-title">{product.productname}</p>
 								<p className="product-price">{product.productprice} Birr</p>
 
-								<button
-									onClick={() => {
-										localStorage.setItem("productDetailID", product.id);
-										handleAddtocart();
-									}}
-									className="addToCart">
-									Add to Cart
-								</button>
+								{userType === "profesional" && (
+									<button
+										onClick={() => {
+											localStorage.setItem("productDetailID", product.id);
+											handleAddtocart();
+										}}
+										className="addToCart"
+										disabled
+										style={{ cursor: "not-allowed" }}>
+										Add to Cart
+									</button>
+								)}
+
+								{userType !== "profesional" && (
+									<button
+										onClick={() => {
+											localStorage.setItem("productDetailID", product.id);
+											handleAddtocart();
+										}}
+										className="addToCart">
+										Add to Cart
+									</button>
+								)}
 							</div>
 						))}
 					</Slider>
