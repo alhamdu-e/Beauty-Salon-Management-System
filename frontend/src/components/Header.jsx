@@ -90,13 +90,36 @@ function Header(props) {
 								</Link>
 							</li>
 						)}
+						{token && usertype === "admin" && (
+							<li>
+								<Link className="navigation-link join" to="/admin">
+									Dasheboard
+								</Link>
+							</li>
+						)}
 
-						{token && (
+						{token && usertype !== "admin" && (
 							<>
 								<li>
 									<div class="dropdown">
 										<button class="dropbtn">
 											<p className="userProfile">Hello,{userName}</p>
+											<p className="userProfile">Account &#9660;</p>
+										</button>
+										<div class="dropdown-content">
+											<button onClick={logout}>sign out</button>
+										</div>
+									</div>
+								</li>
+							</>
+						)}
+
+						{token && usertype === "admin" && (
+							<>
+								<li>
+									<div class="dropdown">
+										<button class="dropbtn">
+											<p className="userProfile">Hello,Admin</p>
 											<p className="userProfile">Account &#9660;</p>
 										</button>
 										<div class="dropdown-content">

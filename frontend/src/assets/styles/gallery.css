@@ -77,3 +77,9 @@ hr {
 	right: 60px;
 	border: solid 0.5px rgb(231, 226, 226);
 }
+
+@media only screen and (max-width: 600px) {
+	.gallery-container {
+		grid-template-columns: 1fr;
+	}
+}

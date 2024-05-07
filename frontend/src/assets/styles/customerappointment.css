@@ -142,3 +142,24 @@ textarea {
 	color: #3f3c3c;
 	cursor: pointer;
 }
+.feedbackmess {
+	font-size: 1.6rem;
+}
+.thanks-cont {
+	width: 300px;
+	position: fixed;
+	left: 500px;
+	top: 175px;
+	z-index: 5;
+	background-color: rgb(231, 226, 226);
+	padding: 40px;
+	border-radius: 12px;
+}
+.llnn {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	background-color: #38373777;
+	height: 100vh;
+}

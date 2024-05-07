@@ -6,10 +6,25 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 import Header from "../Header";
 import { useUserContext } from "../../context/UserContext";
 import { useCartContext } from "../../context/cartcontext";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
+	const productWithQunatity = JSON.parse(
+		localStorage.getItem("productWithQunatity")
+	);
 	const { userId, userData } = useUserContext();
 	const { items, setItems } = useCartContext();
+	const [showPopup, setShowPopup] = useState(false);
+	const navigate = useNavigate();
+	function getItemQuantityById(items, id) {
+		const filteredItem = items.find((item) => item.id === id);
+
+		if (filteredItem) {
+			return filteredItem.quantity;
+		}
+
+		// Return 0 if no item with the given ID is found
+	}
 	// const[quantityy, setQuantity] = useState(0);
 	// const [productid, setProductId] = useState(0);
 	const [loading, setLoading] = useState(false);
@@ -59,19 +74,27 @@ function Cart() {
 			console.log(error);
 		}
 	};
-	const handleIncrement = (productIndex, productidd) => {
+	const handleIncrement = (productIndex, productidd, euuy, CartQnatity) => {
+		const productQunatity = getItemQuantityById(
+			productWithQunatity,
+			productidd
+		);
 		// setProductId(productidd);
-		const updatedItems = [...items];
-		updatedItems[productIndex].quantity += 1;
-		// setQuantity(updatedItems[productIndex].quantity);
-		setItems(updatedItems);
-		localStorage.setItem("cart", JSON.stringify(updatedItems));
-		const info = {
-			quantityy: updatedItems[productIndex].quantity,
-			productid: productidd,
-			userId,
-		};
-		updaeQauantity(info);
+		if (productQunatity > CartQnatity) {
+			const updatedItems = [...items];
+			updatedItems[productIndex].quantity += 1;
+			// setQuantity(updatedItems[productIndex].quantity);
+			setItems(updatedItems);
+			localStorage.setItem("cart", JSON.stringify(updatedItems));
+			const info = {
+				quantityy: updatedItems[productIndex].quantity,
+				productid: productidd,
+				userId,
+			};
+			updaeQauantity(info);
+		} else {
+			setShowPopup(true);
+		}
 	};
 	const handleDecrement = async (productIndex, productidd) => {
 		// setProductId(productidd);
@@ -120,6 +143,8 @@ function Cart() {
 			const paymentData = await response.json();
 			window.location.replace(paymentData.url);
 			localStorage.setItem("ref", paymentData.ref);
+		} else {
+			navigate("/serverError");
 		}
 	};
 	return (
@@ -157,7 +182,8 @@ function Cart() {
 															handleIncrement(
 																index,
 																product.id,
-																product.cart_id
+																product.cart_id,
+																product.quantity
 															)
 														}>
 														<FaPlus />
@@ -169,7 +195,10 @@ function Cart() {
 														<FaMinus />
 													</button>
 												</div>
-												<p className="price">{product.productprice}</p>
+												<p className="price">
+													{product.productprice}
+													&nbsp;ETB
+												</p>
 												<MdDeleteForever
 													className="cancel-icon"
 													onClick={() =>
@@ -213,6 +242,16 @@ function Cart() {
 					</div>
 				)}
 			</div>
+			{showPopup && (
+				<div className="popup-container" style={{ zIndex: 100 }}>
+					<div className="popup">
+						<p className="itemisAlready"> Product is Out of Stock</p>
+						<span className="check-mark ok" onClick={() => setShowPopup(false)}>
+							ok
+						</span>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

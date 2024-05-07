@@ -8,7 +8,6 @@ function Services(props) {
 			<p className="servicefeature" ref={props.service}>
 				Services
 			</p>
-			<hr className="servicehr" />
 			<div className="service-provided">
 				<div>
 					<img src="./images/G10.jpg" alt="" className="service-image" />

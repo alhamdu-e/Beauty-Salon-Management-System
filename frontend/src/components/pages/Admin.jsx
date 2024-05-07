@@ -21,6 +21,9 @@ import "../../assets/styles/Admin/viewAppointment.css";
 import ViewAppointment from "../admin/viewAppointment";
 import { useServiceProdctContext } from "../../context/productAndServicecomtext";
 import Order from "../admin/order";
+import { useAuthContext } from "../../context/Autcontext";
+
+import { Link, useNavigate } from "react-router-dom";
 
 function Admin() {
 	const [isEmployee, setEmployee] = useState(true);
@@ -41,6 +44,18 @@ function Admin() {
 	const { setServicee, setProductt } = useServiceProdctContext();
 	const [showOrder, setShowOrder] = useState(false);
 
+	const { token, setToken, setUserType, usertype } = useAuthContext();
+	const navigate = useNavigate();
+
+	const logout = () => {
+		localStorage.removeItem("token");
+		localStorage.removeItem("profesionalName");
+		localStorage.removeItem("profesionalId");
+		localStorage.removeItem("userType");
+		setToken("");
+		setUserType("");
+		navigate("/", { replace: true });
+	};
 	const handleEmployee = (e) => {
 		e.preventDefault();
 		setEmployee(true);
@@ -69,7 +84,7 @@ function Admin() {
 		setShowEditProduct(false);
 		setShowEditService(false);
 		setShowEditEmployee(false);
-		// setPopupMessage("Employee Deleted successfully");
+		setPopupMessage("Order Deleted successfully");
 		setShowAppointment(false);
 		setShowOrder(true);
 	};
@@ -258,6 +273,14 @@ function Admin() {
 					<div className="admin-menu">
 						<div>
 							<h2 className="admin-h2">Admin</h2>
+							<div class="dropdown">
+								<button class="dropbtn">
+									<p className="userProfile">Hello,Admin &#9660;</p>
+								</button>
+								<div class="dropdown-content">
+									<button onClick={logout}>sign out</button>
+								</div>
+							</div>
 						</div>
 						<div>
 							<div>
@@ -315,9 +338,9 @@ function Admin() {
 							<div>
 								<ul>
 									<li>
-										<a href="#">
+										<Link to="/">
 											<IoMdHome /> Home
-										</a>
+										</Link>
 									</li>
 									{/* <li>
 										<a href="#">
@@ -359,7 +382,7 @@ function Admin() {
 					</div>
 				</div> */}
 				{showAppointment && <ViewAppointment />}
-				{showOrder && <Order />}
+				{showOrder && <Order handleShowPopup={handleShowPopup} />}
 
 				{showEmploye && (
 					<>

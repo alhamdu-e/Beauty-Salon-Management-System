@@ -19,16 +19,16 @@ function Product() {
 	// const { usertype } = useAuthContext();
 	// console.log(usertype, "hiii");
 	// const [cart, setCart] = useState(items);
-	// alert(usertype);
 
 	const userType = localStorage.getItem("userType");
+
 	const handleShowPopup = (e) => {
 		setShowPopup(!showPopup);
 	};
 
-	if (showPopup) {
-		setTimeout(handleShowPopup, 3000);
-	}
+	//if (showPopup) {
+	//	setTimeout(handleShowPopup, 3000);
+	//}
 
 	useEffect(() => {
 		const fetchProduct = async () => {
@@ -39,6 +39,7 @@ function Product() {
 				const data = await response.json();
 				console.log(data);
 				setProduct(data);
+				localStorage.setItem("productWithQunatity", JSON.stringify(data));
 			} catch (e) {
 				console.log(e);
 			}
@@ -137,39 +138,65 @@ function Product() {
 
 					<Slider {...settings}>
 						{product.map((product) => (
-							<div className="producteachframe">
-								<img
-									src={product.productimage}
-									alt=""
-									className="product-image"
-								/>
-								<p className="product-title">{product.productname}</p>
-								<p className="product-price">{product.productprice} Birr</p>
+							<>
+								{product.quantity > 0 && (
+									<div className="producteachframe">
+										<img
+											src={product.productimage}
+											alt=""
+											className="product-image"
+										/>
+										<p className="product-title">{product.productname}</p>
+										<p className="product-price">{product.productprice} Birr</p>
 
-								{userType === "profesional" && (
-									<button
-										onClick={() => {
-											localStorage.setItem("productDetailID", product.id);
-											handleAddtocart();
-										}}
-										className="addToCart"
-										disabled
-										style={{ cursor: "not-allowed" }}>
-										Add to Cart
-									</button>
-								)}
+										{userType === "profesional" && (
+											<button
+												onClick={() => {
+													localStorage.setItem("productDetailID", product.id);
+													handleAddtocart();
+												}}
+												className="addToCart"
+												disabled
+												style={{ cursor: "not-allowed" }}>
+												Add to Cart
+											</button>
+										)}
+										{userType === "admin" && (
+											<button
+												onClick={() => {
+													localStorage.setItem("productDetailID", product.id);
+													handleAddtocart();
+												}}
+												className="addToCart"
+												disabled
+												style={{ cursor: "not-allowed" }}>
+												Add to Cart
+											</button>
+										)}
 
-								{userType !== "profesional" && (
-									<button
-										onClick={() => {
-											localStorage.setItem("productDetailID", product.id);
-											handleAddtocart();
-										}}
-										className="addToCart">
-										Add to Cart
-									</button>
+										{userType === "user" && (
+											<button
+												onClick={() => {
+													localStorage.setItem("productDetailID", product.id);
+													handleAddtocart();
+												}}
+												className="addToCart">
+												Add to Cart
+											</button>
+										)}
+										{userType === null && (
+											<button
+												onClick={() => {
+													localStorage.setItem("productDetailID", product.id);
+													handleAddtocart();
+												}}
+												className="addToCart">
+												Add to Cart
+											</button>
+										)}
+									</div>
 								)}
-							</div>
+							</>
 						))}
 					</Slider>
 				</div>

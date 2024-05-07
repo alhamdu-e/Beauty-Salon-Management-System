@@ -72,3 +72,54 @@ label {
 .login-link {
 	color: rgb(77, 67, 67);
 }
+.nnnn {
+	position: absolute;
+	right: 10px;
+	bottom: 8px;
+	font-size: 16px;
+	border-radius: 50%;
+	padding: 5px 6px;
+	border: none;
+	background-color: white;
+	transition: all 0.4s;
+}
+.nnnn:hover {
+	background-color: #f7c2a9;
+}
+.nnnnn {
+	position: absolute;
+	right: 40px;
+	top: 175px;
+	font-size: 16px;
+	border-radius: 50%;
+	padding: 5px 6px;
+	border: none;
+	background-color: white;
+	transition: all 0.4s;
+}
+.nnnnn:hover {
+	background-color: #f7c2a9;
+}
+
+.nnnnnn {
+	position: absolute;
+	right: 40px;
+	top: 70px;
+	font-size: 16px;
+	border-radius: 50%;
+	padding: 5px 6px;
+	border: none;
+	background-color: white;
+	transition: all 0.4s;
+}
+.nnnnnn:hover {
+	background-color: #f7c2a9;
+}
+.sss {
+	visibility: hidden;
+}
+.new {
+	position: absolute;
+	right: 10px;
+	bottom: 18px;
+}

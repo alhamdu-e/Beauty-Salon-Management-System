@@ -8,14 +8,27 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/Autcontext";
 import { useCartContext } from "../../context/cartcontext";
 import { useUserContext } from "../../context/UserContext";
+import { MdCancel } from "react-icons/md";
+import { FaLock } from "react-icons/fa6";
+
 const Professionalappoin = () => {
 	const { profesionalId } = useProfesionalContext();
 	const [shwoprofileupdate, setShowProfileUpdate] = useState(false);
+	const [shwoo, setShowoo] = useState(false);
+	const [shwonn, setShownn] = useState(false);
 	const fileInputRef = useRef(null);
 	const submitButton = useRef(null);
 	const [appointment, setAppointment] = useState([]);
 	const [img, setImg] = useState("");
 	const [updatedPhoto, setUpdatedPhoto] = useState("");
+	const [viewFeedBack, setViewFeedBack] = useState("");
+	const [feedbacks, setFeedBacks] = useState("");
+	const [showUpdatePassword, setShowUpdatePassword] = useState(false);
+	const [oldPassword, setOldPassword] = useState("");
+	const [newPassword, setNewPassword] = useState("");
+	const [confiremPassword, setConfiremPassword] = useState("");
+	const [usertEnterdeOldPassword, setUserEnteredOldPassword] = useState("");
+	const [showMessage, setShowMessage] = useState(false);
 
 	const { token, setToken, setUserType, usertype } = useAuthContext();
 	const navigate = useNavigate();
@@ -27,6 +40,7 @@ const Professionalappoin = () => {
 		localStorage.removeItem("token");
 		localStorage.removeItem("profesionalName");
 		localStorage.removeItem("profesionalId");
+		localStorage.removeItem("userType");
 		setToken("");
 		setUserType("");
 		navigate("/", { replace: true });
@@ -57,6 +71,7 @@ const Professionalappoin = () => {
 	};
 
 	useEffect(() => {
+		setOldPassword(localStorage.getItem("password"));
 		fetch(`http://127.0.0.1:5000/profesionalAppointed/${PId}`, {
 			method: "Get",
 		})
@@ -74,15 +89,23 @@ const Professionalappoin = () => {
 				setProfesionalData(data);
 				setUpdatedPhoto(data[0].pimage);
 			});
+
+		fetch(`http://127.0.0.1:5000/profesionalRating/${PId}`, {
+			method: "Get",
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				const mmm = data.result.filter((r) => r.feedback !== "");
+				setFeedBacks(mmm);
+			});
 	}, []);
 
 	const handleChangeStatus = async (id, status) => {
-		console.log(id);
 		const response = await fetch(
 			"http://127.0.0.1:5000/chengeappointmentStatus",
 			{
 				method: "PUT",
-				body: JSON.stringify({ PId, status }),
+				body: JSON.stringify({ id, status }),
 				headers: { "Content-Type": "application/json" },
 			}
 		);
@@ -96,7 +119,11 @@ const Professionalappoin = () => {
 				});
 		}
 	};
-
+	if (showMessage) {
+		setTimeout(() => {
+			setShowMessage(false);
+		}, 3000);
+	}
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
@@ -124,7 +151,37 @@ const Professionalappoin = () => {
 			console.error("Error editing product:", error);
 		}
 	};
+	const errors = {};
+	const handeleUpdatePassword = async () => {
+		setShownn(false);
+		setShowoo(false);
+		if (oldPassword !== usertEnterdeOldPassword) {
+			setShowoo(true);
+			return;
+		}
+		if (newPassword !== confiremPassword) {
+			setShownn(true);
+			return;
+		}
 
+		const response = await fetch(
+			"http://127.0.0.1:5000/updatprofesionalpassword",
+			{
+				method: "PUT",
+				body: JSON.stringify({ newPassword, PId }),
+				headers: { "Content-Type": "application/json" },
+			}
+		);
+		console.log(response);
+
+		if (response.ok) {
+			localStorage.setItem("password", newPassword);
+
+			setShowUpdatePassword(false);
+			setShowMessage(true);
+		} else {
+		}
+	};
 	return (
 		<div>
 			<header>
@@ -140,9 +197,24 @@ const Professionalappoin = () => {
 								</Link>
 							</li>
 
-							<li>
-								<p className="navigation-link">View FeedBack</p>
-							</li>
+							{!viewFeedBack && (
+								<li>
+									<p
+										className="navigation-link feedbacklink"
+										onClick={() => setViewFeedBack(true)}>
+										View FeedBack
+									</p>
+								</li>
+							)}
+							{viewFeedBack && (
+								<li>
+									<p
+										className="navigation-link feedbacklink"
+										onClick={() => setViewFeedBack(false)}>
+										Appointment
+									</p>
+								</li>
+							)}
 
 							<li>
 								<img src={updatedPhoto} alt="" className="profimage" />
@@ -156,8 +228,11 @@ const Professionalappoin = () => {
 												<p className="userProfile">Account &#9660;</p>
 											</button>
 											<div class="dropdown-content">
-												<button onClick={logout}>sign out</button>
+												<button onClick={logout}>Sign out</button>
 												<button onClick={openFile}>Update Photo</button>
+												<button onClick={() => setShowUpdatePassword(true)}>
+													Change <FaLock size={15} />
+												</button>
 											</div>
 										</div>
 									</li>
@@ -169,60 +244,75 @@ const Professionalappoin = () => {
 			</header>
 
 			<div className="prof-main-cont">
-				<div className="dddd">
-					<div></div>
-					<h2 className="protitle">Appointments</h2>
-					<form encType="multipart/form-data" onSubmit={handleSubmit}>
-						<input
-							type="file"
-							ref={fileInputRef}
-							style={{ display: "none" }}
-							onChange={handleProductImage}
-						/>
-						<button
-							type="submit"
-							style={{ display: "none" }}
-							ref={submitButton}>
-							{" "}
-							submit
-						</button>
-					</form>
-				</div>
-				{appointment.map((appointment) => (
-					<div className="procontainer">
-						<div className="proinfo">
-							<div className="prow">
-								<div className="plabel customer ">Customer Name</div>
-								<div className="plabel">Service Name</div>
-								<div className="plabel">Date</div>
-								<div className="plabel">Start Time</div>
-								<div className="plabel">EndTime</div>
-								<div className="plabel">Status</div>
-							</div>
-							<div className="porow">
-								<div className="pinfo name">
-									{appointment.userFname + " " + appointment.userLname}
-								</div>
-								<div className="pinfo name">{appointment.servicename}</div>
-								<div className="pinfo">{appointment.appointmentDate}</div>
-								<div className="pinfo">{appointment.startTime}</div>
-								<div className="pinfo">{appointment.endTime}</div>
-								<div className="pinfo">
-									{appointment.status}{" "}
-									<button
-										className="changeStatusbtn"
-										onClick={() =>
-											handleChangeStatus(appointment.id, appointment.status)
-										}>
-										Change Status
-									</button>
-								</div>
-							</div>
+				{!viewFeedBack && (
+					<>
+						<div className="dddd">
+							<h2 className="protitle">Appointments</h2>
 						</div>
-					</div>
-				))}
+						{appointment.map((appointment) => (
+							<div className="procontainer">
+								<div className="proinfo">
+									<div className="prow">
+										<div className="plabel customer ">Customer Name</div>
+										<div className="plabel">Service Name</div>
+										<div className="plabel">Date</div>
+										<div className="plabel">Start Time</div>
+										<div className="plabel">EndTime</div>
+										<div className="plabel">Status</div>
+									</div>
+
+									<div className="porow">
+										<div className="pinfo name">
+											{appointment.userFname + " " + appointment.userLname}
+										</div>
+										<div className="pinfo name">{appointment.servicename}</div>
+										<div className="pinfo">{appointment.appointmentDate}</div>
+										<div className="pinfo">{appointment.startTime}</div>
+										<div className="pinfo">{appointment.endTime}</div>
+										<div className="pinfo">
+											{appointment.status}{" "}
+											<button
+												className="changeStatusbtn"
+												onClick={() =>
+													handleChangeStatus(appointment.id, appointment.status)
+												}>
+												Change Status
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						))}
+					</>
+				)}
+				<form encType="multipart/form-data" onSubmit={handleSubmit}>
+					<input
+						type="file"
+						ref={fileInputRef}
+						style={{ display: "none" }}
+						onChange={handleProductImage}
+						accept="image/*"
+					/>
+					<button type="submit" style={{ display: "none" }} ref={submitButton}>
+						{" "}
+						submit
+					</button>
+				</form>
+				{viewFeedBack && (
+					<>
+						<h2 className="protitle">Your FeedBack</h2>
+						{feedbacks.length > 0 &&
+							feedbacks.map((feedback) => (
+								<div className="feedbackcontainer">
+									<h2 className="feedback">{feedback.feedback}</h2>
+								</div>
+							))}
+					</>
+				)}
 				{shwoprofileupdate && (
-					<div className="profileshow">
+					<div
+						className="profileshow"
+						onClick={() => setShowProfileUpdate(false)}>
 						<div className="prof-cont">
 							<img src={img} alt="" className="updateprofile" />
 							<button className="update-button" onClick={handleUpdateProblem}>
@@ -232,6 +322,92 @@ const Professionalappoin = () => {
 					</div>
 				)}
 			</div>
+			{showUpdatePassword && (
+				<div className="profileshow">
+					<div className="prof-contt">
+						<MdCancel
+							size={40}
+							style={{ marginLeft: "405px", cursor: "pointer" }}
+							onClick={() => setShowUpdatePassword(false)}
+						/>
+						<div>
+							<label htmlFor="" className="passwordlabel">
+								old Password
+							</label>
+
+							<input
+								type="text"
+								name=""
+								id=""
+								className="passwordinput"
+								onChange={(e) => {
+									setUserEnteredOldPassword(e.target.value);
+								}}
+							/>
+							{shwoo && (
+								<label className="errorrr">
+									{" "}
+									Your Old Password is Incorrect!
+								</label>
+							)}
+						</div>
+						<div>
+							<label htmlFor="" className="passwordlabel">
+								New Password
+							</label>
+
+							<input
+								type="text"
+								name=""
+								id=""
+								className="passwordinput"
+								onChange={(e) => {
+									setNewPassword(e.target.value);
+								}}
+							/>
+						</div>
+						<div>
+							<label htmlFor="" className="passwordlabel">
+								Coniferm New Password
+							</label>
+
+							<input
+								type="text"
+								name=""
+								id=""
+								className="passwordinput"
+								onChange={(e) => {
+									setConfiremPassword(e.target.value);
+								}}
+							/>
+							{shwonn && (
+								<label className="errorrr">PassWord doesn't Match!</label>
+							)}
+						</div>
+						<div>
+							<button
+								className="passwordbutton"
+								onClick={handeleUpdatePassword}>
+								Update Password
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
+			{showMessage && (
+				<div
+					className="popup-container"
+					style={{ zIndex: 100 }}
+					onClick={() => setShowMessage(false)}>
+					<div className="popup">
+						<p className="itemisAlready">
+							{" "}
+							Password Updated Succesfully<br></br>
+							✅✅✅✅✅✅✅✅✅✅✔
+						</p>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };

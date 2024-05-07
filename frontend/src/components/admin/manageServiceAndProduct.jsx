@@ -9,6 +9,10 @@ function ManageProduct(props) {
 	const [service, setService] = useState([]);
 	const { token } = useAuthContext();
 	const navigate = useNavigate();
+	const [showDeleteProduct, setShowDeleteProduct] = useState(false);
+	const [showDeleteService, setShowDeleteService] = useState(false);
+
+	const [ordeid, setOrderId] = useState("");
 
 	useEffect(() => {
 		fetch("http://127.0.0.1:5000/product", {
@@ -139,8 +143,9 @@ function ManageProduct(props) {
 										<button
 											className="action delete"
 											onClick={() => {
-												handleDeleteService(service.id);
-												props.handleShowPopup();
+												setOrderId(service.id);
+
+												setShowDeleteService(true);
 											}}>
 											Delete
 										</button>
@@ -156,6 +161,7 @@ function ManageProduct(props) {
 								<th>Product Name</th>
 								<th>Product Desc</th>
 								<th>Product Price</th>
+								<th>Quantity</th>
 								<th>Product Image</th>
 								<th colSpan={2}>Action</th>
 							</tr>
@@ -164,6 +170,7 @@ function ManageProduct(props) {
 									<td>{product.productname}</td>
 									<td>{product.productdesc}</td>
 									<td>{product.productprice}</td>
+									<td>{product.quantity}</td>
 									<td>
 										<img
 											src={product.productimage}
@@ -185,8 +192,8 @@ function ManageProduct(props) {
 										<button
 											className="action delete"
 											onClick={() => {
-												handleDeleteProduct(product.id);
-												props.handleShowPopup();
+												setOrderId(product.id);
+												setShowDeleteProduct(true);
 											}}>
 											Delete
 										</button>
@@ -197,6 +204,62 @@ function ManageProduct(props) {
 					)}
 				</table>
 			</div>
+
+			{showDeleteProduct && (
+				<>
+					<div className="popup-container">
+						<div className="popup">
+							<p style={{ marginTop: "0px", marginBottom: "20px" }}>
+								Do You Want To Delete The Product?
+							</p>
+							<span
+								className="check-mark"
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									backgroundColor: "#ac2626",
+								}}
+								onClick={() => {
+									setShowDeleteProduct(false);
+									handleDeleteProduct(ordeid);
+									props.handleShowPopup();
+								}}>
+								{" "}
+								Yes
+							</span>
+						</div>
+					</div>
+				</>
+			)}
+
+			{showDeleteService && (
+				<>
+					<div className="popup-container">
+						<div className="popup">
+							<p style={{ marginTop: "0px", marginBottom: "20px" }}>
+								Do You Want To Delete The Service?
+							</p>
+							<span
+								className="check-mark"
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									backgroundColor: "#ac2626",
+								}}
+								onClick={() => {
+									setShowDeleteService(false);
+									handleDeleteService(ordeid);
+									props.handleShowPopup();
+								}}>
+								{" "}
+								Yes
+							</span>
+						</div>
+					</div>
+				</>
+			)}
 		</div>
 	);
 }

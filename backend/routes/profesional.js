@@ -116,6 +116,7 @@ router.put(
 router.put("/chengeappointmentStatus", (req, res) => {
 	const appointmentId = req.body.id;
 	const status = req.body.status;
+	console.log(appointmentId, status);
 	let sql = "";
 	if (status === "Completed" || status === "completed") {
 		sql = "update appointments set status ='In Progress' where id  = ?";
@@ -158,5 +159,17 @@ router.get("/appointmentinformation", (req, res) => {
 // 	];
 // 	executeQuery(sql, param, res);
 // });
+router.put("/updatprofesionalpassword", (req, res) => {
+	console.log(req.body);
+	const sql = "update profesional set password = ? where id  =?";
+	db.query(sql, [req.body.newPassword, req.body.PId], (err, result) => {
+		if (err) {
+			res.status(500);
+		} else {
+			console.log(result);
+			res.status(200).json(result);
+		}
+	});
+});
 
 module.exports = router;

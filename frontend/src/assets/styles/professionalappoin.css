@@ -3,16 +3,29 @@
 	/* margin-top: ; */
 	padding: 30px;
 	padding-bottom: 10px;
-
 	border-radius: 10px;
-
 	box-shadow: 0 0px 4px rgba(53, 49, 49, 0.39);
-
+	margin-bottom: 2rem;
+	background-color: #e9e0e0;
+}
+.feedbacklink {
+	cursor: pointer;
+}
+.feedbackcontainer {
+	width: 45vw;
+	/* margin-top: ; */
+	padding: 30px;
+	padding-bottom: 10px;
+	border-radius: 10px;
+	box-shadow: 0 0px 4px rgba(53, 49, 49, 0.39);
 	margin-bottom: 2rem;
 	background-color: #e9e0e0;
 }
 .prof-main-cont {
 	padding-left: 4rem;
+}
+.feedback {
+	overflow: auto;
 }
 .protitle {
 	font-size: 30px;
@@ -97,6 +110,40 @@
 	text-align: center;
 	border-radius: 20px;
 	padding-top: 20px;
+	display: grid;
+	grid-template-columns: 1fr;
+}
+.prof-contt {
+	width: 500px;
+	margin: auto;
+	margin-top: 100px;
+	background-color: #ffffff;
+	height: fit-content;
+	border-radius: 20px;
+	padding-top: 20px;
+	display: grid;
+	grid-template-columns: 1fr;
+	row-gap: 2rem;
+	padding-bottom: 20px;
+	padding-left: 40px;
+}
+.passwordlabel {
+	text-transform: capitalize;
+	font-size: 1.8rem;
+}
+.passwordinput {
+	display: block;
+	padding: 0.6rem;
+	width: 70%;
+	border: 1px solid rgb(61, 58, 58);
+}
+.passwordbutton {
+	margin-top: 20px;
+	padding: 1.2rem;
+	border-radius: 12px;
+	border: none;
+	color: #f2f2f2;
+	background-color: green;
 }
 .updateprofile {
 	width: 80%;
@@ -123,4 +170,22 @@
 	margin-top: 10px;
 	border-radius: 6px;
 	color: #f2f2f2;
+}
+
+.feedbackcont {
+	display: grid;
+	grid-template-columns: 20fr 60fr;
+	column-gap: 4rem;
+}
+.feedbackcontainerp {
+	font-size: 2rem;
+}
+.ttttttttt {
+	background-color: rgb(172, 163, 163);
+	font-size: 2rem;
+	text-wrap: wrap;
+	padding: 2rem 3rem;
+	margin-bottom: 2rem;
+	min-width: 400px;
+	height: 400px;
 }

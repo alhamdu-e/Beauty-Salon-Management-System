@@ -11,9 +11,8 @@ import {
 	PDFDownloadLink,
 	Image,
 } from "@react-pdf/renderer";
-import logo from "../pages/glowcity.png";
 
-export default function Confirmation() {
+export default function ConfirmationAppointment() {
 	const { setItems } = useCartContext();
 
 	useEffect(() => {
@@ -52,14 +51,14 @@ export default function Confirmation() {
 			display: "block",
 			fontSize: "22px",
 			marginTop: "20px",
-			marginBottom: "20px",
+			marginBottom: "10px",
 			color: "rgb(68, 155, 68)",
 		},
 		detailconfirm: {
 			fontSize: "16px",
 			color: "rgb(63, 61, 61)",
 			display: "block",
-			marginBottom: "35px",
+			marginBottom: "25px",
 		},
 		confirmprice: {
 			display: "block",
@@ -118,33 +117,45 @@ export default function Confirmation() {
 
 				<Text style={style.sucessconfirm}>Payment successful!</Text>
 				<Text style={style.detailconfirm}>
-					Detail of Transaction Are Information
+					Detail of Transaction Information
 				</Text>
 
 				<Text style={style.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Name:</Text>
+					<Text style={{ fontWeight: 900 }}>Customer Name:</Text>
 					{localStorage.getItem("userName") +
 						" " +
 						localStorage.getItem("userLName")}
 				</Text>
 				<Text style={style.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Email:</Text>
+					<Text style={{ fontWeight: 900 }}> Customer Email:</Text>
 					{localStorage.getItem("email")}
 				</Text>
-				<Text style={style.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Total Price:</Text>
-					{localStorage.getItem("totalPrice")}
+				<Text style={styles.confirmprice}>
+					<Text style={{ fontWeight: 900 }}>Service Name: </Text>
+					{localStorage.getItem("servicceName")}
+				</Text>
+				<Text style={styles.confirmprice}>
+					<Text style={{ fontWeight: 900 }}> Appointment Date:</Text>
+					{localStorage.getItem("appointDate")}
+				</Text>
+				<Text style={styles.confirmprice}>
+					<Text style={{ fontWeight: 900 }}>Appointment Start Time:</Text>
+					{localStorage.getItem("startTime")}
+				</Text>
+				<Text style={styles.confirmprice}>
+					<Text style={{ fontWeight: 900 }}>Appointment End Time:</Text>
+					{localStorage.getItem("endtime")}
+				</Text>
+				<Text style={styles.confirmprice}>
+					<Text style={{ fontWeight: 900 }}>Total Price:</Text>
+					{localStorage.getItem("serviccePrice")}
 				</Text>
 				<Text style={style.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Quantity:</Text>
-					{localStorage.getItem("totalQuantity")}
+					<Text style={{ fontWeight: 900 }}>Transaction Ref:</Text>
+					{localStorage.getItem("Appref")}
 				</Text>
 				<Text style={style.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Transaction Ref:</Text>
-					{localStorage.getItem("ref")}
-				</Text>
-				<Text style={style.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Date:</Text>
+					<Text style={{ fontWeight: 900 }}>Transaction Date:</Text>
 					{formattedDate}
 				</Text>
 			</Page>
@@ -169,30 +180,42 @@ export default function Confirmation() {
 						backgroundColor: "#797675",
 						marginBottom: "35px",
 					}}></text>
-				<Text style={styles.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Name:</Text>
+				<Text style={style.confirmprice}>
+					<Text style={{ fontWeight: 600 }}>Customer Name:</Text>
 					{localStorage.getItem("userName") +
 						" " +
 						localStorage.getItem("userLName")}
 				</Text>
-				<Text style={styles.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Email:</Text>
+				<Text style={style.confirmprice}>
+					<Text style={{ fontWeight: 600 }}>Customer Email:</Text>
 					{localStorage.getItem("email")}
 				</Text>
 				<Text style={styles.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Total Price:</Text>
-					{localStorage.getItem("totalPrice")}
+					<Text style={{ fontWeight: 600 }}>Service Name: </Text>
+					{localStorage.getItem("servicceName")}
 				</Text>
 				<Text style={styles.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Quantity:</Text>
-					{localStorage.getItem("totalQuantity")}
+					<Text style={{ fontWeight: 600 }}>Appointment Date:</Text>
+					{localStorage.getItem("appointDate")}
+				</Text>
+				<Text style={styles.confirmprice}>
+					<Text style={{ fontWeight: 600 }}>Appointment Start Time:</Text>
+					{localStorage.getItem("startTime")}
+				</Text>
+				<Text style={styles.confirmprice}>
+					<Text style={{ fontWeight: 600 }}>Appointment End Time:</Text>
+					{localStorage.getItem("endtime")}
+				</Text>
+				<Text style={styles.confirmprice}>
+					<Text style={{ fontWeight: 600 }}>Total Price:</Text>
+					{localStorage.getItem("serviccePrice")}
 				</Text>
 				<Text style={styles.confirmprice}>
 					<Text style={{ fontWeight: 600 }}>Transaction Ref:</Text>
-					{localStorage.getItem("ref")}
+					{localStorage.getItem("Appref")}
 				</Text>
 				<Text style={styles.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Date:</Text>
+					<Text style={{ fontWeight: 600 }}>Transaction Date:</Text>
 					{formattedDate}
 				</Text>
 				<Text
@@ -209,7 +232,7 @@ export default function Confirmation() {
 	);
 
 	return (
-		<div className="container-confirm">
+		<div className="container-confirm" style={{ paddingTop: "10px" }}>
 			<div
 				style={{
 					backgroundColor: " rgb(243, 232, 232)",
@@ -221,9 +244,12 @@ export default function Confirmation() {
 					to="/"
 					className="gohome"
 					onClick={() => {
-						localStorage.removeItem("totalPrice");
-						localStorage.removeItem("totalQuantity");
-						localStorage.removeItem("ref");
+						localStorage.removeItem("Appref");
+						localStorage.removeItem("serviccePrice");
+						localStorage.removeItem("endtime");
+						localStorage.removeItem("startTime");
+						localStorage.removeItem("appointDate");
+						localStorage.removeItem("servicceName");
 					}}>
 					{" "}
 					Go to Home

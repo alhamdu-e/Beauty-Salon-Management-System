@@ -3,6 +3,8 @@ import "../../assets/styles/Admin/editService.css";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/Autcontext";
 import { useServiceProdctContext } from "../../context/productAndServicecomtext";
+import { useNavigate } from "react-router-dom";
+
 function EditService(props) {
 	const { token } = useAuthContext();
 	const { service } = useServiceProdctContext();
@@ -17,6 +19,7 @@ function EditService(props) {
 	const [errPrice, showErrPrice] = useState(false);
 	const [errCat, showErrCat] = useState(false);
 	const [errDur, showErrDur] = useState(false);
+	const navigate = useNavigate();
 
 	// useEffect(() => {
 	// 	// Function to retrieve data from local storage
@@ -36,6 +39,7 @@ function EditService(props) {
 	const [serviceImage, setServiceImage] = useState("");
 	const [serviceCatagory, setServiceCatagory] = useState("");
 	const [serviceDuration, setServiceduration] = useState(0);
+	const [errMM, setErrr] = useState(false);
 
 	useEffect(() => {
 		// Update state with local storage data
@@ -123,9 +127,12 @@ function EditService(props) {
 				},
 			});
 			if (response.ok) {
+				setErrr(false);
 				props.handleShowPopup();
+			} else if (response.status === 400) {
+				setErrr(true);
 			} else {
-				console.log("Failed to add product:", response.statusText);
+				navigate("/servererror");
 			}
 		} catch (error) {
 			console.log(error, "error when Adding Service");
@@ -135,6 +142,9 @@ function EditService(props) {
 		<div>
 			<div className="conatnerforeditservice">
 				{/* <button className="add">&#43;</button> */}
+				<p className="userExist" style={!errMM ? { visibility: "hidden" } : {}}>
+					Service Already Exist!
+				</p>
 				<button className="manage-service-button" onClick={props.handleService}>
 					Manage Service
 				</button>
