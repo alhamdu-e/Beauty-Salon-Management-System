@@ -5,8 +5,6 @@
 	padding-top: 3rem;
 	column-gap: 0rem;
 
-	clip-path: polygon(50% 0%, 100% 0, 100% 84%, 50% 100%, 0 86%, 0 0);
-	clip-path: polygon(50% 0%, 100% 0, 100% 93%, 48% 83%, 0 93%, 0 0);
 	clip-path: polygon(50% 0%, 100% 0, 100% 100%, 47% 94%, 0 88%, 0 0);
 	padding-bottom: 9rem;
 	background-color: #fdf2e9;
@@ -41,28 +39,7 @@ h1 {
 	padding: 3rem;
 	padding-right: 0px;
 
-	/* clip-path: polygon(
-		20% 0%,
-		80% 0%,
-		100% 20%,
-		100% 80%,
-		80% 100%,
-		20% 100%,
-		0% 80%,
-		0% 20%
-	);
-	clip-path: polygon(
-		50% 0%,
-		90% 20%,
-		100% 60%,
-		75% 100%,
-		25% 100%,
-		0% 60%,
-		10% 20%
-	); */
 	clip-path: circle(50% at 50% 50%);
-	/* clip-path: polygon(18% 0, 100% 0%, 75% 100%, 0% 100%); */
-	/* clip-path: polygon(13% 1%, 96% 0, 80% 100%, 2% 100%); */
 }
 .explormore {
 	font-size: 2rem;

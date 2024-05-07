@@ -64,6 +64,7 @@ th {
 	color: #ebdbfe;
 	border-radius: 12px;
 	transition: all 0.3s;
+	margin-right: 20px;
 }
 .manage-employe-button:hover {
 	background-color: #664c79;
@@ -85,7 +86,29 @@ button {
 	color: #ebdbfe;
 	margin-bottom: 1.8rem;
 	font-size: 2em;
+	display: inline-block;
+	margin-right: 20px;
 }
 .image-admin {
 	width: 80px;
+}
+.search {
+	border: none;
+	padding: 1rem;
+	outline: 4px solid rgb(196, 87, 15);
+	border-radius: 12px;
+	margin-bottom: 13px;
+	width: 300px;
+	font-size: 1.6rem;
+	font-weight: 600;
+	background-color: rgb(204, 196, 196);
+}
+.serachicon {
+	position: relative;
+	left: -35px;
+	top: 13px;
+	color: #97929b;
+}
+.serachcontainer {
+	margin-left: 8px;
 }

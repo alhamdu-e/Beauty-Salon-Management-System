@@ -22,7 +22,7 @@
 .admin-h2 {
 	font-size: 2rem;
 	color: #f8f3ff;
-	margin-bottom: 3.2rem;
+	margin-bottom: 0.6rem;
 }
 .admin-h3 {
 	margin-top: 3.2rem;
@@ -101,3 +101,6 @@ h3 {
 .ffffff {
 	padding-left: 100px;
 } */
+.no {
+	color: rgb(214, 208, 208);
+}

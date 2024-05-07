@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import "../../assets/styles/appointment.css";
 import Header from "../Header";
 import { useUserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Appointment(props) {
 	const { userId, userData } = useUserContext();
@@ -26,6 +27,8 @@ function Appointment(props) {
 	const [isOverlap, setIsOverlap] = useState(false);
 	const [ratings, setRating] = useState([]);
 
+	const navigate = useNavigate();
+
 	const [showPopup, setShowPopup] = useState(false);
 
 	const [appointmetDate, setAppointmentDate] = useState([]);
@@ -35,6 +38,16 @@ function Appointment(props) {
 		setShowPopup(!showPopup);
 	};
 
+	// Create a new Date object
+	var currentDate = new Date();
+
+	// Extract the day, month, and year from the date object
+	var day = currentDate.getDate();
+	var month = currentDate.getMonth() + 1; // Months are zero-based
+	var year = currentDate.getFullYear();
+
+	// Format the date as "6/5/2024"
+	var formattedDate = day + "/" + month + "/" + year;
 	// if (showPopup) {
 	// 	setTimeout(handleShowPopup, 3000);
 	// }
@@ -342,6 +355,7 @@ function Appointment(props) {
 		setIsOverlap(false);
 		const currntHours = parseInt(new Date().getHours());
 		const curreMinutes = parseInt(new Date().getMinutes());
+		alert(currntHours);
 		let newStartHour = "";
 		let newEndHour = "";
 		let NewEndMinutes = "";
@@ -353,13 +367,13 @@ function Appointment(props) {
 		let storedMinutes = "";
 		let storedStartMinutes = "";
 
-		if (startTime.length === 8) {
+		if (startTime?.length === 8) {
 			newStartHour = parseInt(startTime.substring(0, 2));
 			newEndHour = parseInt(endTime.substring(0, 2));
 			NewMinutes = parseInt(startTime.substring(3, 5));
 			NewEndMinutes = parseInt(endTime.substring(3, 5));
 		}
-		if (startTime.length === 7) {
+		if (startTime?.length === 7) {
 			newStartHour = parseInt(startTime.substring(0, 1));
 			newEndHour = parseInt(endTime.substring(0, 2));
 			NewMinutes = parseInt(startTime.substring(2, 4));
@@ -380,568 +394,438 @@ function Appointment(props) {
 		// eslint-disable-next-line eqeqeq
 
 		//   9 HOUR
-		if (
-			newStartHour === 9 &&
-			NewMinutes === 0 &&
-			curreMinutes > 30 &&
-			currntHours === 8
-		) {
-			alert("hi");
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 9 &&
-			NewMinutes === 15 &&
-			curreMinutes > 45 &&
-			currntHours === 8
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 9 &&
-			NewMinutes === 30 &&
-			curreMinutes < 30 &&
-			currntHours === 9
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 9 &&
-			NewMinutes === 0 &&
-			curreMinutes < 30 &&
-			currntHours === 9
-		) {
-			setIsTimeToClosed(true);
-		}
+		function validateClosedTime() {
+			if (
+				newStartHour === 9 &&
+				NewMinutes === 0 &&
+				curreMinutes > 30 &&
+				currntHours === 8
+			) {
+				alert("hi");
+				return true;
+			} else if (
+				newStartHour === 9 &&
+				NewMinutes === 15 &&
+				curreMinutes > 45 &&
+				currntHours === 8
+			) {
+				return true;
+			} else if (
+				newStartHour === 9 &&
+				NewMinutes === 30 &&
+				curreMinutes < 30 &&
+				currntHours === 9
+			) {
+				return true;
+			} else if (
+				newStartHour === 9 &&
+				NewMinutes === 0 &&
+				curreMinutes === 0 &&
+				currntHours === 9
+			) {
+				return true;
+			} else if (
+				newStartHour === 9 &&
+				NewMinutes === 45 &&
+				curreMinutes < 45 &&
+				curreMinutes > 15 &&
+				currntHours === 9
+			) {
+				return true;
+			}
+			// 10 HOUR
+			else if (
+				newStartHour === 10 &&
+				NewMinutes === 0 &&
+				curreMinutes > 30 &&
+				currntHours === 9
+			) {
+				return true;
+			} else if (
+				newStartHour === 10 &&
+				NewMinutes === 15 &&
+				curreMinutes > 45 &&
+				currntHours === 9
+			) {
+				return true;
+			} else if (
+				newStartHour === 10 &&
+				NewMinutes === 30 &&
+				curreMinutes < 30 &&
+				currntHours === 10
+			) {
+				return true;
+			} else if (
+				newStartHour === 10 &&
+				NewMinutes === 0 &&
+				curreMinutes === 0 &&
+				currntHours === 10
+			) {
+				return true;
+			} else if (
+				newStartHour === 10 &&
+				NewMinutes === 45 &&
+				curreMinutes < 45 &&
+				curreMinutes > 15 &&
+				currntHours === 10
+			) {
+				return true;
+			}
 
-		if (
-			newStartHour === 9 &&
-			NewMinutes === 45 &&
-			curreMinutes < 45 &&
-			curreMinutes > 15 &&
-			currntHours === 9
-		) {
-			setIsTimeToClosed(true);
-		}
-		// 10 HOUR
-		if (
-			newStartHour === 10 &&
-			NewMinutes === 0 &&
-			curreMinutes > 30 &&
-			currntHours === 9
-		) {
-			alert("what is going on");
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 10 &&
-			NewMinutes === 15 &&
-			curreMinutes > 45 &&
-			currntHours === 9
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 10 &&
-			NewMinutes === 30 &&
-			curreMinutes < 30 &&
-			currntHours === 10
-		) {
-			setIsTimeToClosed(true);
-		}
+			//11 HOUR
+			else if (
+				newStartHour === 11 &&
+				NewMinutes === 0 &&
+				curreMinutes > 30 &&
+				currntHours === 10
+			) {
+				return true;
+			} else if (
+				newStartHour === 11 &&
+				NewMinutes === 15 &&
+				currntHours === 11
+			) {
+				return true;
+			} else if (
+				newStartHour === 11 &&
+				NewMinutes === 15 &&
+				curreMinutes > 45 &&
+				currntHours === 10
+			) {
+				return true;
+			} else if (
+				newStartHour === 11 &&
+				NewMinutes === 30 &&
+				curreMinutes < 30 &&
+				currntHours === 11
+			) {
+				return true;
+			} else if (
+				newStartHour === 11 &&
+				NewMinutes === 0 &&
+				curreMinutes === 0 &&
+				currntHours === 11
+			) {
+				return true;
+			} else if (
+				newStartHour === 11 &&
+				NewMinutes === 45 &&
+				curreMinutes < 45 &&
+				curreMinutes > 15 &&
+				currntHours === 11
+			) {
+				return true;
+			}
 
-		if (
-			newStartHour === 10 &&
-			NewMinutes === 0 &&
-			curreMinutes < 30 &&
-			currntHours === 10
-		) {
-			setIsTimeToClosed(true);
+			//12 HOUR
+			else if (
+				newStartHour === 12 &&
+				NewMinutes === 0 &&
+				curreMinutes > 30 &&
+				currntHours === 11
+			) {
+				return true;
+			} else if (
+				newStartHour === 12 &&
+				NewMinutes === 15 &&
+				curreMinutes > 45 &&
+				currntHours === 11
+			) {
+				return true;
+			} else if (
+				newStartHour === 12 &&
+				NewMinutes === 15 &&
+				currntHours === 12
+			) {
+				return true;
+			} else if (
+				newStartHour === 12 &&
+				NewMinutes === 30 &&
+				curreMinutes < 30 &&
+				currntHours === 12
+			) {
+				return true;
+			} else if (
+				newStartHour === 12 &&
+				NewMinutes === 0 &&
+				curreMinutes === 0 &&
+				currntHours === 12
+			) {
+				return true;
+			} else if (
+				newStartHour === 12 &&
+				NewMinutes === 45 &&
+				curreMinutes < 45 &&
+				curreMinutes > 15 &&
+				currntHours === 12
+			) {
+				return true;
+			}
+			// 1 HOUR
+			else if (
+				newStartHour === 1 &&
+				NewMinutes === 0 &&
+				curreMinutes > 30 &&
+				currntHours === 12
+			) {
+				return true;
+			} else if (
+				newStartHour === 1 &&
+				NewMinutes === 15 &&
+				currntHours === 13
+			) {
+				return true;
+			} else if (
+				newStartHour === 1 &&
+				NewMinutes === 15 &&
+				curreMinutes > 45 &&
+				currntHours === 12
+			) {
+				return true;
+			} else if (
+				newStartHour === 1 &&
+				NewMinutes === 30 &&
+				curreMinutes < 30 &&
+				currntHours === 13
+			) {
+				return true;
+			} else if (
+				newStartHour === 1 &&
+				NewMinutes === 0 &&
+				curreMinutes === 0 &&
+				currntHours === 13
+			) {
+				return true;
+			} else if (
+				newStartHour === 1 &&
+				NewMinutes === 45 &&
+				curreMinutes < 45 &&
+				curreMinutes > 15 &&
+				currntHours === 13
+			) {
+				return true;
+			}
+			// 2 HOUR
+			else if (
+				newStartHour === 2 &&
+				NewMinutes === 0 &&
+				curreMinutes > 30 &&
+				currntHours === 13
+			) {
+				return true;
+			} else if (
+				newStartHour === 2 &&
+				NewMinutes === 15 &&
+				currntHours === 14
+			) {
+				return true;
+			} else if (
+				newStartHour === 2 &&
+				NewMinutes === 15 &&
+				curreMinutes > 45 &&
+				currntHours === 13
+			) {
+				return true;
+			} else if (
+				newStartHour === 2 &&
+				NewMinutes === 30 &&
+				curreMinutes < 30 &&
+				currntHours === 14
+			) {
+				return true;
+			} else if (
+				newStartHour === 2 &&
+				NewMinutes === 0 &&
+				curreMinutes === 0 &&
+				currntHours === 14
+			) {
+				return true;
+			} else if (
+				newStartHour === 2 &&
+				NewMinutes === 45 &&
+				curreMinutes < 45 &&
+				curreMinutes > 15 &&
+				currntHours === 14
+			) {
+				return true;
+			}
+			// 3 HOUR
+			else if (
+				newStartHour === 3 &&
+				NewMinutes === 0 &&
+				curreMinutes > 30 &&
+				currntHours === 14
+			) {
+				return true;
+			} else if (
+				newStartHour === 3 &&
+				NewMinutes === 15 &&
+				currntHours === 15
+			) {
+				return true;
+			} else if (
+				newStartHour === 3 &&
+				NewMinutes === 15 &&
+				curreMinutes > 45 &&
+				currntHours === 14
+			) {
+				return true;
+			} else if (
+				newStartHour === 3 &&
+				NewMinutes === 30 &&
+				curreMinutes < 30 &&
+				currntHours === 15
+			) {
+				return true;
+			} else if (
+				newStartHour === 3 &&
+				NewMinutes === 0 &&
+				curreMinutes === 0 &&
+				currntHours === 15
+			) {
+				return true;
+			} else if (
+				newStartHour === 3 &&
+				NewMinutes === 45 &&
+				curreMinutes < 45 &&
+				curreMinutes > 15 &&
+				currntHours === 15
+			) {
+				return true;
+			}
+			// 4 HOUR
+			else if (
+				newStartHour === 4 &&
+				NewMinutes === 0 &&
+				curreMinutes > 30 &&
+				currntHours === 15
+			) {
+				return true;
+			} else if (
+				newStartHour === 4 &&
+				NewMinutes === 15 &&
+				currntHours === 16
+			) {
+				return true;
+			} else if (
+				newStartHour === 4 &&
+				NewMinutes === 15 &&
+				curreMinutes > 45 &&
+				currntHours === 15
+			) {
+				return true;
+			} else if (
+				newStartHour === 4 &&
+				NewMinutes === 30 &&
+				curreMinutes < 30 &&
+				currntHours === 16
+			) {
+				return true;
+			} else if (
+				newStartHour === 4 &&
+				NewMinutes === 0 &&
+				curreMinutes === 0 &&
+				currntHours === 16
+			) {
+				return true;
+			} else if (
+				newStartHour === 4 &&
+				NewMinutes === 45 &&
+				curreMinutes < 45 &&
+				curreMinutes > 15 &&
+				currntHours === 16
+			) {
+				return true;
+			}
+			// 5 HOUR
+			else if (
+				newStartHour === 5 &&
+				NewMinutes === 0 &&
+				curreMinutes > 30 &&
+				currntHours === 16
+			) {
+				return true;
+			} else if (newStartHour === 5 && NewMinutes === 15 && currntHours === 5) {
+				return true;
+			} else if (
+				newStartHour === 5 &&
+				NewMinutes === 15 &&
+				curreMinutes > 45 &&
+				currntHours === 16
+			) {
+				return true;
+			} else if (
+				newStartHour === 5 &&
+				NewMinutes === 30 &&
+				curreMinutes < 30 &&
+				currntHours === 17
+			) {
+				return true;
+			} else if (
+				newStartHour === 5 &&
+				NewMinutes === 0 &&
+				curreMinutes === 0 &&
+				currntHours === 17
+			) {
+				return true;
+			} else if (
+				newStartHour === 5 &&
+				NewMinutes === 45 &&
+				curreMinutes < 45 &&
+				curreMinutes > 15 &&
+				currntHours === 17
+			) {
+				return true;
+			}
+			/// 6 HOUR
+			else if (
+				newStartHour === 6 &&
+				NewMinutes === 0 &&
+				curreMinutes > 30 &&
+				currntHours === 17
+			) {
+				return true;
+			} else if (newStartHour === 6 && NewMinutes === 15 && currntHours === 6) {
+				return true;
+			} else if (
+				newStartHour === 6 &&
+				NewMinutes === 15 &&
+				curreMinutes > 45 &&
+				currntHours === 17
+			) {
+				return true;
+			} else if (
+				newStartHour === 6 &&
+				NewMinutes === 30 &&
+				curreMinutes < 30 &&
+				currntHours === 18
+			) {
+				return true;
+			} else if (
+				newStartHour === 6 &&
+				NewMinutes === 0 &&
+				curreMinutes === 0 &&
+				currntHours === 18
+			) {
+				return true;
+			} else if (
+				newStartHour === 6 &&
+				NewMinutes === 45 &&
+				curreMinutes < 45 &&
+				curreMinutes > 15 &&
+				currntHours === 18
+			) {
+				return true;
+			} else {
+				return false;
+			}
 		}
-
-		if (
-			newStartHour === 10 &&
-			NewMinutes === 45 &&
-			curreMinutes < 45 &&
-			curreMinutes > 15 &&
-			currntHours === 10
-		) {
+		if (validateClosedTime()) {
 			setIsTimeToClosed(true);
-		}
-
-		//11 HOUR
-		if (
-			newStartHour === 11 &&
-			NewMinutes === 0 &&
-			curreMinutes > 30 &&
-			currntHours === 10
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (newStartHour === 11 && NewMinutes === 15 && currntHours === 11) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 11 &&
-			NewMinutes === 15 &&
-			curreMinutes > 45 &&
-			currntHours === 10
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 11 &&
-			NewMinutes === 30 &&
-			curreMinutes < 30 &&
-			currntHours === 11
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 11 &&
-			NewMinutes === 0 &&
-			curreMinutes < 30 &&
-			currntHours === 11
-		) {
-			setIsTimeToClosed(true);
-		}
-
-		if (
-			newStartHour === 11 &&
-			NewMinutes === 45 &&
-			curreMinutes < 45 &&
-			curreMinutes > 15 &&
-			currntHours === 11
-		) {
-			setIsTimeToClosed(true);
-		}
-
-		//12 HOUR
-		if (
-			newStartHour === 12 &&
-			NewMinutes === 0 &&
-			curreMinutes > 30 &&
-			currntHours === 11
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 12 &&
-			NewMinutes === 15 &&
-			curreMinutes > 45 &&
-			currntHours === 11
-		) {
-			setIsTimeToClosed(true);
-		}
-
-		if (newStartHour === 12 && NewMinutes === 15 && currntHours === 0) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 12 &&
-			NewMinutes === 30 &&
-			curreMinutes < 30 &&
-			currntHours === 0
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 12 &&
-			NewMinutes === 0 &&
-			curreMinutes < 30 &&
-			currntHours === 0
-		) {
-			setIsTimeToClosed(true);
-		}
-
-		if (
-			newStartHour === 12 &&
-			NewMinutes === 45 &&
-			curreMinutes < 45 &&
-			curreMinutes > 15 &&
-			currntHours === 0
-		) {
-			setIsTimeToClosed(true);
-		}
-		// 1 HOUR
-		if (
-			newStartHour === 1 &&
-			NewMinutes === 0 &&
-			curreMinutes > 30 &&
-			currntHours === 0
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (newStartHour === 1 && NewMinutes === 15 && currntHours === 13) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 1 &&
-			NewMinutes === 15 &&
-			curreMinutes > 45 &&
-			currntHours === 0
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 1 &&
-			NewMinutes === 30 &&
-			curreMinutes < 30 &&
-			currntHours === 13
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 1 &&
-			NewMinutes === 0 &&
-			curreMinutes < 30 &&
-			currntHours === 13
-		) {
-			setIsTimeToClosed(true);
-		}
-
-		if (
-			newStartHour === 1 &&
-			NewMinutes === 45 &&
-			curreMinutes < 45 &&
-			curreMinutes > 15 &&
-			currntHours === 13
-		) {
-			setIsTimeToClosed(true);
-		}
-		// 2 HOUR
-		if (
-			newStartHour === 2 &&
-			NewMinutes === 0 &&
-			curreMinutes > 30 &&
-			currntHours === 13
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (newStartHour === 2 && NewMinutes === 15 && currntHours === 14) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 2 &&
-			NewMinutes === 15 &&
-			curreMinutes > 45 &&
-			currntHours === 13
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 2 &&
-			NewMinutes === 30 &&
-			curreMinutes < 30 &&
-			currntHours === 14
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 2 &&
-			NewMinutes === 0 &&
-			curreMinutes < 30 &&
-			currntHours === 14
-		) {
-			setIsTimeToClosed(true);
-		}
-
-		if (
-			newStartHour === 2 &&
-			NewMinutes === 45 &&
-			curreMinutes < 45 &&
-			curreMinutes > 15 &&
-			currntHours === 14
-		) {
-			setIsTimeToClosed(true);
-		}
-		// 3 HOUR
-		if (
-			newStartHour === 3 &&
-			NewMinutes === 0 &&
-			curreMinutes > 30 &&
-			currntHours === 14
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (newStartHour === 3 && NewMinutes === 15 && currntHours === 15) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 3 &&
-			NewMinutes === 15 &&
-			curreMinutes > 45 &&
-			currntHours === 14
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 3 &&
-			NewMinutes === 30 &&
-			curreMinutes < 30 &&
-			currntHours === 15
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 3 &&
-			NewMinutes === 0 &&
-			curreMinutes < 30 &&
-			currntHours === 15
-		) {
-			setIsTimeToClosed(true);
-		}
-
-		if (
-			newStartHour === 3 &&
-			NewMinutes === 45 &&
-			curreMinutes < 45 &&
-			curreMinutes > 15 &&
-			currntHours === 15
-		) {
-			setIsTimeToClosed(true);
-		}
-		// 4 HOUR
-		if (
-			newStartHour === 4 &&
-			NewMinutes === 0 &&
-			curreMinutes > 30 &&
-			currntHours === 15
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (newStartHour === 4 && NewMinutes === 15 && currntHours === 16) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 4 &&
-			NewMinutes === 15 &&
-			curreMinutes > 45 &&
-			currntHours === 15
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 4 &&
-			NewMinutes === 30 &&
-			curreMinutes < 30 &&
-			currntHours === 16
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 4 &&
-			NewMinutes === 0 &&
-			curreMinutes < 30 &&
-			currntHours === 16
-		) {
-			setIsTimeToClosed(true);
-		}
-
-		if (
-			newStartHour === 4 &&
-			NewMinutes === 45 &&
-			curreMinutes < 45 &&
-			curreMinutes > 15 &&
-			currntHours === 16
-		) {
-			setIsTimeToClosed(true);
-		}
-		// 5 HOUR
-		if (
-			newStartHour === 5 &&
-			NewMinutes === 0 &&
-			curreMinutes > 30 &&
-			currntHours === 16
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (newStartHour === 5 && NewMinutes === 15 && currntHours === 5) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 5 &&
-			NewMinutes === 15 &&
-			curreMinutes > 45 &&
-			currntHours === 16
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 5 &&
-			NewMinutes === 30 &&
-			curreMinutes < 30 &&
-			currntHours === 17
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 5 &&
-			NewMinutes === 0 &&
-			curreMinutes < 30 &&
-			currntHours === 17
-		) {
-			setIsTimeToClosed(true);
-		}
-
-		if (
-			newStartHour === 5 &&
-			NewMinutes === 45 &&
-			curreMinutes < 45 &&
-			curreMinutes > 15 &&
-			currntHours === 17
-		) {
-			setIsTimeToClosed(true);
-		}
-		/// 6 HOUR
-		if (
-			newStartHour === 6 &&
-			NewMinutes === 0 &&
-			curreMinutes > 30 &&
-			currntHours === 17
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (newStartHour === 6 && NewMinutes === 15 && currntHours === 6) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 6 &&
-			NewMinutes === 15 &&
-			curreMinutes > 45 &&
-			currntHours === 17
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 6 &&
-			NewMinutes === 30 &&
-			curreMinutes < 30 &&
-			currntHours === 18
-		) {
-			setIsTimeToClosed(true);
-		}
-		if (
-			newStartHour === 6 &&
-			NewMinutes === 0 &&
-			curreMinutes < 30 &&
-			currntHours === 18
-		) {
-			setIsTimeToClosed(true);
-		}
-
-		if (
-			newStartHour === 6 &&
-			NewMinutes === 45 &&
-			curreMinutes < 45 &&
-			curreMinutes > 15 &&
-			currntHours === 18
-		) {
-			setIsTimeToClosed(true);
-		}
-		alert(isTimeToClose);
-		if (isTimeToClose) {
 			handleShowPopup();
 			return;
 		}
-		// if (!isTimePassed) {
-		// 	// Validation for time passed check
-		// 	if (currntHours === 10 && newStartHour === 9) {
-		// 		setIsTimePassed(true);
-		// 	} else if (
-		// 		currntHours === 11 &&
-		// 		(newStartHour === 9 || newStartHour === 10)
-		// 	) {
-		// 		setIsTimePassed(true);
-		// 	} else if (
-		// 		currntHours === 11 &&
-		// 		curreMinutes > 0 &&
-		// 		newStartHour === 11
-		// 	) {
-		// 		setIsTimePassed(true);
-		// 	} else if (
-		// 		currntHours === 0 &&
-		// 		(newStartHour === 9 || newStartHour === 10 || newStartHour === 11)
-		// 	) {
-		// 		setIsTimePassed(true);
-		// 	} else if (currntHours === 0 && curreMinutes > 0 && newStartHour === 12) {
-		// 		setIsTimePassed(true);
-		// 	} else if (
-		// 		currntHours === 13 &&
-		// 		(newStartHour === 9 ||
-		// 			newStartHour === 10 ||
-		// 			newStartHour === 11 ||
-		// 			newStartHour === 12)
-		// 	) {
-		// 		setIsTimePassed(true);
-		// 	} else if (currntHours === 13 && curreMinutes > 0 && newStartHour === 1) {
-		// 		setIsTimePassed(true);
-		// 	} else if (
-		// 		currntHours === 14 &&
-		// 		(newStartHour === 9 ||
-		// 			newStartHour === 10 ||
-		// 			newStartHour === 11 ||
-		// 			newStartHour === 12 ||
-		// 			newStartHour === 1)
-		// 	) {
-		// 		setIsTimePassed(true);
-		// 	} else if (currntHours === 14 && curreMinutes > 0 && newStartHour === 2) {
-		// 		setIsTimePassed(true);
-		// 	} else if (
-		// 		currntHours === 15 &&
-		// 		(newStartHour === 9 ||
-		// 			newStartHour === 10 ||
-		// 			newStartHour === 11 ||
-		// 			newStartHour === 12 ||
-		// 			newStartHour === 1 ||
-		// 			newStartHour === 2)
-		// 	) {
-		// 		setIsTimePassed(true);
-		// 	} else if (currntHours === 15 && curreMinutes > 0 && newStartHour === 3) {
-		// 		setIsTimePassed(true);
-		// 	} else if (
-		// 		currntHours === 16 &&
-		// 		(newStartHour === 9 ||
-		// 			newStartHour === 10 ||
-		// 			newStartHour === 11 ||
-		// 			newStartHour === 12 ||
-		// 			newStartHour === 1 ||
-		// 			newStartHour === 2 ||
-		// 			newStartHour === 3)
-		// 	) {
-		// 		setIsTimePassed(true);
-		// 	} else if (currntHours === 16 && curreMinutes > 0 && newStartHour === 4) {
-		// 		setIsTimePassed(true);
-		// 	} else if (
-		// 		currntHours === 17 &&
-		// 		(newStartHour === 9 ||
-		// 			newStartHour === 10 ||
-		// 			newStartHour === 11 ||
-		// 			newStartHour === 12 ||
-		// 			newStartHour === 1 ||
-		// 			newStartHour === 2 ||
-		// 			newStartHour === 3 ||
-		// 			newStartHour === 4)
-		// 	) {
-		// 		setIsTimePassed(true);
-		// 	} else if (
-		// 		currntHours === 19 &&
-		// 		(newStartHour === 9 ||
-		// 			newStartHour === 10 ||
-		// 			newStartHour === 11 ||
-		// 			newStartHour === 12 ||
-		// 			newStartHour === 1 ||
-		// 			newStartHour === 2 ||
-		// 			newStartHour === 3 ||
-		// 			newStartHour === 4)
-		// 	) {
-		// 		alert("hdghjhf");
-		// 		setIsTimePassed(true);
-		// 		alert(isTimePassed);
-		// 	} else if (currntHours === 17 && curreMinutes > 0 && newStartHour === 5) {
-		// 		setIsTimePassed(true);
-		// 	}
-		// }
+
 		const validateTime = () => {
 			// Validation for time passed check
 			if (currntHours === 10 && newStartHour === 9) {
@@ -953,16 +837,20 @@ function Appointment(props) {
 				return true;
 			} else if (
 				currntHours === 11 &&
-				curreMinutes > 0 &&
+				curreMinutes > NewMinutes &&
 				newStartHour === 11
 			) {
 				return true;
 			} else if (
-				currntHours === 0 &&
+				currntHours === 12 &&
 				(newStartHour === 9 || newStartHour === 10 || newStartHour === 11)
 			) {
 				return true;
-			} else if (currntHours === 0 && curreMinutes > 0 && newStartHour === 12) {
+			} else if (
+				currntHours === 12 &&
+				curreMinutes > NewMinutes &&
+				newStartHour === 12
+			) {
 				return true;
 			} else if (
 				currntHours === 13 &&
@@ -972,7 +860,11 @@ function Appointment(props) {
 					newStartHour === 12)
 			) {
 				return true;
-			} else if (currntHours === 13 && curreMinutes > 0 && newStartHour === 1) {
+			} else if (
+				currntHours === 13 &&
+				curreMinutes > NewMinutes &&
+				newStartHour === 1
+			) {
 				return true;
 			} else if (
 				currntHours === 14 &&
@@ -983,7 +875,11 @@ function Appointment(props) {
 					newStartHour === 1)
 			) {
 				return true;
-			} else if (currntHours === 14 && curreMinutes > 0 && newStartHour === 2) {
+			} else if (
+				currntHours === 14 &&
+				curreMinutes > NewMinutes &&
+				newStartHour === 2
+			) {
 				return true;
 			} else if (
 				currntHours === 15 &&
@@ -995,7 +891,11 @@ function Appointment(props) {
 					newStartHour === 2)
 			) {
 				return true;
-			} else if (currntHours === 15 && curreMinutes > 0 && newStartHour === 3) {
+			} else if (
+				currntHours === 15 &&
+				curreMinutes > NewMinutes &&
+				newStartHour === 3
+			) {
 				return true;
 			} else if (
 				currntHours === 16 &&
@@ -1008,7 +908,11 @@ function Appointment(props) {
 					newStartHour === 3)
 			) {
 				return true;
-			} else if (currntHours === 16 && curreMinutes > 0 && newStartHour === 4) {
+			} else if (
+				currntHours === 16 &&
+				curreMinutes > NewMinutes &&
+				newStartHour === 4
+			) {
 				return true;
 			} else if (
 				currntHours === 17 &&
@@ -1022,7 +926,11 @@ function Appointment(props) {
 					newStartHour === 4)
 			) {
 				return true;
-			} else if (currntHours === 17 && curreMinutes > 0 && newStartHour === 5) {
+			} else if (
+				currntHours === 17 &&
+				curreMinutes > NewMinutes &&
+				newStartHour === 5
+			) {
 				return true;
 			} else {
 				return false;
@@ -1333,11 +1241,13 @@ function Appointment(props) {
 			setAppointmentDate(updatedAppointmentDate);
 		}
 		if (appointmetDate.length === 0) {
-			alert("Please select");
 			// If appointmentDate is empty, set it to array
 			setAppointmentDate(array);
 		}
-		console.log(appointmetDate);
+		localStorage.setItem("appointDate", date);
+		localStorage.setItem("startTime", startTime);
+		localStorage.setItem("endtime", endTime);
+
 		try {
 			const response = await fetch(
 				"http://127.0.0.1:5000/appointment/payment",
@@ -1350,6 +1260,9 @@ function Appointment(props) {
 			if (response.ok) {
 				const paymentData = await response.json();
 				window.open(paymentData.url, "_blank");
+				localStorage.setItem("Appref", paymentData.ref);
+			} else {
+				navigate("/serverError", { replace: true });
 			}
 			// 	fetch(
 			// 		`http://127.0.0.1:5000/profesionalAppointed/${selectedProfessionalId}`,
@@ -1374,7 +1287,7 @@ function Appointment(props) {
 	);
 
 	// Calculate the average rating
-	averageRating = totalRating / ratings.length;
+	averageRating = (totalRating / ratings.length).toFixed(2);
 	return (
 		<div className="main-cont-for-appointment">
 			<Header />
@@ -1483,6 +1396,10 @@ function Appointment(props) {
 										<span className="spanpro">Email: </span>
 										{selectedProfessional[0].email}
 									</p>
+									<p className="srrv-name">
+										<span className="spanpro">Profesion: </span>
+										{selectedProfessional[0].profession}
+									</p>
 									{averageRating == 0 && (
 										<p className="srrv-name">
 											<span className="spanpro">Not Rated(⭐)</span>
@@ -1516,15 +1433,19 @@ function Appointment(props) {
 									</tr>
 								</thead>
 								{appointmetDate.length > 0 &&
-									appointmetDate.map((appointData) => (
-										<>
-											<tr className="th" key={appointData.id}>
-												<td className="td">{appointData.appointmentDate}</td>
-												<td className="td">{appointData.startTime}</td>
-												<td className="td">{appointData.endTime}</td>
-											</tr>
-										</>
-									))}
+									appointmetDate
+										.filter((appointData) => {
+											return appointData.appointmentDate == formattedDate;
+										})
+										.map((appointData) => (
+											<>
+												<tr className="th" key={appointData.id}>
+													<td className="td">{appointData.appointmentDate}</td>
+													<td className="td">{appointData.startTime}</td>
+													<td className="td">{appointData.endTime}</td>
+												</tr>
+											</>
+										))}
 							</table>
 						</div>
 					)}

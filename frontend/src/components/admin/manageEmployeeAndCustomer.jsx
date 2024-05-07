@@ -4,6 +4,7 @@ import "../../assets/styles/Admin/managemployee.css";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/Autcontext";
 import { useServiceProdctContext } from "../../context/productAndServicecomtext";
+import { IoSearchSharp } from "react-icons/io5";
 
 function Manageemployee(props) {
 	const [customer, setcustomerr] = useState([]);
@@ -11,6 +12,13 @@ function Manageemployee(props) {
 	const navigate = useNavigate();
 	const { token } = useAuthContext();
 	const { setEmployeee } = useServiceProdctContext();
+	const [searchTerm, setSearchTerm] = useState("");
+	const [showDeleteEmployee, setShowDeleteEmployee] = useState(false);
+	const [ordeid, setOrderId] = useState("");
+
+	const handleSearch = (e) => {
+		setSearchTerm(e.target.value);
+	};
 	useEffect(() => {
 		async function fetchEmployeeData() {
 			const response = await fetch("http://127.0.0.1:5000/employee", {
@@ -90,6 +98,22 @@ function Manageemployee(props) {
 			console.error("Failed to fetch product data");
 		}
 	};
+	const employes = employee.filter((customer) => {
+		const nameMatch = customer.fname
+			?.toLowerCase()
+			.includes(searchTerm.toLowerCase());
+		const emailMatch = customer.email
+			?.toLowerCase()
+			.includes(searchTerm.toLowerCase());
+		return nameMatch || emailMatch;
+	});
+
+	const customers = customer.filter((customer) => {
+		const emailMatch = customer.email
+			?.toLowerCase()
+			.includes(searchTerm.toLowerCase());
+		return emailMatch;
+	});
 	return (
 		<div>
 			{/* <div className="welcome-container">
@@ -106,11 +130,31 @@ function Manageemployee(props) {
 							onClick={props.handleEmployee}>
 							Manage Employee
 						</button>
+						<input
+							type="text"
+							name=""
+							id=""
+							placeholder="Serach"
+							className="search"
+							value={searchTerm}
+							onChange={handleSearch}
+						/>
+						<IoSearchSharp size={33} className="serachicon" />
 					</>
 				)}
 				{props.isCustomer && (
 					<>
 						<h3 className="h3-customer">Customer Data</h3>
+						<input
+							type="text"
+							name=""
+							id=""
+							placeholder="Serach"
+							className="search"
+							value={searchTerm}
+							onChange={handleSearch}
+						/>
+						<IoSearchSharp size={33} className="serachicon" />
 					</>
 				)}
 				<table>
@@ -130,9 +174,11 @@ function Manageemployee(props) {
 							</>
 						)}
 					</tr>
-
+					{props.isCustomer && customers.length == 0 && (
+						<h1 className="no">NO Customer</h1>
+					)}
 					{props.isCustomer &&
-						customer.map((data) => (
+						customers.map((data) => (
 							<tr key={data.id}>
 								<td>{data.fname + " " + data.lname}</td>
 								<td>{data.email}</td>
@@ -141,9 +187,11 @@ function Manageemployee(props) {
 								<td>{data.adress}</td>
 							</tr>
 						))}
-
+					{props.isEmployee && employes.length == 0 && (
+						<h1 className="no">NO Employee</h1>
+					)}
 					{props.isEmployee &&
-						employee.map((data) => (
+						employes.map((data) => (
 							<tr key={data.id}>
 								<td>{data.fname + " " + data.lname}</td>
 								<td>{data.email}</td>
@@ -169,8 +217,8 @@ function Manageemployee(props) {
 									<button
 										className="action delete"
 										onClick={() => {
-											handleDeleteEmployee(data.id);
-											props.handleShowPopup();
+											setOrderId(data.id);
+											setShowDeleteEmployee(true);
 										}}>
 										Delete
 									</button>
@@ -179,6 +227,34 @@ function Manageemployee(props) {
 						))}
 				</table>
 			</div>
+
+			{showDeleteEmployee && (
+				<>
+					<div className="popup-container">
+						<div className="popup">
+							<p style={{ marginTop: "0px", marginBottom: "20px" }}>
+								Do You Want To Delete The Employee?
+							</p>
+							<span
+								className="check-mark"
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									backgroundColor: "#ac2626",
+								}}
+								onClick={() => {
+									setShowDeleteEmployee(false);
+									handleDeleteEmployee(ordeid);
+									props.handleShowPopup();
+								}}>
+								{" "}
+								Yes
+							</span>
+						</div>
+					</div>
+				</>
+			)}
 		</div>
 	);
 }

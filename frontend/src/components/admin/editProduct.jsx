@@ -3,16 +3,22 @@ import "../../assets/styles/Admin/editProduct.css";
 import { useState, useEffect } from "react";
 import { useAuthContext } from "../../context/Autcontext";
 import { useServiceProdctContext } from "../../context/productAndServicecomtext";
+import { useNavigate } from "react-router-dom";
 
 function EditProduct(props) {
 	// const [productData, setProductData] = useState([]);
 	const [productName, setProductName] = useState("");
 	const [productDesc, setProductDesc] = useState("");
 	const [productPrice, setProductPrice] = useState("");
+	const [productQuantity, setProductQunatity] = useState("");
 	const [productImage, setProductImage] = useState("");
 	const [errors, setErrors] = useState({});
 	const { token } = useAuthContext();
 	const { product } = useServiceProdctContext();
+	const [errM, setErr] = useState(false);
+	const [errMM, setErrr] = useState(false);
+	const navigate = useNavigate();
+
 	// useEffect(() => {
 	// 	// Function to retrieve data from local storage
 	// 	const retrieveProductDataFromLocalStorage = () => {
@@ -31,6 +37,7 @@ function EditProduct(props) {
 			setProductName(product[0].productname);
 			setProductDesc(product[0].productdesc);
 			setProductPrice(product[0].productprice);
+			setProductQunatity(product[0].quantity);
 		}
 	}, [product]);
 
@@ -49,7 +56,9 @@ function EditProduct(props) {
 	const handleProductImage = (event) => {
 		setProductImage(event.target.files[0]);
 	};
-
+	const handleProductQuantity = (event) => {
+		setProductQunatity(event.target.value);
+	};
 	const validateForm = () => {
 		const errors = {};
 
@@ -71,6 +80,9 @@ function EditProduct(props) {
 		} else if (Number(productPrice) < 20) {
 			errors.productPrice = "Product Price must be at least 20";
 		}
+		if (!productQuantity) {
+			errors.productqunatity = "Product Quantity is required";
+		}
 
 		setErrors(errors);
 
@@ -90,6 +102,7 @@ function EditProduct(props) {
 		formData.append("productPrice", productPrice);
 		formData.append("productImage", productImage);
 		formData.append("productId", product[0].id);
+		formData.append("productQuantity", productQuantity);
 
 		try {
 			const response = await fetch("http://127.0.0.1:5000/editProduct", {
@@ -101,9 +114,12 @@ function EditProduct(props) {
 			});
 
 			if (response.ok) {
+				setErrr(false);
 				props.handleShowPopup();
+			} else if (response.status === 400) {
+				setErrr(true);
 			} else {
-				console.log("Failed to edit product:", response.statusText);
+				navigate("/servererror");
 			}
 		} catch (error) {
 			console.error("Error editing product:", error);
@@ -113,6 +129,9 @@ function EditProduct(props) {
 	return (
 		<div>
 			<div className="conatnerforeditproduct">
+				<p className="userExist" style={!errMM ? { visibility: "hidden" } : {}}>
+					Product Already Exist!
+				</p>
 				<button className="manage-product-button" onClick={props.handleProduct}>
 					Manage Product
 				</button>
@@ -163,6 +182,23 @@ function EditProduct(props) {
 							<p className="error">{errors.productPrice}</p>
 						)}
 					</div>
+
+					<div>
+						<label htmlFor="product-price">Product Quantity</label>
+						<input
+							type="number"
+							name="productprice"
+							id="productprice"
+							placeholder="Product Qunatity"
+							onChange={handleProductQuantity}
+							value={productQuantity}
+							min={1}
+						/>
+						{errors.productqunatity && (
+							<p className="error">{errors.productqunatity}</p>
+						)}
+					</div>
+
 					<div>
 						<label htmlFor="product-image">Product Image</label>
 						<input

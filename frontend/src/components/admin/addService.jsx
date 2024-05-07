@@ -15,6 +15,7 @@ function AddService(props) {
 	const [serviceDuration, setServiceDuration] = useState("");
 	const [errors, setErrors] = useState({});
 	const [errM, setErr] = useState(false);
+	const [errMM, setErrr] = useState(false);
 	const navigate = useNavigate();
 
 	const handleServiceName = (event) => {
@@ -100,6 +101,8 @@ function AddService(props) {
 					props.handleShowPopup();
 				} else if (response.status === 400) {
 					setErr(true);
+				} else if (response.status === 403) {
+					setErrr(true);
 				} else {
 					navigate("/servererror");
 				}
@@ -114,6 +117,9 @@ function AddService(props) {
 			<div className="conatnerforaddservice">
 				<p className="userExist" style={!errM ? { visibility: "hidden" } : {}}>
 					File Type Not Supported!
+				</p>
+				<p className="userExist" style={!errMM ? { visibility: "hidden" } : {}}>
+					Service Already Exist!
 				</p>
 				<button className="add bn">&#43;</button>
 				<button

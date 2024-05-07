@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "../../assets/styles/signup.css";
 import { Link, useNavigate } from "react-router-dom";
+import { FaRegEyeSlash } from "react-icons/fa6";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 function Signup() {
 	const [fname, setFname] = useState("");
 	const [lname, setLname] = useState("");
@@ -12,6 +14,9 @@ function Signup() {
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [validationErrors, setValidationErrors] = useState({});
 	const [errorMessage, setErrMessage] = useState(false);
+	const [showpassword, setshowpassword] = useState(false);
+	const [showConifermpassword, setshowConifermpassword] = useState(false);
+
 	const navigate = useNavigate();
 
 	const handleChangeFirstName = (event) => {
@@ -38,9 +43,14 @@ function Signup() {
 	const handleChangeAge = (event) => {
 		setAge(event.target.value);
 	};
-
+	const handleShwoPassword = () => {
+		setshowpassword(!showpassword);
+	};
+	const handleShwoConifermPassword = () => {
+		setshowConifermpassword(!showConifermpassword);
+	};
+	let errors = {};
 	const validateForm = () => {
-		let errors = {};
 		if (!fname) {
 			errors.fname = "Firstname is required";
 		} else if (!fname.match(/^[A-Za-z]+$/)) {
@@ -77,14 +87,14 @@ function Signup() {
 		}
 		if (!password) {
 			errors.password = "Password is required";
-			// } else if (password.length < 8) {
-			// 	errors.password = "Password must be at least 8 characters long.";
-			// } else if (!/[A-Z]/.test(password)) {
-			// 	errors.password = "Password must contain at least one uppercase letter.";
-			// } else if (!/[!@#$%^&*]/.test(password)) {
-			// 	errors.password = "Password must contain at least one symbol.";
-			// }
+		} else if (password.length < 8) {
+			errors.password = "Password must be at least 8 characters long.";
+		} else if (!/[A-Z]/.test(password)) {
+			errors.password = "Password must contain  one uppercase letter.";
+		} else if (!/[a-z]/.test(password)) {
+			errors.password = "Password must contain one Lowercase letter.";
 		}
+
 		if (password !== confirmPassword) {
 			errors.confirmPassword = "Passwords do not match.";
 		}
@@ -92,10 +102,39 @@ function Signup() {
 		setValidationErrors(errors);
 		return Object.keys(errors).length === 0;
 	};
+	const IsFake = async (email) => {
+		try {
+			const response = await fetch(
+				`https://api.hunter.io/v2/email-verifier?email=${email}&api_key=c0246f4d073a8f50526bf28b8113a6190da1e765`
+			);
+			const data = await response.json();
+			console.log(data);
+			if (data.data.result === "deliverable") {
+				return false; // Not fake
+			} else {
+				return true; // Fake
+			}
+		} catch (error) {
+			console.error("Error verifying email:", error);
+			// Handle error
+			throw error; // Throw the error for handling in the caller
+		}
+	};
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		const checkEmail = async () => {
+			const result = await IsFake("shd@gmail.com");
+			return result;
+		};
 
 		if (validateForm()) {
+			setValidationErrors({});
+			if (checkEmail()) {
+				errors.email = "The Email Address is invalid or fake";
+				setValidationErrors(errors);
+				return false;
+			}
 			try {
 				const signupForm = {
 					fname,
@@ -114,7 +153,7 @@ function Signup() {
 				});
 
 				if (response.ok) {
-					console.log("User registered");
+					navigate("/login");
 				} else if (response.status === 400) {
 					setErrMessage(true);
 				} else {
@@ -220,29 +259,54 @@ function Signup() {
 									<span className="error">{validationErrors.adress}</span>
 								)}
 							</div>
-							<div>
+							<div className="password-cont">
 								<label htmlFor="password">Password</label>
 								<input
-									type="password"
+									type={showpassword ? "text" : "password"}
 									name="password"
 									id="password"
 									placeholder="Password"
 									onChange={handleChangePassword}
 								/>
+								{password && (
+									<button
+										type="button"
+										className={`nnnn ${
+											validationErrors.password?.length > 0 ? "new" : ""
+										}`}
+										onClick={handleShwoPassword}>
+										{showpassword && <FaRegEyeSlash />}
+
+										{!showpassword && <MdOutlineRemoveRedEye />}
+									</button>
+								)}
+
 								{validationErrors.password && (
 									<span className="error">{validationErrors.password}</span>
 								)}
 							</div>
 
-							<div>
+							<div className="password-cont">
 								<label htmlFor="confirmPassword">Confirm Password</label>
 								<input
-									type="password"
+									type={showpassword ? "text" : "password"}
 									name="confirmPassword"
 									id="confirmPassword"
 									placeholder="Confirm Password"
 									onChange={handleChangeConfirmPassword}
 								/>
+								{confirmPassword && (
+									<button
+										type="button"
+										className={`nnnn ${
+											validationErrors.confirmPassword?.length > 0 ? "new" : ""
+										}`}
+										onClick={handleShwoConifermPassword}>
+										{showConifermpassword && <FaRegEyeSlash />}
+
+										{!showConifermpassword && <MdOutlineRemoveRedEye />}
+									</button>
+								)}
 								{validationErrors.confirmPassword && (
 									<span className="error">
 										{validationErrors.confirmPassword}

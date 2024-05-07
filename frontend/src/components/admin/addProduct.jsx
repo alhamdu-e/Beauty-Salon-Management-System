@@ -9,9 +9,12 @@ function AddProduct(props) {
 	const [productName, setProductName] = useState("");
 	const [productDesc, setProductDesc] = useState("");
 	const [productPrice, setProductPrice] = useState("");
+	const [productQuantity, setProductQunatity] = useState("");
 	const [productImage, setProductImage] = useState("");
 	const [errors, setErrors] = useState({});
 	const [errM, setErr] = useState(false);
+	const [errMM, setErrr] = useState(false);
+
 	const navigate = useNavigate();
 	const handleProductName = (event) => {
 		setProductName(event.target.value);
@@ -23,6 +26,9 @@ function AddProduct(props) {
 
 	const handleProductPrice = (event) => {
 		setProductPrice(event.target.value);
+	};
+	const handleProductQuantity = (event) => {
+		setProductQunatity(event.target.value);
 	};
 
 	const handleProductImage = (event) => {
@@ -53,6 +59,9 @@ function AddProduct(props) {
 			errors.productPrice = "Product Price must be at least 200 birr";
 		}
 
+		if (!productQuantity) {
+			errors.productqunatity = "Product Quantity is required";
+		}
 		if (!productImage) {
 			errors.productImage = "Product Image is required";
 		}
@@ -77,6 +86,7 @@ function AddProduct(props) {
 		formData.append("productDesc", productDesc);
 		formData.append("productPrice", productPrice);
 		formData.append("productImage", productImage);
+		formData.append("productQuantity", productQuantity);
 
 		try {
 			const response = await fetch("http://127.0.0.1:5000/addProduct", {
@@ -86,12 +96,15 @@ function AddProduct(props) {
 					Authorization: `Bearer ${token}`,
 				},
 			});
+			console.log(response);
 
 			if (response.ok) {
 				setErr(false);
 				props.handleShowPopup();
 			} else if (response.status === 400) {
 				setErr(true);
+			} else if (response.status === 403) {
+				setErrr(true);
 			} else {
 				navigate("/servererror");
 			}
@@ -105,6 +118,9 @@ function AddProduct(props) {
 			<div className="conatnerforaddproduct">
 				<p className="userExist" style={!errM ? { visibility: "hidden" } : {}}>
 					File Type Not Supported!
+				</p>
+				<p className="userExist" style={!errMM ? { visibility: "hidden" } : {}}>
+					Product Already Exist!
 				</p>
 				<button className="add bn">&#43;</button>
 				<button
@@ -154,6 +170,21 @@ function AddProduct(props) {
 						/>
 						{errors.productPrice && (
 							<p className="error">{errors.productPrice}</p>
+						)}
+					</div>
+
+					<div>
+						<label htmlFor="product-price">Product Quantity</label>
+						<input
+							type="number"
+							name="productprice"
+							id="productprice"
+							placeholder="Product Qunatity"
+							onChange={handleProductQuantity}
+							min={1}
+						/>
+						{errors.productqunatity && (
+							<p className="error">{errors.productqunatity}</p>
 						)}
 					</div>
 

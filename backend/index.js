@@ -97,10 +97,15 @@ app.post("/payment", (req, res) => {
 	};
 
 	request(options, function (error, response) {
-		if (error) throw new Error(error);
-		const data = JSON.parse(response.body);
-		console.log(data);
-		res.status(200).json({ url: data.data.checkout_url, ref: transactionId });
+		if (error) {
+			res.status(400).json({ notgood: false });
+		} else {
+			const data = JSON.parse(response.body);
+			if (!data.data) {
+				res.status(400).json({ notgood: false });
+			}
+			res.status(200).json({ url: data.data.checkout_url, ref: transactionId });
+		}
 	});
 });
 
@@ -135,24 +140,29 @@ app.post("/appointment/payment", (req, res) => {
 			phone_number: "0" + req.body.phone,
 			tx_ref: transactionId,
 			callback_url: "http://127.0.0.1:5000/verifyappoint",
-			return_url: "http://localhost:3000/paymentconfirmarion",
+			return_url: "http://localhost:3000/appointmentpaymentconfirmarion",
 			title: "Payment for  Purchuasing Product from Glowcity",
 			description: "Glowcity is the best in the City ",
 		}),
 	};
 
 	request(options, function (error, response) {
-		if (error) throw new Error(error);
-		const data = JSON.parse(response.body);
-		console.log(data);
-		res.status(200).json({ url: data.data.checkout_url });
+		if (error) {
+			console.log(error);
+		} else {
+			const data = JSON.parse(response.body);
+			if (!data.data) {
+				res.status(400).json({ notgood: false });
+			}
+			res.status(200).json({ url: data.data.checkout_url, ref: transactionId });
+		}
 	});
 });
 
 app.use("/verifyappoint", (req, res) => {
 	console.log(serviceId);
 	const sql =
-		"insert into appointments (customerId,professionalId,appointmentDate,startTime,endTime,serviceId,status) values (?,?,?,?,?,?,?)";
+		"insert into appointments (customerId,professionalId,appointmentDate,startTime,endTime,serviceId,Tref,status) values (?,?,?,?,?,?,?,?)";
 	const param = [
 		userId,
 		selectedProfessionalId,
@@ -160,6 +170,7 @@ app.use("/verifyappoint", (req, res) => {
 		startTime,
 		endTime,
 		serviceId,
+		transactionId,
 		"In Progress",
 	];
 	executeQuery(sql, param, res);
@@ -221,8 +232,18 @@ app.use("/verify", (req, res) => {
 					}
 				}
 			);
+			db.query(
+				"UPDATE product SET quantity = quantity - ? WHERE productname = ?",
+				[quantity, productname],
+				(err, result) => {
+					if (err) {
+						console.log(err);
+					} else {
+						console.log(result);
+					}
+				}
+			);
 		});
-
 		res
 			.status(200)
 			.json({ message: "Order and order items inserted successfully" });

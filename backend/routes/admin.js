@@ -60,6 +60,45 @@ router.get("/orders", (req, res) => {
 	executeQuery(sql, [], res, "ALL employee RETRIVED");
 });
 
+router.delete("/order/:id", (req, res) => {
+	let id = req.params.id;
+	const sql = "DELETE FROM orders WHERE order_id =?";
+	db.query(sql, [id], (err, result) => {
+		if (err) {
+			console.log(err);
+		} else {
+			const sql =
+				"SELECT oi.order_id, GROUP_CONCAT(oi.product_name) AS products, GROUP_CONCAT(oi.quantity) AS total_quantity, o.customer_email, o.first_name, o.last_name, o.total_amount, o.status, o.transactionRef FROM order_items AS oi  JOIN orders AS o ON oi.order_id = o.order_id GROUP BY oi.order_id, o.customer_email, o.first_name, o.last_name, o.total_amount, o.status, o.transactionRef;";
+			db.query(sql, (err, result) => {
+				if (err) {
+					console.log(err, "product");
+				} else {
+					res.status(200).json(result);
+				}
+			});
+		}
+	});
+});
+
+router.put("/order/:id", (req, res) => {
+	let id = req.params.id;
+	const sql = "update orders set status='Completed'  WHERE order_id =?";
+	db.query(sql, [id], (err, result) => {
+		if (err) {
+			console.log(err);
+		} else {
+			const sql =
+				"SELECT oi.order_id, GROUP_CONCAT(oi.product_name) AS products, GROUP_CONCAT(oi.quantity) AS total_quantity, o.customer_email, o.first_name, o.last_name, o.total_amount, o.status, o.transactionRef FROM order_items AS oi  JOIN orders AS o ON oi.order_id = o.order_id GROUP BY oi.order_id, o.customer_email, o.first_name, o.last_name, o.total_amount, o.status, o.transactionRef;";
+			db.query(sql, (err, result) => {
+				if (err) {
+					console.log(err, "product");
+				} else {
+					res.status(200).json(result);
+				}
+			});
+		}
+	});
+});
 router.delete("/employee/:id", (req, res) => {
 	let id = req.params.id;
 	const sql = "DELETE FROM profesional WHERE id =?";
@@ -100,11 +139,12 @@ router.delete("/deleteCart/:id", (req, res) => {
 });
 
 router.post("/addEmployee", upload.single("image"), (req, res) => {
+	console.log(req.body);
 	if (!req.file) {
 		res.status(403).json({ error: "User Exist!!!" });
 		return;
 	}
-	const { fname, lname, email, phone, adress, age, gender, profesion } =
+	const { fname, lname, email, phone, address, age, gender, profesion } =
 		req.body;
 	const fileName = req.file.filename;
 	const imagePath = "http://127.0.0.1:5000/images/" + fileName;
@@ -137,7 +177,7 @@ router.post("/addEmployee", upload.single("image"), (req, res) => {
 			email,
 			age,
 			phone,
-			adress,
+			address,
 			password,
 			imagePath,
 		],
@@ -183,7 +223,20 @@ router.put("/editEmployee", upload.single("image"), (req, res) => {
 		sql = `update profesional set fname=?,lname=?,email=?,phone=?,address=?,age=? ,gender=?,profession=? where id=?`;
 		values = [fname, lname, email, phone, adress, age, gender, profesion, id];
 	}
-	executeQuery(sql, values, res, "employe edited sucessfully");
+	//executeQuery(sql, values, res, "employe edited sucessfully");
+
+	db.query(sql, values, (err, result) => {
+		if (err) {
+			if (err.code === "ER_DUP_ENTRY") {
+				res.status(400).json({ error: "User Exist!!!" });
+			} else {
+				console.log(err);
+				res.status(500).json({ error: "Internal server error" });
+			}
+		} else {
+			res.send({ status: "Product Added" });
+		}
+	});
 });
 
 router.put("/editcart", (req, res) => {
@@ -202,7 +255,7 @@ router.get("/employee/:id", (req, res) => {
 // ----------------------Product API----------------------------------------------------
 
 router.post("/addProduct", upload.single("productImage"), (req, res) => {
-	const { productName, productDesc, productPrice } = req.body;
+	const { productName, productDesc, productPrice, productQuantity } = req.body;
 	if (!req.file) {
 		res.status(400);
 
@@ -212,27 +265,71 @@ router.post("/addProduct", upload.single("productImage"), (req, res) => {
 	const imagePath = "http://127.0.0.1:5000/images/" + fileName;
 
 	const sql =
-		"insert into product(productname, productdesc, productprice, productimage) values(?,?,?,?)";
-	const params = [productName, productDesc, productPrice, imagePath];
-	executeQuery(sql, params, res, "product added sucessfully");
+		"insert into product(productname, productdesc, productprice,quantity, productimage) values(?,?,?,?,?)";
+	const params = [
+		productName,
+		productDesc,
+		productPrice,
+		productQuantity,
+		imagePath,
+	];
+	//executeQuery(sql, params, res, "product added sucessfully");
+
+	db.query(sql, params, (err, result) => {
+		if (err) {
+			if (err.code === "ER_DUP_ENTRY") {
+				res.status(403).json({ error: "User Exist!!!" });
+			} else {
+				res.status(500).json({ error: "Internal server error" });
+			}
+		} else {
+			res.send({ status: "Product Added" });
+		}
+	});
 });
 
 router.put("/editProduct", upload.single("productImage"), (req, res) => {
-	const { productName, productDesc, productPrice, productId } = req.body;
+	const { productName, productDesc, productPrice, productQuantity, productId } =
+		req.body;
 
 	let sql = "";
 	let values = [];
 	if (req.file) {
 		const fileName = req.file.filename;
 		const imagePath = "http://127.0.0.1:5000/images/" + fileName;
-		sql = `UPDATE product SET productname = ?, productdesc = ?, productprice = ?, productimage = ? WHERE id = ?`;
-		values = [productName, productDesc, productPrice, imagePath, productId];
+		sql = `UPDATE product SET productname = ?, productdesc = ?, productprice = ?,quantity=?, productimage = ? WHERE id = ?`;
+		values = [
+			productName,
+			productDesc,
+			productPrice,
+			productQuantity,
+			imagePath,
+			productId,
+		];
 	} else {
-		sql = `UPDATE product SET productname = ?, productdesc = ?, productprice = ? WHERE id = ?`;
-		values = [productName, productDesc, productPrice, productId];
+		sql = `UPDATE product SET productname = ?, productdesc = ?, productprice = ?,quantity=? WHERE id = ?`;
+		values = [
+			productName,
+			productDesc,
+			productPrice,
+			productQuantity,
+			productId,
+		];
 	}
 
-	executeQuery(sql, values, res, "product edited successfully");
+	//executeQuery(sql, values, res, "product edited successfully");
+
+	db.query(sql, values, (err, result) => {
+		if (err) {
+			if (err.code === "ER_DUP_ENTRY") {
+				res.status(400).json({ error: "User Exist!!!" });
+			} else {
+				res.status(500).json({ error: "Internal server error" });
+			}
+		} else {
+			res.send({ status: "Product Added" });
+		}
+	});
 });
 
 // router.get("/product/:id", (req, res) => {
@@ -307,7 +404,19 @@ router.put("/editService", upload.single("serviceImage"), (req, res) => {
 		];
 	}
 
-	executeQuery(sql, values, res, "service Edited Successfully");
+	//executeQuery(sql, values, res, "service Edited Successfully");
+
+	db.query(sql, values, (err, result) => {
+		if (err) {
+			if (err.code === "ER_DUP_ENTRY") {
+				res.status(400).json({ error: "User Exist!!!" });
+			} else {
+				res.status(500).json({ error: "Internal server error" });
+			}
+		} else {
+			res.send({ status: "Product Added" });
+		}
+	});
 });
 
 router.post("/addService", upload.single("serviceImage"), (req, res) => {
@@ -340,7 +449,18 @@ router.post("/addService", upload.single("serviceImage"), (req, res) => {
 		serviceDuration,
 		homeprice,
 	];
-	executeQuery(sql, params, res, "product added successfully");
+	//executeQuery(sql, params, res, "product added successfully");
+	db.query(sql, params, (err, result) => {
+		if (err) {
+			if (err.code === "ER_DUP_ENTRY") {
+				res.status(403).json({ error: "User Exist!!!" });
+			} else {
+				res.status(500).json({ error: "Internal server error" });
+			}
+		} else {
+			res.send({ status: "Service Added" });
+		}
+	});
 });
 
 router.get("/service/:id", (req, res) => {

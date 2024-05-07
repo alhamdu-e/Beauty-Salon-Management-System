@@ -4,7 +4,7 @@
 // import { useUserContext } from "../../context/UserContext";
 
 // export default function DetailProduct({ addToCart }) {
-// 	// const { productid } = useContext(Authcontext);
+// const { productid } = useContext(Authcontext);
 // 	const [productDetail, setProductDetail] = useState([]);
 // 	const { userId } = useUserContext();
 

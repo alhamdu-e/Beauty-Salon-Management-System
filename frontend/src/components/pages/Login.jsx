@@ -96,6 +96,10 @@ function Login() {
 							data.profesionalResult[0].fname
 						);
 						localStorage.setItem("profesionalId", data.profesionalResult[0].id);
+						localStorage.setItem(
+							"password",
+							data.profesionalResult[0].password
+						);
 
 						navigate("/Professionalappoin", { replace: true });
 					}

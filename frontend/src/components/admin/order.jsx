@@ -1,9 +1,21 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/Autcontext";
+import { IoSearchSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
-function Order() {
+function Order(props) {
 	const { token } = useAuthContext();
+	const [searchTerm, setSearchTerm] = useState("");
+
+	const [showDelete, setShowDelete] = useState(false);
+	const [ordeid, setOrderId] = useState("");
+
+	const handleSearch = (e) => {
+		setSearchTerm(e.target.value);
+	};
+
+	const naviaget = useNavigate();
 
 	const [orderInfo, setOrderInfo] = useState([]);
 	useEffect(() => {
@@ -20,14 +32,76 @@ function Order() {
 				}
 			})
 			.then((data) => {
-				console.log(data);
-				setOrderInfo(data);
+				const sortedOrderInfo = [...data].sort(compareStatus);
+				setOrderInfo(sortedOrderInfo);
 			});
 	}, []);
 
+	const orders = orderInfo.filter((customer) => {
+		const transactionMatch = customer.transactionRef
+			?.toLowerCase()
+			.includes(searchTerm.toLowerCase());
+		const emailMatch = customer.customer_email
+			?.toLowerCase()
+			.includes(searchTerm.toLowerCase());
+		return transactionMatch || emailMatch;
+	});
+
+	const handleDeleteOrder = async (orderid) => {
+		const response = await fetch(`http://127.0.0.1:5000/order/${orderid}`, {
+			method: "Delete",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		if (response.ok) {
+			const data = await response.json();
+			setOrderInfo(data);
+		} else {
+			naviaget("/serverError", { replace: true });
+		}
+	};
+	const handleChangeStatus = async (orderid) => {
+		const response = await fetch(`http://127.0.0.1:5000/order/${orderid}`, {
+			method: "put",
+			headers: {
+				"Content-type": "Application/json",
+			},
+		});
+		if (response.ok) {
+			const data = await response.json();
+			const sortedOrderInfo = [...data].sort(compareStatus);
+			setOrderInfo(sortedOrderInfo);
+		} else {
+			naviaget("/serverError", { replace: true });
+		}
+	};
+
+	const compareStatus = (a, b) => {
+		let statusOrder = { ["pending"]: 1, ["Completed"]: 2 };
+
+		return statusOrder[a.status] - statusOrder[b.status];
+	};
+
 	return (
 		<div className="view-appointment">
+			<div className="serachcontainer">
+				<input
+					type="text"
+					name=""
+					id=""
+					placeholder="Serach"
+					className="search"
+					value={searchTerm}
+					onChange={handleSearch}
+				/>
+				<IoSearchSharp size={33} className="serachicon" />
+			</div>
 			<div className="first">
+				<>
+					<h3 className="h3-customer">Order Data</h3>
+				</>
 				<table>
 					<thead>
 						<tr>
@@ -38,28 +112,126 @@ function Order() {
 							<th>Total Amount</th>
 							<th>order_Refrence</th>
 							<th>Status</th>
-							<th>Action</th>
+							<th colSpan={2}>Action</th>
 						</tr>
 					</thead>
+					{orders.length == 0 && <h1 className="no">NO Order</h1>}
 					<tbody>
-						{orderInfo?.map((data) => (
-							<tr>
-								<td>{data.first_name + " " + data.last_name}</td>
-								<td>{data.customer_email}</td>
-								<td>{data.products}</td>
-								<td>{data.total_quantity}</td>
-								<td>{data.total_amount}</td>
-								<td>{data.transactionRef}</td>
-								<td>{data.status}</td>
+						{orders?.map((data) => (
+							<tr
+								key={data.order_id}
+								style={{
+									backgroundColor: data.status === "Completed" ? "#044934" : "",
+								}}>
+								<td
+									style={{
+										backgroundColor:
+											data.status === "Completed" ? "#044934" : "",
+									}}>
+									{data.first_name + " " + data.last_name}
+								</td>
+								<td
+									style={{
+										backgroundColor:
+											data.status === "Completed" ? "#044934" : "",
+									}}>
+									{data.customer_email}
+								</td>
+								<td
+									style={{
+										backgroundColor:
+											data.status === "Completed" ? "#044934" : "",
+									}}>
+									{data.products}
+								</td>
+								<td
+									style={{
+										backgroundColor:
+											data.status === "Completed" ? "#044934" : "",
+									}}>
+									{data.total_quantity}
+								</td>
+								<td
+									style={{
+										backgroundColor:
+											data.status === "Completed" ? "#044934" : "",
+									}}>
+									{data.total_amount}
+								</td>
+								<td
+									style={{
+										backgroundColor:
+											data.status === "Completed" ? "#044934" : "",
+									}}>
+									{data.transactionRef}
+								</td>
+								<td
+									style={{
+										backgroundColor:
+											data.status === "Completed" ? "#044934" : "",
+									}}>
+									{data.status}
+								</td>
 
 								<td>
-									<button className="action">Details</button>
+									<button
+										className="action delete"
+										onClick={() => {
+											setOrderId(data.order_id);
+											setShowDelete(true);
+										}}>
+										Delete
+									</button>
+								</td>
+								<td>
+									<button
+										className="action"
+										style={{
+											backgroundColor:
+												data.status === "Completed" ? "#1bb184" : "",
+											width: "100%",
+											fontWeight: 600,
+											cursor: data.status === "Completed" ? "not-allowed" : "",
+										}}
+										onClick={() => {
+											handleChangeStatus(data.order_id);
+										}}
+										disabled={data.status === "Completed"}>
+										Complete Order
+									</button>
 								</td>
 							</tr>
 						))}
 					</tbody>
 				</table>
 			</div>
+			{showDelete && (
+				<>
+					<div className="popup-container">
+						<div className="popup">
+							<p style={{ marginTop: "0px", marginBottom: "20px" }}>
+								Do You Want To Delete The Order?
+							</p>
+							<span
+								className="check-mark"
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									backgroundColor: "#ac2626",
+								}}
+								onClick={() => {
+									setShowDelete(false);
+									handleDeleteOrder(ordeid);
+									props.handleShowPopup();
+								}}>
+								{" "}
+								Yes
+							</span>
+						</div>
+					</div>
+				</>
+			)}
 		</div>
 	);
 }

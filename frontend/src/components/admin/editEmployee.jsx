@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import "../../assets/styles/Admin/editEmployee.css";
 import { useAuthContext } from "../../context/Autcontext";
 import { useServiceProdctContext } from "../../context/productAndServicecomtext";
+import { useNavigate } from "react-router-dom";
+
 function EditEmployee(props) {
 	// const [employeeData, setemployeeData] = useState([]);
 	const { token } = useAuthContext();
@@ -31,6 +33,11 @@ function EditEmployee(props) {
 	const [id, setId] = useState("");
 	const [errors, setErrors] = useState({});
 	const [image, setimage] = useState("");
+
+	const [databaseMesssage, setDatabaseMessage] = useState("");
+
+	const [errM, setErr] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (employee.length > 0) {
@@ -102,8 +109,8 @@ function EditEmployee(props) {
 		// Validate Phone
 		if (!phone) {
 			errors.phone = "Phone is required";
-		} else if (!/^\d{10}$/.test(phone)) {
-			errors.phone = "Phone should be a 10-digit number";
+		} else if (!phone.match(/^(09|07)\d{8}$/)) {
+			errors.phone = "Invalid phone number format";
 		}
 
 		// Validate Age
@@ -153,10 +160,15 @@ function EditEmployee(props) {
 					method: "Put",
 					body: formdata,
 				});
+				console.log(response);
 				if (response.ok) {
+					setErr(false);
 					props.handleShowPopup();
+				} else if (response.status === 400) {
+					setDatabaseMessage("Employee Exist!");
+					setErr(true);
 				} else {
-					console.log("user not registered", response.statusText);
+					navigate("/servererror");
 				}
 			} catch (error) {
 				console.log(error);
@@ -167,6 +179,9 @@ function EditEmployee(props) {
 		<div>
 			<div className="conatnereditaddemployee">
 				{/* <button className="add">&#43;</button> */}
+				<p className="userExist" style={!errM ? { visibility: "hidden" } : {}}>
+					{databaseMesssage}
+				</p>
 				<button
 					className="manage-employee-button"
 					onClick={props.handleEmployee}>

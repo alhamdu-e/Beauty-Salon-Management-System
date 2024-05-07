@@ -21,6 +21,7 @@ import CustomerAppointment from "./components/CustomerAppointment";
 import PayementForm from "./components/pages/PaymentForm";
 import Rating from "./components/pages/profesionalRating";
 import Confirmation from "./components/pages/confirmationForPayment";
+import ConfirmationAppointment from "./components/pages/conifermationForAppointment";
 
 function App() {
 	const [serviceHour, setServiceHour] = useState("");
@@ -60,6 +61,10 @@ function App() {
 						element={<CustomerAppointment />}
 					/>
 					<Route path="/paymentconfirmarion" element={<Confirmation />} />
+					<Route
+						path="/appointmentpaymentconfirmarion"
+						element={<ConfirmationAppointment />}
+					/>
 					<Route path="/paymenform" element={<PayementForm />} />
 					<Route path="/rating" element={<Rating />} />
 					<Route path="/signup" element={<Signup />} />

@@ -21,7 +21,6 @@
 	/* font-size: 48px; */
 	margin-bottom: 40px !important;
 	transform: scale(1.4);
-	margin-left: 110px;
 	/* scale: ; */
 }
 
@@ -59,14 +58,17 @@
 	display: inline-block;
 	padding: 12px;
 	background-color: green;
-	margin-left: 100px;
+	margin-left: 20px;
 	color: rgb(248, 247, 247);
 	font-size: 1.4rem;
 	border-radius: 8px;
 	transition: all 0.3s;
 }
 .gohome:hover {
-	background-color: rgb(3, 54, 3);
+	background-color: rgb(7, 119, 7);
+}
+.down {
+	margin-left: 110px;
 }
 .bold {
 	font-weight: 600;
