@@ -131,7 +131,7 @@ function Cart() {
 				lname: localStorage.getItem("userLName"),
 				email: localStorage.getItem("email"),
 				phone: localStorage.getItem("phone"),
-				amount: totalPrice,
+				amount: parseInt(totalPrice),
 				product: items,
 			}),
 			headers: {
@@ -147,6 +147,39 @@ function Cart() {
 			navigate("/serverError");
 		}
 	};
+
+	// const handlePaymentwithStripe = async () => {
+	// 	localStorage.setItem("totalPrice", totalPrice);
+	// 	localStorage.setItem("totalQuantity", totalQuantity);
+	// 	try {
+	// 		const response = await fetch("http://localhost:5000/PayWithStripe", {
+	// 			method: "POST",
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 			},
+	// 			body: JSON.stringify({
+	// 				fname: localStorage.getItem("userName"),
+	// 				lname: localStorage.getItem("userLName"),
+	// 				email: localStorage.getItem("email"),
+	// 				phone: localStorage.getItem("phone"),
+	// 				amount: totalPrice,
+	// 				product: items,
+	// 			}),
+	// 		});
+
+	// 		if (response.ok) {
+	// 			const { url, ref } = await response.json();
+	// 			console.log(url, ref);
+	// 			window.location = url;
+	// 			localStorage.setItem("ref", ref);
+	// 		} else {
+	// 			navigate("/serverError");
+	// 		}
+	// 	} catch (error) {
+	// 		navigate("/serverError");
+	// 	}
+	// };
+
 	return (
 		<div>
 			{" "}

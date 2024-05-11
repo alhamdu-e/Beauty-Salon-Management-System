@@ -22,6 +22,7 @@ import PayementForm from "./components/pages/PaymentForm";
 import Rating from "./components/pages/profesionalRating";
 import Confirmation from "./components/pages/confirmationForPayment";
 import ConfirmationAppointment from "./components/pages/conifermationForAppointment";
+import Cashier from "./components/pages/cashier";
 
 function App() {
 	const [serviceHour, setServiceHour] = useState("");
@@ -108,6 +109,8 @@ function App() {
 							/>
 						}
 					/>
+
+					<Route path="/cashier" element={<Cashier />} />
 					<Route path="*" element={<ErrorPage />} />
 				</Routes>
 			</UserProvider>

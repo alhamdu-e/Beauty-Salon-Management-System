@@ -1,4 +1,3 @@
-
 let ElasticEmail = require("@elasticemail/elasticemail-client");
 const key = process.env.API_KEY;
 let defaultClient = ElasticEmail.ApiClient.instance;

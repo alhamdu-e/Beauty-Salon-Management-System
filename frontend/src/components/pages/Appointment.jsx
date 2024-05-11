@@ -26,6 +26,21 @@ function Appointment(props) {
 	const [isTimeToClose, setIsTimeToClosed] = useState(false);
 	const [isOverlap, setIsOverlap] = useState(false);
 	const [ratings, setRating] = useState([]);
+	const [paywithStripe, setPayWithStrope] = useState(false);
+	const [isChakedHalfePayment, setIsChekedHalfPayment] = useState(false);
+	const [showFirst, setShowFirst] = useState(false);
+	const [showsecond, setShowsecond] = useState(false);
+	const [isConditionCheked, setisConditionCheked] = useState(false);
+	const [isErr, setisErr] = useState(false);
+
+	const handleCheckboxChangeHalf = () => {
+		setIsChekedHalfPayment(!isChakedHalfePayment);
+	};
+	const handleCheckboxCOndition = () => {
+		setisConditionCheked(!isConditionCheked);
+	};
+
+	const [servicePrice, setServicePrice] = useState(props.servicePrice);
 
 	const navigate = useNavigate();
 
@@ -38,6 +53,14 @@ function Appointment(props) {
 		setShowPopup(!showPopup);
 	};
 
+	useEffect(() => {
+		if (isChakedHalfePayment) {
+			setServicePrice(props.servicePrice * 0.5);
+		}
+		if (!isChakedHalfePayment) {
+			setServicePrice(props.servicePrice);
+		}
+	}, [isChakedHalfePayment]);
 	// Create a new Date object
 	var currentDate = new Date();
 
@@ -329,7 +352,8 @@ function Appointment(props) {
 		lname: localStorage.getItem("userLName"),
 		email: localStorage.getItem("email"),
 		phone: localStorage.getItem("phone"),
-		amount: props.servicePrice,
+		amount: parseInt(servicePrice),
+		servicePrice: parseInt(props.servicePrice),
 	};
 
 	const localAppoint = [
@@ -465,8 +489,16 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 10 &&
 				NewMinutes === 45 &&
-				curreMinutes < 45 &&
-				curreMinutes > 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
+				currntHours === 10
+			) {
+				return true;
+			} else if (
+				newStartHour === 10 &&
+				NewMinutes === 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
 				currntHours === 10
 			) {
 				return true;
@@ -476,7 +508,7 @@ function Appointment(props) {
 			else if (
 				newStartHour === 11 &&
 				NewMinutes === 0 &&
-				curreMinutes > 30 &&
+				curreMinutes >= 30 &&
 				currntHours === 10
 			) {
 				return true;
@@ -489,14 +521,14 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 11 &&
 				NewMinutes === 15 &&
-				curreMinutes > 45 &&
+				curreMinutes >= 45 &&
 				currntHours === 10
 			) {
 				return true;
 			} else if (
 				newStartHour === 11 &&
 				NewMinutes === 30 &&
-				curreMinutes < 30 &&
+				curreMinutes <= 30 &&
 				currntHours === 11
 			) {
 				return true;
@@ -510,8 +542,16 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 11 &&
 				NewMinutes === 45 &&
-				curreMinutes < 45 &&
-				curreMinutes > 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
+				currntHours === 11
+			) {
+				return true;
+			} else if (
+				newStartHour === 11 &&
+				NewMinutes === 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
 				currntHours === 11
 			) {
 				return true;
@@ -521,14 +561,14 @@ function Appointment(props) {
 			else if (
 				newStartHour === 12 &&
 				NewMinutes === 0 &&
-				curreMinutes > 30 &&
+				curreMinutes >= 30 &&
 				currntHours === 11
 			) {
 				return true;
 			} else if (
 				newStartHour === 12 &&
 				NewMinutes === 15 &&
-				curreMinutes > 45 &&
+				curreMinutes >= 45 &&
 				currntHours === 11
 			) {
 				return true;
@@ -541,7 +581,7 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 12 &&
 				NewMinutes === 30 &&
-				curreMinutes < 30 &&
+				curreMinutes <= 30 &&
 				currntHours === 12
 			) {
 				return true;
@@ -554,9 +594,17 @@ function Appointment(props) {
 				return true;
 			} else if (
 				newStartHour === 12 &&
+				NewMinutes === 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
+				currntHours === 12
+			) {
+				return true;
+			} else if (
+				newStartHour === 12 &&
 				NewMinutes === 45 &&
-				curreMinutes < 45 &&
-				curreMinutes > 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
 				currntHours === 12
 			) {
 				return true;
@@ -565,7 +613,7 @@ function Appointment(props) {
 			else if (
 				newStartHour === 1 &&
 				NewMinutes === 0 &&
-				curreMinutes > 30 &&
+				curreMinutes >= 30 &&
 				currntHours === 12
 			) {
 				return true;
@@ -578,14 +626,14 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 1 &&
 				NewMinutes === 15 &&
-				curreMinutes > 45 &&
+				curreMinutes >= 45 &&
 				currntHours === 12
 			) {
 				return true;
 			} else if (
 				newStartHour === 1 &&
 				NewMinutes === 30 &&
-				curreMinutes < 30 &&
+				curreMinutes <= 30 &&
 				currntHours === 13
 			) {
 				return true;
@@ -599,8 +647,16 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 1 &&
 				NewMinutes === 45 &&
-				curreMinutes < 45 &&
-				curreMinutes > 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
+				currntHours === 13
+			) {
+				return true;
+			} else if (
+				newStartHour === 1 &&
+				NewMinutes === 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
 				currntHours === 13
 			) {
 				return true;
@@ -609,7 +665,7 @@ function Appointment(props) {
 			else if (
 				newStartHour === 2 &&
 				NewMinutes === 0 &&
-				curreMinutes > 30 &&
+				curreMinutes >= 30 &&
 				currntHours === 13
 			) {
 				return true;
@@ -622,14 +678,14 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 2 &&
 				NewMinutes === 15 &&
-				curreMinutes > 45 &&
+				curreMinutes >= 45 &&
 				currntHours === 13
 			) {
 				return true;
 			} else if (
 				newStartHour === 2 &&
 				NewMinutes === 30 &&
-				curreMinutes < 30 &&
+				curreMinutes <= 30 &&
 				currntHours === 14
 			) {
 				return true;
@@ -643,8 +699,16 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 2 &&
 				NewMinutes === 45 &&
-				curreMinutes < 45 &&
-				curreMinutes > 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
+				currntHours === 14
+			) {
+				return true;
+			} else if (
+				newStartHour === 2 &&
+				NewMinutes === 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
 				currntHours === 14
 			) {
 				return true;
@@ -653,7 +717,7 @@ function Appointment(props) {
 			else if (
 				newStartHour === 3 &&
 				NewMinutes === 0 &&
-				curreMinutes > 30 &&
+				curreMinutes >= 30 &&
 				currntHours === 14
 			) {
 				return true;
@@ -666,14 +730,14 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 3 &&
 				NewMinutes === 15 &&
-				curreMinutes > 45 &&
+				curreMinutes >= 45 &&
 				currntHours === 14
 			) {
 				return true;
 			} else if (
 				newStartHour === 3 &&
 				NewMinutes === 30 &&
-				curreMinutes < 30 &&
+				curreMinutes <= 30 &&
 				currntHours === 15
 			) {
 				return true;
@@ -687,8 +751,16 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 3 &&
 				NewMinutes === 45 &&
-				curreMinutes < 45 &&
-				curreMinutes > 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
+				currntHours === 15
+			) {
+				return true;
+			} else if (
+				newStartHour === 3 &&
+				NewMinutes === 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
 				currntHours === 15
 			) {
 				return true;
@@ -697,7 +769,7 @@ function Appointment(props) {
 			else if (
 				newStartHour === 4 &&
 				NewMinutes === 0 &&
-				curreMinutes > 30 &&
+				curreMinutes >= 30 &&
 				currntHours === 15
 			) {
 				return true;
@@ -710,14 +782,14 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 4 &&
 				NewMinutes === 15 &&
-				curreMinutes > 45 &&
+				curreMinutes >= 45 &&
 				currntHours === 15
 			) {
 				return true;
 			} else if (
 				newStartHour === 4 &&
 				NewMinutes === 30 &&
-				curreMinutes < 30 &&
+				curreMinutes <= 30 &&
 				currntHours === 16
 			) {
 				return true;
@@ -731,8 +803,16 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 4 &&
 				NewMinutes === 45 &&
-				curreMinutes < 45 &&
-				curreMinutes > 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
+				currntHours === 16
+			) {
+				return true;
+			} else if (
+				newStartHour === 4 &&
+				NewMinutes === 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
 				currntHours === 16
 			) {
 				return true;
@@ -741,7 +821,7 @@ function Appointment(props) {
 			else if (
 				newStartHour === 5 &&
 				NewMinutes === 0 &&
-				curreMinutes > 30 &&
+				curreMinutes >= 30 &&
 				currntHours === 16
 			) {
 				return true;
@@ -750,14 +830,14 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 5 &&
 				NewMinutes === 15 &&
-				curreMinutes > 45 &&
+				curreMinutes >= 45 &&
 				currntHours === 16
 			) {
 				return true;
 			} else if (
 				newStartHour === 5 &&
 				NewMinutes === 30 &&
-				curreMinutes < 30 &&
+				curreMinutes <= 30 &&
 				currntHours === 17
 			) {
 				return true;
@@ -771,8 +851,16 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 5 &&
 				NewMinutes === 45 &&
-				curreMinutes < 45 &&
-				curreMinutes > 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
+				currntHours === 17
+			) {
+				return true;
+			} else if (
+				newStartHour === 5 &&
+				NewMinutes === 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
 				currntHours === 17
 			) {
 				return true;
@@ -781,7 +869,7 @@ function Appointment(props) {
 			else if (
 				newStartHour === 6 &&
 				NewMinutes === 0 &&
-				curreMinutes > 30 &&
+				curreMinutes >= 30 &&
 				currntHours === 17
 			) {
 				return true;
@@ -790,14 +878,14 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 6 &&
 				NewMinutes === 15 &&
-				curreMinutes > 45 &&
+				curreMinutes >= 45 &&
 				currntHours === 17
 			) {
 				return true;
 			} else if (
 				newStartHour === 6 &&
 				NewMinutes === 30 &&
-				curreMinutes < 30 &&
+				curreMinutes <= 30 &&
 				currntHours === 18
 			) {
 				return true;
@@ -811,8 +899,16 @@ function Appointment(props) {
 			} else if (
 				newStartHour === 6 &&
 				NewMinutes === 45 &&
-				curreMinutes < 45 &&
-				curreMinutes > 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
+				currntHours === 18
+			) {
+				return true;
+			} else if (
+				newStartHour === 6 &&
+				NewMinutes === 15 &&
+				curreMinutes <= 45 &&
+				curreMinutes >= 15 &&
 				currntHours === 18
 			) {
 				return true;
@@ -829,6 +925,20 @@ function Appointment(props) {
 		const validateTime = () => {
 			// Validation for time passed check
 			if (currntHours === 10 && newStartHour === 9) {
+				return true;
+			}
+			if (
+				currntHours === 9 &&
+				newStartHour === 9 &&
+				curreMinutes > NewMinutes
+			) {
+				return true;
+			}
+			if (
+				currntHours === 10 &&
+				newStartHour === 10 &&
+				curreMinutes > NewMinutes
+			) {
 				return true;
 			} else if (
 				currntHours === 11 &&
@@ -965,269 +1075,420 @@ function Appointment(props) {
 			setErrTime(false);
 		}
 		// Check for overlapping appointments
-		const overlappingAppointments = appointmetDate.filter((appointment) => {
-			// Format the stored appointment date and time
-			const storedAppointmentDate = appointment.appointmentDate;
-			const storedAppointmentStartTime = appointment.startTime;
-			const storedAppointmentEndTime = appointment.endTime;
 
-			let storedMeridian = storedAppointmentEndTime.slice(-2);
+		function fiiletr() {
+			const overlappingAppointments = appointmetDate.filter((appointment) => {
+				// Format the stored appointment date and time
+				const storedAppointmentDate = appointment.appointmentDate;
+				const storedAppointmentStartTime = appointment.startTime;
+				const storedAppointmentEndTime = appointment.endTime;
 
-			let NewMeridian = startTime.slice(-2);
-			if (storedAppointmentEndTime.length === 8) {
-				storedEndHour = parseInt(storedAppointmentEndTime.substring(0, 2));
-				storedStartHour = parseInt(storedAppointmentStartTime.substring(0, 2));
+				let storedMeridian = storedAppointmentEndTime.slice(-2);
 
-				storedMinutes = parseInt(storedAppointmentEndTime.substring(3, 5));
-				storedStartMinutes = parseInt(
-					storedAppointmentStartTime.substring(3, 5)
-				);
-			}
-			if (storedAppointmentEndTime.length === 7) {
-				storedEndHour = parseInt(storedAppointmentEndTime.substring(0, 1));
-				storedStartHour = parseInt(storedAppointmentStartTime.substring(0, 1));
+				let NewMeridian = startTime.slice(-2);
+				if (storedAppointmentEndTime.length === 8) {
+					storedEndHour = parseInt(storedAppointmentEndTime.substring(0, 2));
+					storedStartHour = parseInt(
+						storedAppointmentStartTime.substring(0, 2)
+					);
 
-				storedMinutes = parseInt(storedAppointmentEndTime.substring(2, 4));
-				storedStartMinutes = parseInt(
-					storedAppointmentStartTime.substring(2, 4)
-				);
-			}
+					storedMinutes = parseInt(storedAppointmentEndTime.substring(3, 5));
+					storedStartMinutes = parseInt(
+						storedAppointmentStartTime.substring(3, 5)
+					);
+				}
+				if (storedAppointmentEndTime.length === 7) {
+					storedEndHour = parseInt(storedAppointmentEndTime.substring(0, 1));
+					storedStartHour = parseInt(
+						storedAppointmentStartTime.substring(0, 1)
+					);
 
-			// Check if the selected time slot overlaps with the current appointment
-			return (
-				(storedAppointmentDate === date &&
+					storedMinutes = parseInt(storedAppointmentEndTime.substring(2, 4));
+					storedStartMinutes = parseInt(
+						storedAppointmentStartTime.substring(2, 4)
+					);
+				}
+
+				if (
+					storedAppointmentDate === date &&
 					storedAppointmentStartTime === startTime &&
-					storedAppointmentEndTime === endTime) ||
-				currntHours < newStartHour ||
-				(date === storedAppointmentDate &&
+					storedAppointmentEndTime === endTime
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedStartHour === newEndHour &&
-					NewEndMinutes <= storedStartMinutes) ||
-				(date === storedAppointmentDate &&
+					NewEndMinutes <= storedStartMinutes
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 10 &&
-					newStartHour === 9) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 9
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 10 &&
 					NewMinutes < storedMinutes &&
-					newStartHour === 10) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 10
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 11 &&
-					(newStartHour === 10 || (newStartHour === 9 && NewMinutes > 0))) ||
-				(date === storedAppointmentDate &&
+					(newStartHour === 10 || (newStartHour === 9 && NewMinutes > 0))
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 11 &&
 					NewMinutes < storedMinutes &&
-					newStartHour === 11) ||
-				(storedEndHour === 12 &&
+					newStartHour === 11
+				) {
+					return true;
+				} else if (
+					storedEndHour === 12 &&
 					date === storedAppointmentDate &&
-					(newStartHour === 11 || (newStartHour === 10 && NewMinutes > 0))) ||
-				(storedEndHour === 12 &&
+					(newStartHour === 11 || (newStartHour === 10 && NewMinutes > 0))
+				) {
+					return true;
+				} else if (
+					storedEndHour === 12 &&
 					date === storedAppointmentDate &&
 					NewMinutes < storedMinutes &&
-					newStartHour === 12) ||
-				(storedEndHour === 1 &&
+					newStartHour === 12
+				) {
+					return true;
+				} else if (
+					storedEndHour === 1 &&
 					date === storedAppointmentDate &&
-					(newStartHour === 12 || (newStartHour === 11 && NewMinutes > 0))) ||
-				(storedEndHour === 1 &&
+					(newStartHour === 12 || (newStartHour === 11 && NewMinutes > 0))
+				) {
+					return true;
+				} else if (
+					storedEndHour === 1 &&
 					date === storedAppointmentDate &&
 					newStartHour === 1 &&
 					NewMinutes < storedMinutes &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour === 2 &&
+					storedMeridian === NewMeridian
+				) {
+					return true;
+				} else if (
+					storedEndHour === 2 &&
 					date === storedAppointmentDate &&
 					(newStartHour === 1 || (newStartHour === 12 && NewMinutes > 0)) &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour === 2 &&
+					storedMeridian === NewMeridian
+				) {
+					return true;
+				} else if (
+					storedEndHour === 2 &&
 					date === storedAppointmentDate &&
 					newStartHour === 2 &&
 					NewMinutes < storedMinutes &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour === 3 &&
+					storedMeridian === NewMeridian
+				) {
+					return true;
+				} else if (
+					storedEndHour === 3 &&
 					date === storedAppointmentDate &&
 					(newStartHour === 2 || (newStartHour === 1 && NewMinutes > 0)) &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour === 3 &&
+					storedMeridian === NewMeridian
+				) {
+					return true;
+				} else if (
+					storedEndHour === 3 &&
 					date === storedAppointmentDate &&
 					newStartHour === 3 &&
 					NewMinutes < storedMinutes &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour === 4 &&
+					storedMeridian === NewMeridian
+				) {
+					return true;
+				} else if (
+					storedEndHour === 4 &&
 					date === storedAppointmentDate &&
 					(newStartHour === 3 || (newStartHour === 2 && NewMinutes > 0)) &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour === 4 &&
+					storedMeridian === NewMeridian
+				) {
+					return true;
+				} else if (
+					storedEndHour === 4 &&
 					date === storedAppointmentDate &&
 					newStartHour === 4 &&
 					NewMinutes < storedMinutes &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour === 5 &&
+					storedMeridian === NewMeridian
+				) {
+					return true;
+				} else if (
+					storedEndHour === 5 &&
 					date === storedAppointmentDate &&
 					(newStartHour === 4 || (newStartHour === 3 && NewMinutes > 0)) &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour === 5 &&
+					storedMeridian === NewMeridian
+				) {
+					return true;
+				} else if (
+					storedEndHour === 5 &&
 					date === storedAppointmentDate &&
 					newStartHour === 5 &&
 					NewMinutes < storedMinutes &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour === 6 &&
+					storedMeridian === NewMeridian
+				) {
+					return true;
+				} else if (
+					storedEndHour === 6 &&
 					date === storedAppointmentDate &&
 					(newStartHour === 5 || (newStartHour === 4 && NewMinutes > 0)) &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour === 6 &&
+					storedMeridian === NewMeridian
+				) {
+					return true;
+				} else if (
+					storedEndHour === 6 &&
 					date === storedAppointmentDate &&
 					newStartHour === 6 &&
 					NewMinutes < storedMinutes &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour === 7 &&
+					storedMeridian === NewMeridian
+				) {
+					return true;
+				} else if (
+					storedEndHour === 7 &&
 					date === storedAppointmentDate &&
 					(newStartHour === 6 || (newStartHour === 5 && NewMinutes > 0)) &&
-					storedMeridian === NewMeridian) ||
-				(storedEndHour === 7 &&
+					storedMeridian === NewMeridian
+				) {
+					return true;
+				} else if (
+					storedEndHour === 7 &&
 					date === storedAppointmentDate &&
 					newStartHour === 7 &&
 					NewMinutes < storedMinutes &&
-					storedMeridian === NewMeridian) ||
-				(date === storedAppointmentDate &&
+					storedMeridian === NewMeridian
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 11 &&
 					timeDifference &&
-					(newStartHour === 9 || newStartHour === 10)) ||
-				(date === storedAppointmentDate &&
+					(newStartHour === 9 || newStartHour === 10)
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 11 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour === 11) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 11
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedEndHour === 12 &&
 					timeDifference &&
-					(newStartHour === 11 || newStartHour === 10)) ||
-				(date === storedAppointmentDate &&
+					(newStartHour === 11 || newStartHour === 10)
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedEndHour === 12 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour === 9) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 9
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedEndHour === 12 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour === 12) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 12
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedEndHour === 1 &&
 					timeDifference &&
-					(newStartHour === 11 || newStartHour === 12)) ||
-				(date === storedAppointmentDate &&
+					(newStartHour === 11 || newStartHour === 12)
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedEndHour === 1 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour === 10) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 10
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedEndHour === 1 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour === 1) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 1
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 2 &&
 					timeDifference &&
-					(newStartHour === 1 || newStartHour === 12)) ||
-				(date === storedAppointmentDate &&
+					(newStartHour === 1 || newStartHour === 12)
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedEndHour === 2 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour === 11) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 11
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 2 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour === 2) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 2
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 3 &&
 					timeDifference &&
-					(newStartHour === 1 || newStartHour === 2)) ||
-				(date === storedAppointmentDate &&
+					(newStartHour === 1 || newStartHour === 2)
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedEndHour === 3 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour === 12) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 12
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 3 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour === 3) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 3
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 4 &&
 					timeDifference &&
-					(newStartHour === 3 || newStartHour === 2)) ||
-				(date === storedAppointmentDate &&
+					(newStartHour === 3 || newStartHour === 2)
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedEndHour === 4 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour === 1) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 1
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 4 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour === 4) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 4
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 5 &&
 					timeDifference &&
-					(newStartHour === 3 || newStartHour === 4)) ||
-				(date === storedAppointmentDate &&
+					(newStartHour === 3 || newStartHour === 4)
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedEndHour === 5 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour === 2) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 2
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 5 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour === 5) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 5
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 6 &&
 					timeDifference &&
-					(newStartHour === 4 || newStartHour === 5)) ||
-				(date === storedAppointmentDate &&
+					(newStartHour === 4 || newStartHour === 5)
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedEndHour === 6 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour === 3) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 3
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 6 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour === 6) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 6
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 7 &&
 					timeDifference &&
-					(newStartHour === 5 || newStartHour === 6)) ||
-				(date === storedAppointmentDate &&
+					(newStartHour === 5 || newStartHour === 6)
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedEndHour === 7 &&
 					timeDifference &&
 					startTimeDifference &&
-					newStartHour === 4) ||
-				(date === storedAppointmentDate &&
+					newStartHour === 4
+				) {
+					return true;
+				} else if (
+					date === storedAppointmentDate &&
 					storedMeridian === NewMeridian &&
 					storedEndHour === 7 &&
 					timeDifference &&
 					NewMinutes < storedMinutes &&
-					newStartHour === 7)
-			);
-		});
-
-		if (overlappingAppointments.length > 0) {
+					newStartHour === 7
+				) {
+					return true;
+				} else {
+					return false;
+				}
+			});
+			return overlappingAppointments;
+		}
+		console.log(fiiletr());
+		if (fiiletr().length > 0) {
 			setIsOverlap(true);
 			handleShowPopup();
 			return;
@@ -1247,7 +1508,18 @@ function Appointment(props) {
 		localStorage.setItem("appointDate", date);
 		localStorage.setItem("startTime", startTime);
 		localStorage.setItem("endtime", endTime);
+		localStorage.setItem("serviccePrice", parseInt(props.servicePrice));
 
+		setShowFirst(true);
+	};
+	const handlePayment = async (event) => {
+		event.preventDefault();
+		const reamining = parseInt(props.servicePrice) - parseInt(servicePrice);
+		localStorage.setItem("remaining", reamining);
+		if (!isConditionCheked) {
+			setisErr(true);
+			return;
+		}
 		try {
 			const response = await fetch(
 				"http://127.0.0.1:5000/appointment/payment",
@@ -1259,26 +1531,13 @@ function Appointment(props) {
 			);
 			if (response.ok) {
 				const paymentData = await response.json();
-				window.open(paymentData.url, "_blank");
+				window.location.replace(paymentData.url);
 				localStorage.setItem("Appref", paymentData.ref);
 			} else {
-				navigate("/serverError", { replace: true });
+				navigate("/serverError", { replace: false });
 			}
-			// 	fetch(
-			// 		`http://127.0.0.1:5000/profesionalAppointed/${selectedProfessionalId}`,
-			// 		{
-			// 			method: "GET",
-			// 		}
-			// 	)
-			// 		.then((response) => response.json())
-			// 		.then((data) => {
-			// 			setAppointmentDate(data);
-			// 		});
-			// } else {
-			// 	console.log("user not registered", response.statusText);
-			// }
 		} catch (error) {
-			console.log(error);
+			navigate("/serverError", { replace: false });
 		}
 	};
 	const totalRating = ratings.reduce(
@@ -1372,7 +1631,11 @@ function Appointment(props) {
 							<input type="text" value={endTime} readOnly className="input" />
 						</div>
 						<div>
-							<button className="appointmentform-button">Appoint Now</button>
+							<button
+								className="appointmentform-button"
+								onClick={() => setPayWithStrope(false)}>
+								Appoint Now
+							</button>
 						</div>
 					</div>
 				</form>
@@ -1433,19 +1696,15 @@ function Appointment(props) {
 									</tr>
 								</thead>
 								{appointmetDate.length > 0 &&
-									appointmetDate
-										.filter((appointData) => {
-											return appointData.appointmentDate == formattedDate;
-										})
-										.map((appointData) => (
-											<>
-												<tr className="th" key={appointData.id}>
-													<td className="td">{appointData.appointmentDate}</td>
-													<td className="td">{appointData.startTime}</td>
-													<td className="td">{appointData.endTime}</td>
-												</tr>
-											</>
-										))}
+									appointmetDate.map((appointData) => (
+										<>
+											<tr className="th" key={appointData.id}>
+												<td className="td">{appointData.appointmentDate}</td>
+												<td className="td">{appointData.startTime}</td>
+												<td className="td">{appointData.endTime}</td>
+											</tr>
+										</>
+									))}
 							</table>
 						</div>
 					)}
@@ -1467,6 +1726,148 @@ function Appointment(props) {
 						{isTimeToClose && (
 							<p>You Can't Make Appointment The Time is To Close Now.</p>
 						)}
+					</div>
+				</div>
+			)}
+			{showFirst && (
+				<div className="popup-container">
+					<div className="popup" style={{ textAlign: "left" }}>
+						<h2>Appointment Data</h2>
+						<table className="apooointment-table" style={{ width: "400px" }}>
+							<thead>
+								<tr className="th">
+									<th className="th">Date</th>
+									<th className="th">Start time</th>
+									<th className="th">end Time</th>
+								</tr>
+							</thead>
+							<tr className="th">
+								<td className="td">{localStorage.getItem("appointDate")}</td>
+								<td className="td">{localStorage.getItem("startTime")}</td>
+								<td className="td">{localStorage.getItem("endtime")}</td>
+							</tr>
+						</table>
+
+						<>
+							<input
+								type="checkbox"
+								checked={isChakedHalfePayment}
+								onChange={handleCheckboxChangeHalf}
+							/>
+							 <label for="css">Half Payment</label>
+						</>
+
+						<p style={{ marginTop: "12px" }}>Price:{servicePrice}</p>
+						<button
+							style={{
+								display: "block",
+								border: "none",
+								backgroundColor: "rgb(0, 116, 0)",
+								padding: "1rem 1.2rem",
+								color: "white",
+								borderRadius: "12px",
+								margin: "auto",
+								marginTop: "30px",
+								marginLeft: "auto",
+							}}
+							onClick={() => {
+								setShowFirst(false);
+								setShowsecond(true);
+							}}>
+							Next
+						</button>
+					</div>
+				</div>
+			)}
+			{showsecond && (
+				<div className="popup-container">
+					<div className="popup" style={{ textAlign: "left" }}>
+						<h2>Rules And Regulation</h2>
+						<p
+							style={{
+								marginTop: "10px",
+								fontSize: "15px",
+								color: "rgb(97, 96, 96)",
+							}}>
+							1.Customers forfeit 30% of the payment for appointment
+							cancellations
+						</p>
+						<p
+							style={{
+								marginTop: "10px",
+								fontSize: "15px",
+								color: "rgb(97, 96, 96)",
+							}}>
+							2.Customers are not allowed to cancel appointments when there are
+							2 days (48 hours) or less remaining until the scheduled
+							appointment time.
+						</p>
+						<p
+							style={{
+								marginTop: "10px",
+								fontSize: "15px",
+								color: "rgb(97, 96, 96)",
+							}}>
+							3.Customers who fail to attend a scheduled appointment without
+							prior notice will be considered a "no-show" and no refund for
+							them.
+						</p>
+						<p
+							style={{
+								marginTop: "10px",
+								fontSize: "15px",
+								color: "rgb(97, 96, 96)",
+								marginBottom: "20px",
+							}}>
+							4.The salon ensures the protection and confidentiality of customer
+							data in accordance with applicable privacy laws and regulations.
+						</p>
+						<input
+							type="checkbox"
+							checked={isConditionCheked}
+							onChange={handleCheckboxCOndition}
+						/>
+						 <label for="css">I Agree with Terms And Condition</label>
+						{isErr && (
+							<p style={{ color: "red", marginTop: "10px" }}>
+								Please check the box
+							</p>
+						)}
+						<div>
+							<button
+								style={{
+									border: "none",
+									backgroundColor: "rgb(0, 116, 0)",
+									padding: "1rem 1.2rem",
+									color: "white",
+									borderRadius: "12px",
+									margin: "auto",
+									marginTop: "30px",
+									marginLeft: "100px",
+								}}
+								onClick={(event) => {
+									handlePayment(event);
+									setShowFirst(false);
+								}}>
+								Appoint
+							</button>
+							<button
+								style={{
+									border: "none",
+									backgroundColor: "rgb(241, 84, 105)",
+									padding: "1rem 1.2rem",
+									color: "white",
+									borderRadius: "12px",
+									margin: "auto",
+									marginTop: "30px",
+									marginLeft: "30px",
+								}}
+								onClick={() => {
+									setShowsecond(false);
+								}}>
+								Cancel
+							</button>
+						</div>
 					</div>
 				</div>
 			)}

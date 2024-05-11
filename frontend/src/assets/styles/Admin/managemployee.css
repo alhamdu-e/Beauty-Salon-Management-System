@@ -79,6 +79,18 @@ th {
 tr:hover {
 	background-color: #110818;
 }
+.tr:hover {
+	background-color: transparent;
+}
+.tr {
+	font-weight: 600;
+}
+.th {
+	border: 1px solid rgb(43, 39, 39);
+}
+.td {
+	border: 1px solid rgb(54, 52, 52);
+}
 button {
 	cursor: pointer;
 }

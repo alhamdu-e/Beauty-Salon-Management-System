@@ -62,24 +62,9 @@ function Order(props) {
 			naviaget("/serverError", { replace: true });
 		}
 	};
-	const handleChangeStatus = async (orderid) => {
-		const response = await fetch(`http://127.0.0.1:5000/order/${orderid}`, {
-			method: "put",
-			headers: {
-				"Content-type": "Application/json",
-			},
-		});
-		if (response.ok) {
-			const data = await response.json();
-			const sortedOrderInfo = [...data].sort(compareStatus);
-			setOrderInfo(sortedOrderInfo);
-		} else {
-			naviaget("/serverError", { replace: true });
-		}
-	};
 
 	const compareStatus = (a, b) => {
-		let statusOrder = { ["pending"]: 1, ["Completed"]: 2 };
+		let statusOrder = { ["Pending"]: 1, ["Completed"]: 2 };
 
 		return statusOrder[a.status] - statusOrder[b.status];
 	};
@@ -176,28 +161,15 @@ function Order(props) {
 								<td>
 									<button
 										className="action delete"
+										disabled={data.status == "Pending"}
+										style={{
+											cursor: data.status == "Pending" ? "not-allowed" : "",
+										}}
 										onClick={() => {
 											setOrderId(data.order_id);
 											setShowDelete(true);
 										}}>
 										Delete
-									</button>
-								</td>
-								<td>
-									<button
-										className="action"
-										style={{
-											backgroundColor:
-												data.status === "Completed" ? "#1bb184" : "",
-											width: "100%",
-											fontWeight: 600,
-											cursor: data.status === "Completed" ? "not-allowed" : "",
-										}}
-										onClick={() => {
-											handleChangeStatus(data.order_id);
-										}}
-										disabled={data.status === "Completed"}>
-										Complete Order
 									</button>
 								</td>
 							</tr>
@@ -209,7 +181,7 @@ function Order(props) {
 				<>
 					<div className="popup-container">
 						<div className="popup">
-							<p style={{ marginTop: "0px", marginBottom: "20px" }}>
+							<p style={{ marginTop: "0px", marginBottom: "30px" }}>
 								Do You Want To Delete The Order?
 							</p>
 							<span
@@ -227,6 +199,21 @@ function Order(props) {
 								}}>
 								{" "}
 								Yes
+							</span>
+							<span
+								className="check-mark"
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									backgroundColor: "#67ac26",
+									marginLeft: "30px",
+								}}
+								onClick={() => {
+									setShowDelete(false);
+								}}>
+								{" "}
+								No
 							</span>
 						</div>
 					</div>

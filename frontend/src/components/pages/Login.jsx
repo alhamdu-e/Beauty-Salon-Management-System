@@ -44,6 +44,7 @@ function Login() {
 				headers: { "Content-Type": "application/json" },
 			});
 
+			console.log(response);
 			if (response) {
 				const data = await response.json();
 
@@ -101,9 +102,9 @@ function Login() {
 							data.profesionalResult[0].password
 						);
 
-						navigate("/Professionalappoin", { replace: true });
+						navigate("/Cashier", { replace: true });
 					}
-				} else if (response.status === 404) {
+				} else if (response.status == 404) {
 					setUserExist(true);
 				}
 			} else {
@@ -124,6 +125,9 @@ function Login() {
 						margin: "auto",
 						color: "red",
 						fontSize: "2rem",
+						marginBottom: "100px",
+						zIndex: 6,
+						position: "relative",
 					}}>
 					Incorrect Password or Email!
 				</h3>

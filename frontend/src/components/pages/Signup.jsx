@@ -16,6 +16,7 @@ function Signup() {
 	const [errorMessage, setErrMessage] = useState(false);
 	const [showpassword, setshowpassword] = useState(false);
 	const [showConifermpassword, setshowConifermpassword] = useState(false);
+	const [isemailFake, setFake] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -66,7 +67,7 @@ function Signup() {
 		if (!age) {
 			errors.age = "Age is required";
 		} else if (age < 15 || age > 70) {
-			errors.age = "Age must be between 4 and 120.";
+			errors.age = "Age must be between 15 and 70.";
 		}
 		if (!email) {
 			errors.email = "Email is required";
@@ -102,63 +103,55 @@ function Signup() {
 		setValidationErrors(errors);
 		return Object.keys(errors).length === 0;
 	};
-	const IsFake = async (email) => {
-		try {
-			const response = await fetch(
-				`https://api.hunter.io/v2/email-verifier?email=${email}&api_key=c0246f4d073a8f50526bf28b8113a6190da1e765`
-			);
-			const data = await response.json();
-			console.log(data);
-			if (data.data.result === "deliverable") {
-				return false; // Not fake
-			} else {
-				return true; // Fake
-			}
-		} catch (error) {
-			console.error("Error verifying email:", error);
-			// Handle error
-			throw error; // Throw the error for handling in the caller
-		}
-	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const checkEmail = async () => {
-			const result = await IsFake("shd@gmail.com");
-			return result;
-		};
+		setErrMessage(false);
+		setValidationErrors({});
+		setFake(false);
 
 		if (validateForm()) {
 			setValidationErrors({});
-			if (checkEmail()) {
-				errors.email = "The Email Address is invalid or fake";
-				setValidationErrors(errors);
-				return false;
+			try {
+				const response = await fetch(
+					`https://api.hunter.io/v2/email-verifier?email=${email}&api_key=c0246f4d073a8f50526bf28b8113a6190da1e765`
+				);
+				const data = await response.json();
+				console.log(data.data.result);
+				if (data.data.result === "deliverable") {
+					setFake(false);
+					const signupForm = {
+						fname,
+						lname,
+						email,
+						phone,
+						adress,
+						age,
+						password,
+					};
+
+					const response = await fetch("http://127.0.0.1:5000/signup", {
+						method: "POST",
+						body: JSON.stringify(signupForm),
+						headers: { "Content-Type": "application/json" },
+					});
+
+					if (response.ok) {
+						navigate("/login");
+					} else if (response.status === 400) {
+						setErrMessage(true);
+					} else {
+						navigate("/serverError");
+					}
+				} else {
+					setFake(true);
+				}
+			} catch (error) {
+				console.error("Error verifying email:", error);
+				// Handle error
+				throw error; // Throw the error for handling in the caller
 			}
 			try {
-				const signupForm = {
-					fname,
-					lname,
-					email,
-					phone,
-					adress,
-					age,
-					password,
-				};
-
-				const response = await fetch("http://127.0.0.1:5000/signup", {
-					method: "POST",
-					body: JSON.stringify(signupForm),
-					headers: { "Content-Type": "application/json" },
-				});
-
-				if (response.ok) {
-					navigate("/login");
-				} else if (response.status === 400) {
-					setErrMessage(true);
-				} else {
-					navigate("/serverError");
-				}
 			} catch (error) {
 				console.log(error);
 			}
@@ -230,6 +223,11 @@ function Signup() {
 								/>
 								{validationErrors.email && (
 									<span className="error">{validationErrors.email}</span>
+								)}
+								{isemailFake && (
+									<span className="error">
+										The Email Is Fake or Undeliverable
+									</span>
 								)}
 							</div>
 							<div>

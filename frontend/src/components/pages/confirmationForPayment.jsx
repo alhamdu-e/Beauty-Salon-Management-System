@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../../assets/styles/confirmation.css";
 import { Link } from "react-router-dom";
 import { useCartContext } from "../../context/cartcontext";
@@ -20,6 +20,11 @@ export default function Confirmation() {
 		localStorage.removeItem("cart");
 		setItems([]);
 	}, []);
+
+	const [showFeedBack, setShowFeedBack] = useState(true);
+	const [show, setShow] = useState(false);
+	const [thanksMessage, setThanksMessage] = useState(false);
+	const [feedback, setFeedback] = useState("");
 	const currentDate = new Date();
 	const day = currentDate.getDate();
 	const month = currentDate.getMonth() + 1; // Adding 1 because getMonth() returns zero-based month index
@@ -28,7 +33,11 @@ export default function Confirmation() {
 	// Ensure day and month have leading zeros if needed
 	const formattedDay = day < 10 ? "0" + day : day;
 	const formattedMonth = month < 10 ? "0" + month : month;
-
+	if (thanksMessage) {
+		setTimeout(() => {
+			setThanksMessage(false);
+		}, 3000);
+	}
 	const formattedDate = `${formattedDay}-${formattedMonth}-${year}`;
 
 	const style = StyleSheet.create({
@@ -111,6 +120,28 @@ export default function Confirmation() {
 			height: "200px",
 		},
 	});
+
+	const handleFeedBack = async (event) => {
+		event.preventDefault();
+		if (!feedback.trim()) {
+			setShow(true);
+			return;
+		}
+		const response = await fetch("http://127.0.0.1:5000/overallfeedback", {
+			method: "post",
+			headers: {
+				"Content-type": "Application/json",
+			},
+			body: JSON.stringify({ feedback }),
+		});
+		if (response.ok) {
+			setThanksMessage(true);
+			setShowFeedBack(false);
+		} else {
+			setShowFeedBack(false);
+			// naviaget("/serverError", { replace: true });
+		}
+	};
 	const MyDocument = () => (
 		<Document>
 			<Page>
@@ -118,7 +149,7 @@ export default function Confirmation() {
 
 				<Text style={style.sucessconfirm}>Payment successful!</Text>
 				<Text style={style.detailconfirm}>
-					Detail of Transaction Are Information
+					Detail of Transaction Information
 				</Text>
 
 				<Text style={style.confirmprice}>
@@ -140,7 +171,7 @@ export default function Confirmation() {
 					{localStorage.getItem("totalQuantity")}
 				</Text>
 				<Text style={style.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Transaction Ref:</Text>
+					<Text style={{ fontWeight: 600 }}>Transaction Id:</Text>
 					{localStorage.getItem("ref")}
 				</Text>
 				<Text style={style.confirmprice}>
@@ -188,7 +219,7 @@ export default function Confirmation() {
 					{localStorage.getItem("totalQuantity")}
 				</Text>
 				<Text style={styles.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Transaction Ref:</Text>
+					<Text style={{ fontWeight: 600 }}>Transaction Id:</Text>
 					{localStorage.getItem("ref")}
 				</Text>
 				<Text style={styles.confirmprice}>
@@ -209,43 +240,112 @@ export default function Confirmation() {
 	);
 
 	return (
-		<div className="container-confirm">
-			<div
-				style={{
-					backgroundColor: " rgb(243, 232, 232)",
-					padding: "40px",
-					borderRadius: "20px",
-				}}>
-				<MyDocument />
-				<Link
-					to="/"
-					className="gohome"
-					onClick={() => {
-						localStorage.removeItem("totalPrice");
-						localStorage.removeItem("totalQuantity");
-						localStorage.removeItem("ref");
-					}}>
-					{" "}
-					Go to Home
-				</Link>
-				<PDFDownloadLink
-					document={<MyDocumens />}
-					fileName="confirmation.pdf"
+		<div>
+			<div className="container-confirm">
+				<div
 					style={{
-						color: "rgb(248, 248, 248)",
-						border: "none",
-						backgroundColor: "rgb(97, 37, 3)",
-						marginTop: "20px",
-						padding: "12px",
-						marginLeft: "20px",
-						borderRadius: "8px",
-						fontSize: "14px",
+						backgroundColor: " rgb(243, 232, 232)",
+						padding: "40px",
+						borderRadius: "20px",
 					}}>
-					{({ blob, url, loading, error }) =>
-						loading ? "Loading document..." : "Download PDF"
-					}
-				</PDFDownloadLink>
+					<MyDocument />
+					<Link
+						to="/"
+						className="gohome"
+						onClick={() => {
+							localStorage.removeItem("totalPrice");
+							localStorage.removeItem("totalQuantity");
+							localStorage.removeItem("ref");
+						}}>
+						{" "}
+						Go to Home
+					</Link>
+					<PDFDownloadLink
+						document={<MyDocumens />}
+						fileName="confirmation.pdf"
+						style={{
+							color: "rgb(248, 248, 248)",
+							border: "none",
+							backgroundColor: "rgb(97, 37, 3)",
+							marginTop: "20px",
+							padding: "12px",
+							marginLeft: "20px",
+							borderRadius: "8px",
+							fontSize: "14px",
+						}}>
+						{({ blob, url, loading, error }) =>
+							loading ? "Loading document..." : "Download PDF"
+						}
+					</PDFDownloadLink>
+				</div>
 			</div>
+			{showFeedBack && (
+				<div className="popup-container bck">
+					<div className="popup">
+						{show && (
+							<p
+								style={{ marginTop: "0px", marginBottom: "6px", color: "red" }}>
+								Please fill the form
+							</p>
+						)}
+						<form action="">
+							<p style={{ marginTop: "0px", marginBottom: "6px" }}>
+								Please Give Us FeedBack
+							</p>
+							<textarea
+								name=""
+								id=""
+								required
+								cols="35"
+								rows="7"
+								style={{ display: "block", marginBottom: "10px" }}
+								className="overallfeedback"
+								onChange={(event) =>
+									setFeedback(event.target.value)
+								}></textarea>
+							<button
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									border: "none",
+									color: "#fff",
+									backgroundColor: "#3b7704",
+								}}
+								onClick={handleFeedBack}>
+								{" "}
+								Submit
+							</button>
+							<button
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									backgroundColor: "#773c04",
+									marginLeft: "30px",
+									border: "none",
+									color: "#fff",
+								}}
+								onClick={() => {
+									setShowFeedBack(false);
+								}}>
+								{" "}
+								Not Now
+							</button>
+						</form>
+					</div>
+				</div>
+			)}
+
+			{thanksMessage && (
+				<div className="popup-container bck">
+					<div className="popup">
+						<p style={{ marginTop: "0px", marginBottom: "6px" }}>
+							Thank You for Your FeedBack
+						</p>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

@@ -19,9 +19,10 @@ function EmailForResetPassword({ email, setEmail }) {
 			const response = await fetch(
 				`http://127.0.0.1:5000/resetemail?email=${email}`
 			);
-
-			if (response.ok) {
+			console.log(response);
+			if (response.status == 200) {
 				const data = await response.json();
+				console.log("data");
 				setEmail(data.email);
 				setVisiblity(true);
 				setUser(true);

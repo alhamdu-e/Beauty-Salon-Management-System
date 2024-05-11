@@ -2,10 +2,15 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/Autcontext";
 import { IoSearchSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
-function ViewAppointment() {
+function ViewAppointment(props) {
 	const { token } = useAuthContext();
 	const [searchTerm, setSearchTerm] = useState("");
+	const [showDelete, setShowDelete] = useState(false);
+	const naviaget = useNavigate();
+	const [appointmentId, setAppointmentId] = useState("");
+
 	const handleSearch = (e) => {
 		setSearchTerm(e.target.value);
 	};
@@ -35,6 +40,33 @@ function ViewAppointment() {
 		);
 		return TMatch;
 	});
+	const compareStatus = (a, b) => {
+		let statusOrder = {};
+
+		statusOrder = {
+			["In Progress"]: 2,
+			["Completed"]: 1,
+			["Canceled"]: 3,
+		};
+
+		return statusOrder[a.status] - statusOrder[b.status];
+	};
+
+	const handleDeleteOrder = async (id) => {
+		const response = await fetch(`http://127.0.0.1:5000/appointment/${id}`, {
+			method: "Delete",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		if (response.ok) {
+			const data = await response.json();
+			setAppointmentInfo(data);
+		} else {
+			naviaget("/serverError", { replace: true });
+		}
+	};
 	return (
 		<div className="view-appointment">
 			<div className="first">
@@ -65,10 +97,15 @@ function ViewAppointment() {
 					</thead>
 					<tbody>
 						{appointmentInfo.length === 0 && (
-							<h1 className="no">NO Appointment</h1>
+							<h1 className="no" style={{ fontSize: "35px" }}>
+								NO Appointment
+							</h1>
 						)}
-						{appointmentt?.map((data) => (
-							<tr>
+						{appointmentt?.sort(compareStatus).map((data) => (
+							<tr
+								style={{
+									backgroundColor: data.status === "Canceled" ? "#861602" : "",
+								}}>
 								<td>{data.appointmentDate}</td>
 								<td>{data.startTime}</td>
 								<td>{data.endTime}</td>
@@ -79,13 +116,68 @@ function ViewAppointment() {
 								<td>{data.status}</td>
 
 								<td>
-									<button className="action">Details</button>
+									<button
+										style={{
+											cursor:
+												data.status === "In Progress" ? "not-allowed" : "",
+										}}
+										className="action delete"
+										disabled={data.status == "In Progress"}
+										onClick={() => {
+											setAppointmentId(data.id);
+											setShowDelete(true);
+										}}>
+										Delete
+									</button>
 								</td>
 							</tr>
 						))}
 					</tbody>
 				</table>
 			</div>
+
+			{showDelete && (
+				<>
+					<div className="popup-container">
+						<div className="popup">
+							<p style={{ marginTop: "0px", marginBottom: "30px" }}>
+								Do You Want To Delete The Order?
+							</p>
+							<span
+								className="check-mark"
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									backgroundColor: "#ac2626",
+								}}
+								onClick={() => {
+									setShowDelete(false);
+									handleDeleteOrder(appointmentId);
+									props.handleShowPopup();
+								}}>
+								{" "}
+								Yes
+							</span>
+							<span
+								className="check-mark"
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									backgroundColor: "#67ac26",
+									marginLeft: "30px",
+								}}
+								onClick={() => {
+									setShowDelete(false);
+								}}>
+								{" "}
+								No
+							</span>
+						</div>
+					</div>
+				</>
+			)}
 		</div>
 	);
 }

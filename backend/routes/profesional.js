@@ -74,6 +74,13 @@ router.get("/customerappointment/:id", (req, res) => {
 	executeQuery(sql, [id], res);
 });
 
+router.get("/serviceInfo/:id", (req, res) => {
+	let id = req.params.id;
+	console.log(id);
+	const sql = "SELECT * FROM service where id = ? ";
+	executeQuery(sql, [id], res);
+});
+
 // ************************ update profesional photo ********************************
 
 router.post("/rating", (req, res) => {
@@ -127,11 +134,24 @@ router.put("/chengeappointmentStatus", (req, res) => {
 
 	executeQuery(sql, [appointmentId], res, "status Changed");
 });
+
+// router.put("/cancelAppointment", (req, res) => {
+// 	console.log(req.body);
+// 	const appointmentId = req.body.id;
+// 	let sql = "update appointments set status ='Canceled' where id  = ?";
+
+// 	// executeQuery(sql, [appointmentId], res, "status Changed");
+// });
 // ************************Retrive all apoointment for  admin page ********************************
 
 router.get("/appointmentinformation", (req, res) => {
 	const sql =
 		"SELECT appointments.*, users.email AS userEmail,service.servicename, users.fname AS userFname, users.lname AS userLname,profesional.email AS profEmail,profesional.fname AS profFname,profesional.lname AS profLname FROM appointments INNER JOIN users ON appointments.customerId = users.id INNER JOIN profesional ON appointments.professionalId = profesional.id INNER JOIN service ON appointments.serviceId = service.id ";
+	executeQuery(sql, [], res, "ALL employee RETRIVED");
+});
+
+router.get("/feedbacks", (req, res) => {
+	const sql = "select * from feedback";
 	executeQuery(sql, [], res, "ALL employee RETRIVED");
 });
 

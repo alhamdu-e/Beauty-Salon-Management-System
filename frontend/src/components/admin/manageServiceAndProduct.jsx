@@ -154,6 +154,11 @@ function ManageProduct(props) {
 							))}
 						</>
 					)}
+					{props.isService && service.length == 0 && (
+						<h1 className="no" style={{ fontSize: "44px" }}>
+							NO Service
+						</h1>
+					)}
 
 					{props.isProduct && (
 						<>
@@ -202,6 +207,11 @@ function ManageProduct(props) {
 							))}
 						</>
 					)}
+					{props.isProduct && product.length == 0 && (
+						<h1 className="no" style={{ fontSize: "44px" }}>
+							NO Product
+						</h1>
+					)}
 				</table>
 			</div>
 
@@ -209,7 +219,7 @@ function ManageProduct(props) {
 				<>
 					<div className="popup-container">
 						<div className="popup">
-							<p style={{ marginTop: "0px", marginBottom: "20px" }}>
+							<p style={{ marginTop: "0px", marginBottom: "30px" }}>
 								Do You Want To Delete The Product?
 							</p>
 							<span
@@ -228,6 +238,21 @@ function ManageProduct(props) {
 								{" "}
 								Yes
 							</span>
+							<span
+								className="check-mark"
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									backgroundColor: "#67ac26",
+									marginLeft: "30px",
+								}}
+								onClick={() => {
+									setShowDeleteProduct(false);
+								}}>
+								{" "}
+								No
+							</span>
 						</div>
 					</div>
 				</>
@@ -237,7 +262,7 @@ function ManageProduct(props) {
 				<>
 					<div className="popup-container">
 						<div className="popup">
-							<p style={{ marginTop: "0px", marginBottom: "20px" }}>
+							<p style={{ marginTop: "0px", marginBottom: "30px" }}>
 								Do You Want To Delete The Service?
 							</p>
 							<span
@@ -255,6 +280,21 @@ function ManageProduct(props) {
 								}}>
 								{" "}
 								Yes
+							</span>
+							<span
+								className="check-mark"
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									backgroundColor: "#67ac26",
+									marginLeft: "30px",
+								}}
+								onClick={() => {
+									setShowDeleteService(false);
+								}}>
+								{" "}
+								No
 							</span>
 						</div>
 					</div>
