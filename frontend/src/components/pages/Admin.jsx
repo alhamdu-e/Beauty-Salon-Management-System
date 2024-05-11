@@ -22,6 +22,7 @@ import ViewAppointment from "../admin/viewAppointment";
 import { useServiceProdctContext } from "../../context/productAndServicecomtext";
 import Order from "../admin/order";
 import { useAuthContext } from "../../context/Autcontext";
+import FeedBack from "../admin/viewFeedBack";
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -43,6 +44,7 @@ function Admin() {
 	const [showAppointment, setShowAppointment] = useState(false);
 	const { setServicee, setProductt } = useServiceProdctContext();
 	const [showOrder, setShowOrder] = useState(false);
+	const [showFeedBack, setShowFeedBack] = useState(false);
 
 	const { token, setToken, setUserType, usertype } = useAuthContext();
 	const navigate = useNavigate();
@@ -71,6 +73,24 @@ function Admin() {
 		setPopupMessage("Employee Deleted successfully");
 		setShowAppointment(false);
 		setShowOrder(false);
+		setShowFeedBack(false);
+	};
+	const handleViewFeedBack = (e) => {
+		e.preventDefault();
+		setEmployee(false);
+		setCustomer(false);
+		setShowEmploye(false);
+		setShowProduct(false);
+		setshowAddEmployee(false);
+		setShowAddProduct(false);
+		setShowAddService(false);
+		setShowEditProduct(false);
+		setShowEditService(false);
+		setShowEditEmployee(false);
+		setPopupMessage("FeedBack Deleted successfully");
+		setShowAppointment(false);
+		setShowOrder(false);
+		setShowFeedBack(true);
 	};
 	const handleOrder = (e) => {
 		e.preventDefault();
@@ -87,6 +107,7 @@ function Admin() {
 		setPopupMessage("Order Deleted successfully");
 		setShowAppointment(false);
 		setShowOrder(true);
+		setShowFeedBack(false);
 	};
 	const handleCustomer = (e) => {
 		e.preventDefault();
@@ -102,6 +123,7 @@ function Admin() {
 		setShowEditEmployee(false);
 		setShowAppointment(false);
 		setShowOrder(false);
+		setShowFeedBack(false);
 	};
 	const handleProduct = (e) => {
 		e.preventDefault();
@@ -118,6 +140,7 @@ function Admin() {
 		setShowEditEmployee(false);
 		setShowAppointment(false);
 		setShowOrder(false);
+		setShowFeedBack(false);
 	};
 
 	const handleService = (e) => {
@@ -135,6 +158,7 @@ function Admin() {
 		setShowEditEmployee(false);
 		setShowAppointment(false);
 		setShowOrder(false);
+		setShowFeedBack(false);
 	};
 	const handleAddEmployee = (e) => {
 		e.preventDefault();
@@ -149,6 +173,7 @@ function Admin() {
 		setShowAppointment(false);
 		setPopupMessage("Employee Added Successfully");
 		setShowOrder(false);
+		setShowFeedBack(false);
 	};
 	const handleAddProduct = (e) => {
 		e.preventDefault();
@@ -163,6 +188,7 @@ function Admin() {
 		setShowAppointment(false);
 		setPopupMessage("Product Added Successfully");
 		setShowOrder(false);
+		setShowFeedBack(false);
 	};
 	const handleAddService = (e) => {
 		e.preventDefault();
@@ -177,6 +203,7 @@ function Admin() {
 		setShowAppointment(false);
 		setPopupMessage("Service Added Successfully");
 		setShowOrder(false);
+		setShowFeedBack(false);
 	};
 	const handleShowEditProduct = (e) => {
 		setShowEditProduct(true);
@@ -190,6 +217,7 @@ function Admin() {
 		setShowAppointment(false);
 		setPopupMessage("Product Edited Successfully");
 		setShowOrder(false);
+		setShowFeedBack(false);
 	};
 	const handleShowEditService = (e) => {
 		setShowEditService(true);
@@ -203,6 +231,7 @@ function Admin() {
 		setShowAppointment(false);
 		setPopupMessage("Service Edited Successfully");
 		setShowOrder(false);
+		setShowFeedBack(false);
 	};
 	const handleShowEditEmployee = (e) => {
 		setShowEditEmployee(true);
@@ -216,6 +245,7 @@ function Admin() {
 		setShowAppointment(false);
 		setPopupMessage("Employee Edited Successfully");
 		setShowOrder(false);
+		setShowFeedBack(false);
 	};
 	const handleShowAppointment = (e) => {
 		setShowAppointment(true);
@@ -228,6 +258,8 @@ function Admin() {
 		setShowProduct(false);
 		setShowEmploye(false);
 		setShowOrder(false);
+		setPopupMessage("Appointment Deleted Successfully");
+		setShowFeedBack(false);
 	};
 	const handleShowPopup = (e) => {
 		setShowPopup(!showPopup);
@@ -326,8 +358,8 @@ function Admin() {
 										</a>
 									</li>
 									<li>
-										<a href="#">
-											<FcRating /> View Reviwes
+										<a href="#" onClick={handleViewFeedBack}>
+											<FcRating /> View FeedBack
 										</a>
 									</li>
 								</ul>
@@ -381,8 +413,11 @@ function Admin() {
 						<h3>Appointment</h3>
 					</div>
 				</div> */}
-				{showAppointment && <ViewAppointment />}
+				{showAppointment && (
+					<ViewAppointment handleShowPopup={handleShowPopup} />
+				)}
 				{showOrder && <Order handleShowPopup={handleShowPopup} />}
+				{showFeedBack && <FeedBack handleShowPopup={handleShowPopup} />}
 
 				{showEmploye && (
 					<>

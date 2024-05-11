@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "../../assets/styles/confirmation.css";
 import { Link } from "react-router-dom";
 import { useCartContext } from "../../context/cartcontext";
+import { useState } from "react";
 import {
 	Page,
 	Text,
@@ -19,6 +20,11 @@ export default function ConfirmationAppointment() {
 		localStorage.removeItem("cart");
 		setItems([]);
 	}, []);
+
+	const [showFeedBack, setShowFeedBack] = useState(true);
+	const [show, setShow] = useState(false);
+	const [thanksMessage, setThanksMessage] = useState(false);
+	const [feedback, setFeedback] = useState("");
 	const currentDate = new Date();
 	const day = currentDate.getDate();
 	const month = currentDate.getMonth() + 1; // Adding 1 because getMonth() returns zero-based month index
@@ -29,7 +35,11 @@ export default function ConfirmationAppointment() {
 	const formattedMonth = month < 10 ? "0" + month : month;
 
 	const formattedDate = `${formattedDay}-${formattedMonth}-${year}`;
-
+	if (thanksMessage) {
+		setTimeout(() => {
+			setThanksMessage(false);
+		}, 3000);
+	}
 	const style = StyleSheet.create({
 		body: {
 			backgroundColor: " rgb(243, 232, 232)",
@@ -150,8 +160,12 @@ export default function ConfirmationAppointment() {
 					<Text style={{ fontWeight: 900 }}>Total Price:</Text>
 					{localStorage.getItem("serviccePrice")}
 				</Text>
+				<Text style={styles.confirmprice}>
+					<Text style={{ fontWeight: 900 }}>Remaining Price:</Text>
+					{localStorage.getItem("remaining")}
+				</Text>
 				<Text style={style.confirmprice}>
-					<Text style={{ fontWeight: 900 }}>Transaction Ref:</Text>
+					<Text style={{ fontWeight: 900 }}>Transaction Id:</Text>
 					{localStorage.getItem("Appref")}
 				</Text>
 				<Text style={style.confirmprice}>
@@ -211,7 +225,11 @@ export default function ConfirmationAppointment() {
 					{localStorage.getItem("serviccePrice")}
 				</Text>
 				<Text style={styles.confirmprice}>
-					<Text style={{ fontWeight: 600 }}>Transaction Ref:</Text>
+					<Text style={{ fontWeight: 600 }}>Remaining Price:</Text>
+					{localStorage.getItem("remaining")}
+				</Text>
+				<Text style={styles.confirmprice}>
+					<Text style={{ fontWeight: 600 }}>Transaction Id:</Text>
 					{localStorage.getItem("Appref")}
 				</Text>
 				<Text style={styles.confirmprice}>
@@ -230,7 +248,27 @@ export default function ConfirmationAppointment() {
 			</Page>
 		</Document>
 	);
-
+	const handleFeedBack = async (event) => {
+		event.preventDefault();
+		if (!feedback.trim()) {
+			setShow(true);
+			return;
+		}
+		const response = await fetch("http://127.0.0.1:5000/overallfeedback", {
+			method: "post",
+			headers: {
+				"Content-type": "Application/json",
+			},
+			body: JSON.stringify({ feedback }),
+		});
+		if (response.ok) {
+			setThanksMessage(true);
+			setShowFeedBack(false);
+		} else {
+			setShowFeedBack(false);
+			// naviaget("/serverError", { replace: true });
+		}
+	};
 	return (
 		<div className="container-confirm" style={{ paddingTop: "10px" }}>
 			<div
@@ -272,6 +310,74 @@ export default function ConfirmationAppointment() {
 					}
 				</PDFDownloadLink>
 			</div>
+
+			{showFeedBack && (
+				<div className="popup-container bck">
+					<div className="popup">
+						{show && (
+							<p
+								style={{ marginTop: "0px", marginBottom: "6px", color: "red" }}>
+								Please fill the form
+							</p>
+						)}
+						<form action="">
+							<p style={{ marginTop: "0px", marginBottom: "6px" }}>
+								Please Give Us FeedBack
+							</p>
+							<textarea
+								name=""
+								id=""
+								required
+								cols="35"
+								rows="7"
+								style={{ display: "block", marginBottom: "10px" }}
+								className="overallfeedback"
+								onChange={(event) =>
+									setFeedback(event.target.value)
+								}></textarea>
+							<button
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									border: "none",
+									color: "#fff",
+									backgroundColor: "#3b7704",
+								}}
+								onClick={handleFeedBack}>
+								{" "}
+								Submit
+							</button>
+							<button
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									backgroundColor: "#773c04",
+									marginLeft: "30px",
+									border: "none",
+									color: "#fff",
+								}}
+								onClick={() => {
+									setShowFeedBack(false);
+								}}>
+								{" "}
+								Not Now
+							</button>
+						</form>
+					</div>
+				</div>
+			)}
+
+			{thanksMessage && (
+				<div className="popup-container bck">
+					<div className="popup">
+						<p style={{ marginTop: "0px", marginBottom: "6px" }}>
+							Thank You for Your FeedBack
+						</p>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

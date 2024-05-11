@@ -188,7 +188,9 @@ function Manageemployee(props) {
 							</tr>
 						))}
 					{props.isEmployee && employes.length == 0 && (
-						<h1 className="no">NO Employee</h1>
+						<h1 className="no" style={{ fontSize: "44px" }}>
+							NO Employee
+						</h1>
 					)}
 					{props.isEmployee &&
 						employes.map((data) => (
@@ -232,7 +234,7 @@ function Manageemployee(props) {
 				<>
 					<div className="popup-container">
 						<div className="popup">
-							<p style={{ marginTop: "0px", marginBottom: "20px" }}>
+							<p style={{ marginTop: "0px", marginBottom: "30px" }}>
 								Do You Want To Delete The Employee?
 							</p>
 							<span
@@ -250,6 +252,22 @@ function Manageemployee(props) {
 								}}>
 								{" "}
 								Yes
+							</span>
+
+							<span
+								className="check-mark"
+								style={{
+									fontSize: "14px",
+									padding: "14px 15px",
+									cursor: "pointer",
+									backgroundColor: "#67ac26",
+									marginLeft: "30px",
+								}}
+								onClick={() => {
+									setShowDeleteEmployee(false);
+								}}>
+								{" "}
+								No
 							</span>
 						</div>
 					</div>

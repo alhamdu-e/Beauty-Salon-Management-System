@@ -5,7 +5,17 @@
 	padding-top: 6rem;
 	background-attachment: fixed;
 }
-
+.fullsignnn {
+	height: 100vh;
+	width: 100vw;
+	padding-top: 6rem;
+}
+.cancecont {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: #14131456;
+}
 .signupform {
 	display: grid;
 	grid-template-columns: 1fr 1fr;

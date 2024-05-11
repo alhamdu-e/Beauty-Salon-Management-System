@@ -106,10 +106,6 @@ export default function Makeup(props) {
 													"servicceName",
 													service.servicename
 												);
-												localStorage.setItem(
-													"serviccePrice",
-													service.serviceprice
-												);
 											}}>
 											Book Salon
 										</Link>

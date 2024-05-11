@@ -255,6 +255,7 @@ function AddEmployee(props) {
 							<option value="nail">Nail stylist</option>
 							<option value="hair">Hair stylist</option>
 							<option value="makeup">Makeup stylist</option>
+							<option value="cashier">Cashier</option>
 						</select>
 						{errors.profession && (
 							<span className="error">{errors.profession}</span>

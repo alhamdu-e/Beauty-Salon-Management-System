@@ -16,9 +16,7 @@ function Product() {
 	const { userId } = useUserContext();
 	const [showPopup, setShowPopup] = useState(false);
 	const navigate = useNavigate();
-	// const { usertype } = useAuthContext();
-	// console.log(usertype, "hiii");
-	// const [cart, setCart] = useState(items);
+	const [addToCartButtonDisabled, setAddToCartButtonDisabled] = useState(false);
 
 	const userType = localStorage.getItem("userType");
 
@@ -54,27 +52,36 @@ function Product() {
 		}
 		const productId = Number(localStorage.getItem("productDetailID"));
 		if (items?.length > 0) {
-			const isItemIsOnTheCart = items.filter((p) => p.id == productId);
+			const isItemIsOnTheCart = items.filter((p) => p.id === productId);
 			if (isItemIsOnTheCart.length > 0) {
 				handleShowPopup();
 				return false;
 			}
 		}
 
-		const response = await fetch(
-			`http://127.0.0.1:5000/addtocart/${productId}`,
-			{
-				method: "POST",
-				body: JSON.stringify({ userId }),
-				headers: { "Content-Type": "application/json" },
-			}
-		);
+		// Disable the button to prevent multiple clicks
+		setAddToCartButtonDisabled(true);
 
-		if (response.ok) {
-			const cart = await response.json();
-			setItems(cart);
-			setCartLength(cart.length);
-			localStorage.setItem("cart", JSON.stringify(cart));
+		try {
+			const response = await fetch(
+				`http://127.0.0.1:5000/addtocart/${productId}`,
+				{
+					method: "POST",
+					body: JSON.stringify({ userId }),
+					headers: { "Content-Type": "application/json" },
+				}
+			);
+
+			if (response.ok) {
+				const cart = await response.json();
+				setItems(cart);
+				setCartLength(cart.length);
+				localStorage.setItem("cart", JSON.stringify(cart));
+			}
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setAddToCartButtonDisabled(false);
 		}
 	};
 	function SampleNextArrow(props) {
@@ -173,7 +180,6 @@ function Product() {
 												Add to Cart
 											</button>
 										)}
-
 										{userType === "user" && (
 											<button
 												onClick={() => {

@@ -1,3 +1,9 @@
+input[type="radio"] {
+	/* Ensure the default radio button circles are visible */
+	-webkit-appearance: radio;
+	appearance: radio;
+}
+
 .appointmentform {
 	grid-template-columns: 1fr;
 	/* width: 60%; */

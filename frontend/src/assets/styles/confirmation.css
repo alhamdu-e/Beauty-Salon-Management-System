@@ -73,3 +73,10 @@
 .bold {
 	font-weight: 600;
 }
+.overallfeedback:focus {
+	outline: 3px solid rgba(202, 87, 11, 0.637);
+	box-shadow: 0 0 12px 4px rgb(180, 179, 179);
+}
+.bck {
+	background-color: #585555c7;
+}

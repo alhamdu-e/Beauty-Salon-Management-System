@@ -37,7 +37,7 @@ function Header(props) {
 		<header>
 			<div className="header-container">
 				<div>
-					<span className="logo">Glowcity</span>
+					<span className="logo">GLOW CITY</span>
 				</div>
 				<nav>
 					<ul className="navigation">
