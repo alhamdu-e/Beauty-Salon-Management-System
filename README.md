@@ -8,12 +8,6 @@
 
 This is a .....description of the project.
 And enables the users to sign up and ........
-The project is a repository consisting of the following files:
-
-- JS files
-- CSS files
-- Re
-- ....
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -35,8 +29,8 @@ The project is a repository consisting of the following files:
     </li>
     <li>
       <a href="https://expressjs.com/">
-      <img align="center" width="19" height="auto" src="https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png" alt="postgreSQL logo" />
-      Mysql
+      <img align="center" width="19" height="auto" src="https://img.icons8.com/?size=100&id=SDVmtZ6VBGXt&format=png&color=000000" alt="postgreSQL logo" />
+        Express.js
       </a>
     </li>
     
