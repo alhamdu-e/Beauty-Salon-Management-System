@@ -5,7 +5,6 @@
  This is web based project that allow user to signup,order Product,schecule service,select profesional  and make payment for the service and the product.
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🛠 Built With <a name="built-with"></a>
 
@@ -24,7 +23,6 @@
 - User can make schedule
 - User can  make payment for service usig Chapa
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 
@@ -46,7 +44,6 @@ Contributions, issues, and feature requests are welcome!
 
 Check the [issues page](https://github.com/Benawi/repoName/issues).
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- SUPPORT -->
 
@@ -54,7 +51,6 @@ Check the [issues page](https://github.com/Benawi/repoName/issues).
 
 If you found this project helpful, consider giving a ⭐️!
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
