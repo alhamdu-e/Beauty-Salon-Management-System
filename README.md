@@ -1,34 +1,10 @@
 <a name="readme-top"></a>
 
-# <div align="center">🛰Your Project Title 🚀</div>
+# <div align="center">🛰Beauty Salon Managment System For Glowcity 🚀</div>
 
-# 📗 Table of Contents
 
-- [📗 Table of Contents](#-table-of-contents)
-- [📖 Your Project Title ](#-final-group-capstone---)
-  - [🛠 Built With ](#-built-with-)
-    - [Tech Stack ](#tech-stack-)
-    - [Key Features ](#key-features-)
-  - [💻 Getting Started ](#-getting-started-)
-    - [Prerequisites](#prerequisites)
-    - [Install](#install)
-    - [Usage](#usage)
-    - [Run tests](#run-tests)
-    - [Run rails](#run-rails)
-  - [👥 Authors ](#-authors-)
-  - [📆 Kanban Board](#kanban-board)
-  - [🔭 Future Features ](#-future-features-)
-  - [🤝 Contributing ](#-contributing-)
-  - [⭐️ Show your support ](#️-show-your-support-)
-  - [🙏 Acknowledgments ](#-acknowledgments-)
-    - [Development Team](#development-team)
-    - [Institution](#institution)
-    - [Reference Design](#reference-design)
-  - [📝 License ](#-license-)
 
-<!-- PROJECT DESCRIPTION -->
 
-# 📖 Your Project Title <a name="doctor-appointment"></a>
 
 This is a .....description of the project.
 And enables the users to sign up and ........
