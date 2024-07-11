@@ -13,28 +13,22 @@
 
   <ul>
     <li>
-      <a href="https://rubyonrails.org/">
-      <img align="center" width="19" height="auto" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1150px-React-icon.svg.png" alt="React logo" />
+     
         React
-      </a>
-    </li><li>
-      <a href="https://rubyonrails.org/">
-      <img align="center" width="19" height="auto" src="https://cdn.freebiesupply.com/logos/large/2x/redux-logo-svg-vector.svg" alt="redux logo" />
-        CSS
-      </a>
+     
     </li>
     <li>
-      <a href="https://expressjs.com/">
-      <img align="center" width="19" height="auto" src="https://img.icons8.com/?size=100&id=SDVmtZ6VBGXt&format=png&color=000000" alt="postgreSQL logo" />
-        Express.js
-      </a>
+    
+        CSS
+     
+    </li>
+    <li>
+      
+   Express.js
     </li>
 
      <li>
-      <a href="https://expressjs.com/">
-      <img align="center" width="19" height="auto" src=" https://img.icons8.com/?size=100&id=rgPSE6nAB766&format=png&color=000000" alt="postgreSQL logo" />
-       MYsql
-      </a>
+     Mysql
     </li>
 
    
