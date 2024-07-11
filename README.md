@@ -11,31 +11,11 @@
 
 ### Tech Stack <a name="tech-stack"></a>
 
-  <ul>
-    <li>
-     
-        React
-     
-    </li>
-    <li>
-    
-        CSS
-     
-    </li>
-    <li>
-      
-   Express.js
-    </li>
-
-     <li>
-     Mysql
-    </li>
-
-   
-  </ul>
-  
-</ul>
-
+- HTML
+- CSS
+- React
+- Express.js
+- Mysql
 ### Key Features <a name="key-features"></a>
 
 - User can sign up
