@@ -2,12 +2,8 @@
 
 # <div align="center">🛰Beauty Salon Managment System For Glowcity 🚀</div>
 
+ This is web based project that allow user to signup,order Product,schecule service,select profesional  and make payment for the service and the product.
 
-
-
-
-This is a .....description of the project.
-And enables the users to sign up and ........
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -24,7 +20,7 @@ And enables the users to sign up and ........
     </li><li>
       <a href="https://rubyonrails.org/">
       <img align="center" width="19" height="auto" src="https://cdn.freebiesupply.com/logos/large/2x/redux-logo-svg-vector.svg" alt="redux logo" />
-        Redux
+        CSS
       </a>
     </li>
     <li>
@@ -33,7 +29,15 @@ And enables the users to sign up and ........
         Express.js
       </a>
     </li>
-    
+
+     <li>
+      <a href="https://expressjs.com/">
+      <img align="center" width="19" height="auto" src=" https://img.icons8.com/?size=100&id=rgPSE6nAB766&format=png&color=000000" alt="postgreSQL logo" />
+       MYsql
+      </a>
+    </li>
+
+   
   </ul>
   
 </ul>
@@ -44,7 +48,7 @@ And enables the users to sign up and ........
 - User can order product
 - User can select service
 - User can make schedule
-- User can ......
+- User can  make payment for service usig Chapa
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -55,69 +59,10 @@ And enables the users to sign up and ........
 ### Prerequisites
 
 - [React](https://reactjs.org/)
-- [Redux](https://redux.js.org/)
-- [Rails](https://rubyonrails.org/)
-- [Postgresql](https://www.postgresql.org/)
+- [Express](https://rubyonrails.org/)
+- [Html](https://www.postgresql.org/)
 - [Git](https://github.com/)
 
-### Install
-
-```
-git clone https://github.com/username/repoName.git
-cd repoName
-bundle install
-npm install
-```
-
-### Usage
-
-In the project directory, run :
-npm start
-
-### Run tests
-
-In the project directory, run:
-
-```
-....... .
-```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- AUTHORS -->
-
-## 👥 Authors <a name="authors"></a>
-
-### 👤 **Stud Name1**
-
-- GitHub: [Benawi](https://github.com/Benawi)
-- Linkdin: [Habtamu](https://www.linkedin.com/in/habtamualemayehu/)
-
-### 👤 **Stud Name3**
-
-- GitHub: [@toyman640](https://github.com/toyman640)
-
-- LinkedIn: [LinkedIn](https://www.linkedin.com/in/falako-omotoyosi/)
-
-### 👤 **Stud Name3**
-
-- GitHub: [@toyman640](https://github.com/toyman640)
-
-- LinkedIn: [LinkedIn](https://www.linkedin.com/in/falako-omotoyosi/)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- Kanban Board -->
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## 🔭 Future Features <a name="future-features"></a>
-
-- Add section ......
-- Add .......
-- Add extra styling
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
 
