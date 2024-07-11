@@ -34,17 +34,12 @@ The project is a repository consisting of the following files:
       </a>
     </li>
     <li>
-      <a href="https://www.postgresql.org/">
+      <a href="https://expressjs.com/">
       <img align="center" width="19" height="auto" src="https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png" alt="postgreSQL logo" />
       Mysql
       </a>
     </li>
-    <li>
-      <a href="https://www.postgresql.org/">
-      <img align="center" width="19" height="auto" src="[https://wiki.postgresql.org/images/3/30/PostgreSQL_logo.3colors.120x120.png](https://icons8.com/icon/SDVmtZ6VBGXt/express-js)" alt="postgreSQL logo" />
-     Express
-      </a>
-    </li>
+    
   </ul>
   
 </ul>
