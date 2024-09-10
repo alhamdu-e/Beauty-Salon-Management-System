@@ -20,9 +20,11 @@
 - User can sign up
 - User can order product
 - User can select service
-- User can make schedule
+- User can Rate Profesional
+- User can select Specific Profesional
+- User can make schedule for Service
 - User can  make payment for service usig Chapa
-
+- The System Has Automated Backup
 
 <!-- GETTING STARTED -->
 
